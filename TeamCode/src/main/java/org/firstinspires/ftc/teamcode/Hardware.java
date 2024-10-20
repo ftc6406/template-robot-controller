@@ -42,7 +42,7 @@ public class Hardware {
     }
 
     /**
-     * Initiates all hardware needed for the WheelsSystem.
+     * Initiates all hardware needed for the Wheels.
      */
     private MecanumWheels initWheels() {
         /*
@@ -61,12 +61,12 @@ public class Hardware {
                 null
         );
 
-        
+
         return new MecanumWheels(motorParams, 100);
     }
 
     /**
-     * Initiate all hardware needed for the WheelsSystem.
+     * Initiate all hardware needed for the Arm.
      */
     private ExtendableArm initArm() {
         /*
