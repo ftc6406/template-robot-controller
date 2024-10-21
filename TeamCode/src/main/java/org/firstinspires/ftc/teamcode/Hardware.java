@@ -61,7 +61,10 @@ public class Hardware {
                 null
         );
 
-
+        // Approximately measured from the CAD model in inches
+        double wheelCircumference = 4.0 * Math.PI;
+        double gearRatio = 30.0 / 30.0;
+        double ticksPerInch = MotorType.TETRIX_TORQUENADO.getTicksPerRotation() / wheelCircumference;
         return new MecanumWheels(motorParams, 100);
     }
 

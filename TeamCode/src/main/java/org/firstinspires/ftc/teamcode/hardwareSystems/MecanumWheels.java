@@ -21,6 +21,14 @@ public class MecanumWheels extends Wheels {
 
         private final MotorType MOTOR_TYPE;
 
+        /**
+         * Four Tetrix Torquenado motors.
+         *
+         * @param frontLeftMotor  The front left motor.
+         * @param frontRightMotor The front right motor.
+         * @param backLeftMotor   The back left motor.
+         * @param backRightMotor  The back right motor.
+         */
         public MotorParams(DcMotor frontLeftMotor, DcMotor frontRightMotor, DcMotor backLeftMotor, DcMotor backRightMotor) {
             this(frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor, MotorType.TETRIX_TORQUENADO);
         }
