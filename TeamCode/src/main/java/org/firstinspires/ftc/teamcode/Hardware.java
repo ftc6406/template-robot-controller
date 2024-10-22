@@ -27,17 +27,21 @@ public class Hardware {
 
     private final CRServo INTAKE_SERVO;
 
+    // Detects whether there is a sample in the claw.
+    private final DigitalChannel INTAKE_SENSOR;
+
     public Hardware(OpMode opMode) {
         this.OP_MODE = opMode;
         autoSleepEnabled = true;
 
         WHEELS = initWheels();
-        ARM = null; // initArm();
+        ARM = initArm();
         WEBCAM = null; // new Webcam(OP_MODE.hardwareMap.get(WebcamName.class, "webcam"));
 
         COLOR_SWITCH = null; //OP_MODE.hardwareMap.get(DigitalChannel.class, "color_switch");
         SIDE_SWITCH = null; //OP_MODE.hardwareMap.get(DigitalChannel.class, "side_switch");
 
+        INTAKE_SENSOR = null;
         INTAKE_SERVO = OP_MODE.hardwareMap.get(CRServo.class, "intakeServo");
     }
 
@@ -54,18 +58,20 @@ public class Hardware {
         // DcMotor backLeftMotor = OP_MODE.hardwareMap.get(DcMotor.class, "back_left_wheel");
         // DcMotor backRightMotor = OP_MODE.hardwareMap.get(DcMotor.class, "back_right_wheel");
 
-        MecanumWheels.MotorParams motorParams = new MecanumWheels.MotorParams(
-                null,
-                null,
-                null,
-                null
-        );
+        return null;
 
-        // Approximately measured from the CAD model in inches
-        double wheelCircumference = 4.0 * Math.PI;
-        double gearRatio = 30.0 / 30.0;
-        double ticksPerInch = MotorType.TETRIX_TORQUENADO.getTicksPerRotation() / wheelCircumference;
-        return new MecanumWheels(motorParams, 100);
+//        MecanumWheels.MotorParams motorParams = new MecanumWheels.MotorParams(
+//                null,
+//                null,
+//                null,
+//                null
+//        );
+//
+//        // Approximately measured from the CAD model in inches
+//        double wheelCircumference = 4.0 * Math.PI;
+//        double gearRatio = 30.0 / 30.0;
+//        double ticksPerInch = MotorType.TETRIX_TORQUENADO.getTicksPerRotation() / wheelCircumference;
+//        return new MecanumWheels(motorParams, 100);
     }
 
     /**
@@ -77,14 +83,14 @@ public class Hardware {
          * e.g. exampleMotor = OP_MODE.hardwareMap.get(DcMotor.class, "example_motor");
          */
         ExtendableArm.MotorParams motorParams = new ExtendableArm.MotorParams(
-                null,
+                OP_MODE.hardwareMap.get(DcMotor.class, "rotationMotor"),
                 null
         );
 
         ExtendableArm.ServoParams servoParams = new ExtendableArm.ServoParams(
+                OP_MODE.hardwareMap.get(Servo.class, "clawXServo"),
                 null,
-                null,
-                null
+                OP_MODE.hardwareMap.get(Servo.class, "clawZServo")
         );
 
         CRServo intakeServo = OP_MODE.hardwareMap.get(CRServo.class, "intakeServo");
@@ -105,10 +111,6 @@ public class Hardware {
         return new ExtendableArm(motorParams, servoParams, intakeServo, rotationParams, extensionParams);
     }
 
-    public CRServo getIntakeServo() {
-        return INTAKE_SERVO;
-    }
-
     public MecanumWheels getWheels() {
         return WHEELS;
     }
@@ -127,6 +129,10 @@ public class Hardware {
 
     public DigitalChannel getSideSwitch() {
         return SIDE_SWITCH;
+    }
+
+    public CRServo getIntakeServo() {
+        return INTAKE_SERVO;
     }
 
     /**

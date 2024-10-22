@@ -126,7 +126,7 @@ public class ExtendableArm extends Arm {
     // The servo that rotates the claw about the Z-axis
     private final Servo CLAW_Z_SERVO;
     // How much to gradually move the servo.
-    private double servoIncrement = 0.1;
+    private double servoIncrement = 0.01;
 
     // The servo that opens and closes the grip.
     private final CRServo INTAKE_SERVO;
@@ -217,7 +217,7 @@ public class ExtendableArm extends Arm {
             return;
         }
 
-        ROTATION_MOTOR.setPower(Math.signum(direction) * rotationPower);
+        ROTATION_MOTOR.setPower(direction * rotationPower);
     }
 
     /**
@@ -275,6 +275,10 @@ public class ExtendableArm extends Arm {
      *                  Positive values rotate it clockwise, negative values rotate it counterclockwise.
      */
     public void rotateClawXServo(double direction) {
+        if (CLAW_X_SERVO == null) {
+            return;
+        }
+
         double targetPosition = CLAW_X_SERVO.getPosition()
                 + Math.signum(direction) * servoIncrement;
         CLAW_X_SERVO.setPosition(targetPosition);
@@ -287,6 +291,10 @@ public class ExtendableArm extends Arm {
      *                  Positive values rotate it clockwise, negative values rotate it counterclockwise.
      */
     public void rotateClawYServo(double direction) {
+        if (CLAW_Y_SERVO == null) {
+            return;
+        }
+
         double targetPosition = CLAW_Z_SERVO.getPosition()
                 + Math.signum(direction) * servoIncrement;
         CLAW_Y_SERVO.setPosition(targetPosition);
@@ -299,6 +307,10 @@ public class ExtendableArm extends Arm {
      *                  Positive values rotate it clockwise, negative values rotate it counterclockwise.
      */
     public void rotateClawZServo(double direction) {
+        if (CLAW_Z_SERVO == null) {
+            return;
+        }
+
         double targetPosition = CLAW_Z_SERVO.getPosition()
                 + Math.signum(direction) * servoIncrement;
         CLAW_Z_SERVO.setPosition(targetPosition);

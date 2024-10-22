@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.*;
 
-@TeleOp(name = "TeleOp")
+@TeleOp(name = "DriverMode")
 public class DriverMode extends OpMode {
     private Hardware hardware;
 
@@ -18,11 +18,11 @@ public class DriverMode extends OpMode {
          * Right stick moves the robot forwards, backwards and sideways.
          * Left stick rotates it.
          */
-        hardware.getWheels().drive(
-                gamepad1.right_stick_x,
-                gamepad1.right_stick_y,
-                gamepad1.left_stick_x
-        );
+//        hardware.getWheels().drive(
+//                gamepad1.right_stick_x,
+//                gamepad1.right_stick_y,
+//                gamepad1.left_stick_x
+//        );
 
         /*
          * The right joystick on gamepad2 controls both arm rotation and extension:
@@ -30,7 +30,7 @@ public class DriverMode extends OpMode {
          * Right extends the arm, left retracts it.
          */
         hardware.getArm().rotateArm(gamepad2.right_stick_y);
-        hardware.getArm().extendArm(gamepad2.right_stick_x);
+//        hardware.getArm().extendArm(gamepad2.right_stick_x);
 
         /*
          * The left joystick on gamepad2 controls the claw rotation:
