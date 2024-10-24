@@ -15,21 +15,22 @@ public class DriverMode extends OpMode {
     public void loop() {
         /*
          * Drive robot based on joystick input from gamepad1
-         * Right stick moves the robot forwards, backwards and sideways.
-         * Left stick rotates it.
+         * Right stick moves the robot forwards and backwards and turns it.
+         * The triggers controls strafing.
          */
-//        hardware.getWheels().drive(
-//                gamepad1.right_stick_x,
-//                gamepad1.right_stick_y,
-//                gamepad1.left_stick_x
-//        );
+        double strafe = (gamepad1.left_trigger > 0) ? -gamepad1.left_trigger : gamepad1.right_trigger;
+        hardware.getWheels().drive(
+                gamepad1.right_stick_y,
+                strafe,
+                gamepad1.left_stick_x
+        );
 
         /*
          * The right joystick on gamepad2 controls both arm rotation and extension:
          * Up rotates the arm up, and down rotates it down.
          * Right extends the arm, left retracts it.
          */
-        hardware.getArm().rotateArm(gamepad2.right_stick_y);
+//        hardware.getArm().rotateArm(gamepad2.right_stick_y);
 //        hardware.getArm().extendArm(gamepad2.right_stick_x);
 
         /*
@@ -37,8 +38,15 @@ public class DriverMode extends OpMode {
          * Right rotates the claw clockwise on the X-axis, left rotates it counterclockwise.
          * Up rotates the claw clockwise on the Z-axis, left rotates it counterclockwise.
          */
-        hardware.getArm().rotateClawXServo(gamepad2.left_stick_x);
-        hardware.getArm().rotateClawZServo(gamepad2.left_stick_y);
+//        hardware.getArm().rotateClawXServo(gamepad2.left_stick_x);
+
+        double zRotate = 0;
+        if (gamepad1.left_bumper) {
+            zRotate = -1;
+        } else if (gamepad1.right_bumper) {
+            zRotate = 1;
+        }
+        hardware.getArm().rotateClawZServo(zRotate);
 
         if (gamepad2.a) {
             hardware.getArm().startIntake();

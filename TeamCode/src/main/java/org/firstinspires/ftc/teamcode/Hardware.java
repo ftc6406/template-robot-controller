@@ -53,25 +53,24 @@ public class Hardware {
          * Define wheels system hardware here.
          * e.g. exampleMotor = OP_MODE.hardwareMap.get(DcMotor.class, "example_motor");
          */
-        // DcMotor frontLeftMotor = OP_MODE.hardwareMap.get(DcMotor.class, "front_left_wheel");
-        // DcMotor frontRightMotor = OP_MODE.hardwareMap.get(DcMotor.class, "front_right_wheel");
-        // DcMotor backLeftMotor = OP_MODE.hardwareMap.get(DcMotor.class, "back_left_wheel");
-        // DcMotor backRightMotor = OP_MODE.hardwareMap.get(DcMotor.class, "back_right_wheel");
+         DcMotor frontLeftMotor = OP_MODE.hardwareMap.get(DcMotor.class, "frontLeftWheel");
+         DcMotor frontRightMotor = OP_MODE.hardwareMap.get(DcMotor.class, "frontRightWheel");
+         DcMotor backLeftMotor = OP_MODE.hardwareMap.get(DcMotor.class, "backLeftWheel");
+         DcMotor backRightMotor = OP_MODE.hardwareMap.get(DcMotor.class, "backRightWheel");
 
-        return null;
+        MecanumWheels.MotorParams motorParams = new MecanumWheels.MotorParams(
+                frontLeftMotor,
+                frontRightMotor,
+                backLeftMotor,
+                backRightMotor
+        );
 
-//        MecanumWheels.MotorParams motorParams = new MecanumWheels.MotorParams(
-//                null,
-//                null,
-//                null,
-//                null
-//        );
-//
-//        // Approximately measured from the CAD model in inches
-//        double wheelCircumference = 4.0 * Math.PI;
-//        double gearRatio = 30.0 / 30.0;
-//        double ticksPerInch = MotorType.TETRIX_TORQUENADO.getTicksPerRotation() / wheelCircumference;
-//        return new MecanumWheels(motorParams, 100);
+        // Approximately measured from the CAD model in inches
+        double wheelCircumference = 4.0 * Math.PI;
+        double gearRatio = 30.0 / 30.0;
+        double ticksPerInch = MotorType.TETRIX_TORQUENADO.getTicksPerRotation() / wheelCircumference;
+
+        return new MecanumWheels(motorParams, ticksPerInch);
     }
 
     /**
@@ -83,7 +82,7 @@ public class Hardware {
          * e.g. exampleMotor = OP_MODE.hardwareMap.get(DcMotor.class, "example_motor");
          */
         ExtendableArm.MotorParams motorParams = new ExtendableArm.MotorParams(
-                OP_MODE.hardwareMap.get(DcMotor.class, "rotationMotor"),
+                null, //OP_MODE.hardwareMap.get(DcMotor.class, "rotationMotor"),
                 null
         );
 
