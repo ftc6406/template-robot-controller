@@ -105,6 +105,10 @@ public class Hardware {
         return new ExtendableArm(motorParams, servoParams, intakeServo, rotationParams, extensionParams);
     }
 
+    public IntakeClaw initClaw() {
+        return new IntakeClaw()
+    }
+
     public CRServo getIntakeServo() {
         return INTAKE_SERVO;
     }
