@@ -2,7 +2,11 @@ package org.firstinspires.ftc.teamcode.hardwareSystems;
 
 import com.qualcomm.robotcore.hardware.Servo;
 
+import java.util.HashSet;
+
 public abstract class Claw {
+    private final HashSet<Servo> SERVOS;
+
     // The servo that rotates the claw about the X-axis
     private final Servo X_AXIS_SERVO;
     // The servo that rotates the claw about the Y-axis
@@ -13,11 +17,25 @@ public abstract class Claw {
     private double servoIncrement;
     
     public Claw(Servo xAxisServo, Servo yAxisServo, Servo zAxisServo, double servoIncrement) {
+        SERVOS = new HashSet<>();
+        SERVOS.add(xAxisServo);
+        SERVOS.add(yAxisServo);
+        SERVOS.add(zAxisServo);
+
         X_AXIS_SERVO = xAxisServo;
         Y_AXIS_SERVO = yAxisServo;
         Z_AXIS_SERVO = zAxisServo;
 
         this.servoIncrement = servoIncrement;
+    }
+
+    /**
+     * Get all the {@code Servo}s that are included in this arm system.
+     *
+     * @return A {@code HashSet} that contains every Servo included in this arm system.
+     */
+    public HashSet<Servo> getServos() {
+        return SERVOS;
     }
 
     public double getServoIncrement() {

@@ -19,7 +19,7 @@ public class Auto extends LinearOpMode {
      */
     @Override
     public void runOpMode() {
-//        hardware = new Hardware(this);
+        hardware = new Hardware(this);
 
         // teamColor = (hardware.getColorSwitch().getState()) ? TeamColor.RED : TeamColor.BLUE;
         // teamSide = (hardware.getSideSwitch().getState()) ? TeamSide.FAR : TeamSide.NEAR;
@@ -29,11 +29,8 @@ public class Auto extends LinearOpMode {
         // Wait until the player press the start button
         waitForStart();
 
-        CRServo intakeServo = this.hardwareMap.get(CRServo.class, "intakeServo");
-        telemetry.addData("intakeServo power: ", intakeServo.getPower());
+        hardware.getArm().startIntake();
 
-        while (opModeIsActive()) {
-            hardware.getIntakeServo().setPower(1.0);
-        }
+        sleep(10000);
     }
 }

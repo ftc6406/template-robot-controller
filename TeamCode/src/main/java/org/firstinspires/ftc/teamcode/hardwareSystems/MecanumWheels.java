@@ -39,6 +39,12 @@ public class MecanumWheels extends Wheels {
             this.BACK_LEFT_MOTOR = backLeftMotor;
             this.BACK_RIGHT_MOTOR = backRightMotor;
 
+            // Set the motor directions
+            FRONT_LEFT_MOTOR.setDirection(DcMotorSimple.Direction.REVERSE);
+            FRONT_RIGHT_MOTOR.setDirection(DcMotorSimple.Direction.FORWARD);
+            BACK_LEFT_MOTOR.setDirection(DcMotorSimple.Direction.REVERSE);
+            BACK_RIGHT_MOTOR.setDirection(DcMotorSimple.Direction.FORWARD);
+
             motors = new HashSet<>();
             motors.add(frontLeftMotor);
             motors.add(frontRightMotor);
@@ -109,10 +115,10 @@ public class MecanumWheels extends Wheels {
      */
     @Override
     public void drive(double x, double y, double turn) {
-        FRONT_LEFT_MOTOR.setPower(y - x - turn);
-        FRONT_RIGHT_MOTOR.setPower(y + x + turn);
-        BACK_LEFT_MOTOR.setPower(y + x - turn);
-        BACK_RIGHT_MOTOR.setPower(y - x + turn);
+        FRONT_LEFT_MOTOR.setPower(x - y - turn);
+        FRONT_RIGHT_MOTOR.setPower(x + y + turn);
+        BACK_LEFT_MOTOR.setPower(x + y - turn);
+        BACK_RIGHT_MOTOR.setPower(x - y + turn);
     }
 
     /**
