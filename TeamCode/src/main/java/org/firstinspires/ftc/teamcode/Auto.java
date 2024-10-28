@@ -4,6 +4,8 @@ import android.util.Size;
 
 import com.qualcomm.robotcore.eventloop.opmode.*;
 
+import java.util.HashSet;
+
 @Autonomous(name = "Auto")
 public class Auto extends LinearOpMode {
     private Hardware hardware;
@@ -28,7 +30,12 @@ public class Auto extends LinearOpMode {
         // Wait until the player press the start button
         waitForStart();
 
-        hardware.getClaw().startIntake();
-        hardware.autoSleep();
+        // hardware.getClaw().startIntake();
+//        hardware.getWheels().driveDistance(36);
+        hardware.getWheels().drive(1.0, 0.0);
+//        sleep(60000);
+        telemetry.addData("Hello world!", "");
+        hardware.autoSleep(hardware.getWheels().getMotors(), new HashSet<>());
+        sleep(60000);
     }
 }

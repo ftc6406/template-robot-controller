@@ -90,7 +90,7 @@ public class Hardware {
          * e.g. exampleMotor = OP_MODE.hardwareMap.get(DcMotor.class, "example_motor");
          */
         ExtendableArm.MotorParams motorParams = new ExtendableArm.MotorParams(
-                OP_MODE.hardwareMap.get(DcMotor.class, "rotationMotor"),
+                null, // OP_MODE.hardwareMap.get(DcMotor.class, "rotationMotor"),
                 null
         );
 
@@ -181,6 +181,7 @@ public class Hardware {
      * Sleeps the robot while any motors or CR servos are running.
      */
     public void autoSleep() {
+        OP_MODE.telemetry.addLine("No param autoSleep()");
         autoSleep(getAllMotors(), getAllCrServos());
     }
 
@@ -191,8 +192,10 @@ public class Hardware {
      * @param crServos The CR servos that are running.
      */
     public void autoSleep(HashSet<DcMotor> motors, HashSet<CRServo> crServos) {
+        OP_MODE.telemetry.addData("autoSleep:", "Yes indeed");
         // Does nothing if it isn't a LinearOpMode.
         if (!(OP_MODE instanceof LinearOpMode)) {
+            OP_MODE.telemetry.addLine("Not a linear OpMode");
             return;
         }
 
@@ -200,12 +203,14 @@ public class Hardware {
 
         // Sleep while any of the motors are still running.
         while (motors.stream().anyMatch(DcMotor::isBusy)) {
-            linearOp.idle();
+            OP_MODE.telemetry.addLine("Motor is busy");
+            linearOp.sleep(1);
         }
 
         // Sleep while any of the CR servos are still running.
         while (crServos.stream().anyMatch(crServo -> crServo.getPower() != 0)) {
-            linearOp.idle();
+            OP_MODE.telemetry.addData("Servo is busy", "");
+            linearOp.sleep(1);
         }
     }
 }
