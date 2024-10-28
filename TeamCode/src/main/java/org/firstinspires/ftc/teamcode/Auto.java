@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import android.util.Size;
 
 import com.qualcomm.robotcore.eventloop.opmode.*;
-import com.qualcomm.robotcore.hardware.*;
 
 @Autonomous(name = "Auto")
 public class Auto extends LinearOpMode {
@@ -29,8 +28,7 @@ public class Auto extends LinearOpMode {
         // Wait until the player press the start button
         waitForStart();
 
-        hardware.getArm().startIntake();
-
-        sleep(10000);
+        hardware.getClaw().startIntake();
+        hardware.autoSleep();
     }
 }

@@ -6,38 +6,33 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 public abstract class Wheels {
     protected final HashSet<DcMotor> MOTORS;
-    protected final MotorType MOTOR_TYPE;
 
     // A modifier for much power the wheels run with (0.0 - 1.0)
-    protected double motorPower = 1.0;
+    protected final static double MOTOR_POWER = 1.0;
     protected final double TICKS_PER_INCH;
 
     public Wheels(HashSet<DcMotor> motors) {
-        this(motors, MotorType.TETRIX_TORQUENADO, 100);
+        this(motors, 100);
     }
 
     /**
      * Instantiate the a wheels object.
      *
      * @param motors       All the motors used by the robot.
-     * @param motorType    The motor type used by the robot.
-     *                     Assumes that all motors in the System are the same
-     *                     (THEY SHOULD BE!)
      * @param ticksPerInch The number of ticks needed to move the robot by one inh.
      */
-    public Wheels(HashSet<DcMotor> motors, MotorType motorType, double ticksPerInch) {
-        this.MOTORS = motors;
-        this.MOTOR_TYPE = motorType;
+    public Wheels(HashSet<DcMotor> motors, double ticksPerInch) {
+        MOTORS = motors;
+        // Allow wheels to roll freely.
+        for (DcMotor motor : MOTORS) {
+            motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        }
 
-        this.TICKS_PER_INCH = ticksPerInch;
+        TICKS_PER_INCH = ticksPerInch;
     }
 
     public double getMotorPower() {
-        return motorPower;
-    }
-
-    public void setMotorPower(double motorPower) {
-        this.motorPower = motorPower;
+        return MOTOR_POWER;
     }
 
     /**

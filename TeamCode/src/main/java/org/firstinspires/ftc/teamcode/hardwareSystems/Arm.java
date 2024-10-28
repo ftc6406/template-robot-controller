@@ -6,16 +6,13 @@ import com.qualcomm.robotcore.hardware.*;
 
 public abstract class Arm {
     protected final HashSet<DcMotor> MOTORS;
-    protected final MotorType MOTOR_TYPE;
 
     public Arm(HashSet<DcMotor> motors) {
-        this(motors, MotorType.TETRIX_TORQUENADO);
-    }
-
-    public Arm(HashSet<DcMotor> motors, MotorType motorType) {
-        this.MOTORS = motors;
-
-        this.MOTOR_TYPE = motorType;
+        MOTORS = motors;
+        // The arm motors will attempt to resist external forces(e.g. gravity).
+        for (DcMotor motor : MOTORS) {
+            motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        }
     }
 
     /**
@@ -25,9 +22,5 @@ public abstract class Arm {
      */
     public HashSet<DcMotor> getMotors() {
         return MOTORS;
-    }
-
-    public MotorType getMotorType() {
-        return MOTOR_TYPE;
     }
 }
