@@ -14,9 +14,9 @@ public abstract class Claw {
     // The servo that rotates the claw about the Z-axis
     private final Servo Z_AXIS_SERVO;
     // How much to gradually move the servo.
-    private double servoIncrement;
-    
-    public Claw(Servo xAxisServo, Servo yAxisServo, Servo zAxisServo, double servoIncrement) {
+    private final static double SERVO_INCREMENT = 0.01;
+
+    public Claw(Servo xAxisServo, Servo yAxisServo, Servo zAxisServo) {
         SERVOS = new HashSet<>();
         SERVOS.add(xAxisServo);
         SERVOS.add(yAxisServo);
@@ -25,8 +25,6 @@ public abstract class Claw {
         X_AXIS_SERVO = xAxisServo;
         Y_AXIS_SERVO = yAxisServo;
         Z_AXIS_SERVO = zAxisServo;
-
-        this.servoIncrement = servoIncrement;
     }
 
     /**
@@ -39,13 +37,9 @@ public abstract class Claw {
     }
 
     public double getServoIncrement() {
-        return servoIncrement;
+        return SERVO_INCREMENT;
     }
 
-    public void setServoIncrement(double servoIncrement) {
-        this.servoIncrement = servoIncrement;
-    }
-    
     /**
      * Rotate the X rotation servo.
      *
@@ -54,7 +48,7 @@ public abstract class Claw {
      */
     public void rotateXAxisServo(double direction) {
         double targetPosition = X_AXIS_SERVO.getPosition()
-                + Math.signum(direction) * servoIncrement;
+                + Math.signum(direction) * SERVO_INCREMENT;
         X_AXIS_SERVO.setPosition(targetPosition);
     }
 
@@ -66,7 +60,7 @@ public abstract class Claw {
      */
     public void rotateYAxisServo(double direction) {
         double targetPosition = Z_AXIS_SERVO.getPosition()
-                + Math.signum(direction) * servoIncrement;
+                + Math.signum(direction) * SERVO_INCREMENT;
         Y_AXIS_SERVO.setPosition(targetPosition);
     }
 
@@ -78,7 +72,7 @@ public abstract class Claw {
      */
     public void rotateZAxisServo(double direction) {
         double targetPosition = Z_AXIS_SERVO.getPosition()
-                + Math.signum(direction) * servoIncrement;
+                + Math.signum(direction) * SERVO_INCREMENT;
         Z_AXIS_SERVO.setPosition(targetPosition);
     }
 }

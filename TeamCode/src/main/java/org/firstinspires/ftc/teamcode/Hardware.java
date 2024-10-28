@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import java.util.HashMap;
 import java.util.HashSet;
 
 import com.qualcomm.robotcore.eventloop.opmode.*;
@@ -26,8 +25,6 @@ public class Hardware {
     private final DigitalChannel COLOR_SWITCH;
     private final DigitalChannel SIDE_SWITCH;
 
-    private final CRServo INTAKE_SERVO;
-
     // Detects whether there is a sample in the claw.
     private final DigitalChannel INTAKE_SENSOR;
 
@@ -44,13 +41,17 @@ public class Hardware {
         SIDE_SWITCH = null; //OP_MODE.hardwareMap.get(DigitalChannel.class, "side_switch");
 
         INTAKE_SENSOR = null;
-        INTAKE_SERVO = OP_MODE.hardwareMap.get(CRServo.class, "intakeServo");
     }
 
     /**
      * Initiates all hardware needed for the Wheels.
      */
     private MecanumWheels initWheels() {
+        // Prevent multiple instantiation.
+        if (WHEELS != null) {
+            return WHEELS;
+        }
+
         /*
          * Define wheels system hardware here.
          * e.g. exampleMotor = OP_MODE.hardwareMap.get(DcMotor.class, "example_motor");
@@ -79,6 +80,11 @@ public class Hardware {
      * Initiate all hardware needed for the Arm.
      */
     private ExtendableArm initArm() {
+        // Prevent multiple instantiation.
+        if (ARM != null) {
+            return ARM;
+        }
+
         /*
          * Define arm hardware here.
          * e.g. exampleMotor = OP_MODE.hardwareMap.get(DcMotor.class, "example_motor");
@@ -106,6 +112,11 @@ public class Hardware {
     }
 
     public IntakeClaw initClaw() {
+        // Prevent multiple instantiation.
+        if (CLAW != null) {
+            return null;
+        }
+
         return new IntakeClaw(
                 OP_MODE.hardwareMap.get(Servo.class, "clawXServo"),
                 null,
@@ -130,28 +141,32 @@ public class Hardware {
         return WEBCAM;
     }
 
+    public HashSet<DcMotor> getAllMotors() {
+        HashSet<DcMotor> allMotors = new HashSet<>(ARM.getMotors());
+        allMotors.addAll(WHEELS.getMotors());
+
+        return allMotors;
+    }
+
+    /**
+     * Gets all CR servos if they are present.
+     * @return A HashSet containing all the CR servos used by this robot.
+     */
+    public HashSet<CRServo> getAllCrServos() {
+        // If the claw is an IntakeClaw
+        if (CLAW instanceof IntakeClaw) {
+            return ((IntakeClaw) CLAW).getCrServos();
+        }
+
+        return new HashSet<>();
+    }
+
     public DigitalChannel getColorSwitch() {
         return COLOR_SWITCH;
     }
 
     public DigitalChannel getSideSwitch() {
         return SIDE_SWITCH;
-    }
-
-    /**
-     * Attempts to cast the OP_MODE to a LinearOpMode.
-     * Returns null if it fails.
-     *
-     * @return a linearOpMode representation of OP_MODE if possible
-     * Else returns null
-     */
-    public LinearOpMode getLinearOpMode() {
-        try {
-            return (LinearOpMode) OP_MODE;
-
-        } catch (ClassCastException e) {
-            return null;
-        }
     }
 
     public boolean getAutoSleepEnabled() {
@@ -163,30 +178,33 @@ public class Hardware {
     }
 
     /**
-     * Sleeps the robot while any motors are running.
+     * Sleeps the robot while any motors or CR servos are running.
      */
     public void autoSleep() {
-        HashSet<DcMotor> allMotors = new HashSet<>(ARM.getMotors());
-        allMotors.addAll(WHEELS.getMotors());
-
-        autoSleep(allMotors);
+        autoSleep(getAllMotors(), getAllCrServos());
     }
 
     /**
-     * Sleeps the robot while the given motors are running.
+     * Sleeps the robot while the given motors and CRServos are running.
      *
-     * @param motors The motors that are running.
+     * @param motors   The motors that are running.
+     * @param crServos The CR servos that are running.
      */
-    public void autoSleep(HashSet<DcMotor> motors) {
-        LinearOpMode linearOp = getLinearOpMode();
-
+    public void autoSleep(HashSet<DcMotor> motors, HashSet<CRServo> crServos) {
         // Does nothing if it isn't a LinearOpMode.
-        if (linearOp == null) {
+        if (!(OP_MODE instanceof LinearOpMode)) {
             return;
         }
 
+        LinearOpMode linearOp = (LinearOpMode) OP_MODE;
+
         // Sleep while any of the motors are still running.
         while (motors.stream().anyMatch(DcMotor::isBusy)) {
+            linearOp.idle();
+        }
+
+        // Sleep while any of the CR servos are still running.
+        while (crServos.stream().anyMatch(crServo -> crServo.getPower() != 0)) {
             linearOp.idle();
         }
     }

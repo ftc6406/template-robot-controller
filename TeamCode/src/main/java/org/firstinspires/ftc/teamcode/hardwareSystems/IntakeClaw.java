@@ -3,33 +3,32 @@ package org.firstinspires.ftc.teamcode.hardwareSystems;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import java.util.Collections;
+import java.util.HashSet;
+
 public class IntakeClaw extends Claw{
     // The servo that opens and closes the grip.
     private final CRServo INTAKE_SERVO;
 
-    private double intakePower = 0.5;
-    private double ejectPower = -1.0;
+    private static final double INTAKE_POWER = 0.5;
+    private static final double EJECT_POWER = -1.0;
 
     public IntakeClaw(Servo xAxisServo, Servo yAxisServo, Servo zAxisServo, CRServo intakeServo) {
-        super(xAxisServo, yAxisServo, zAxisServo, 0.01);
+        super(xAxisServo, yAxisServo, zAxisServo);
 
         INTAKE_SERVO = intakeServo;
     }
 
     public double getIntakePower() {
-        return intakePower;
+        return INTAKE_POWER;
     }
 
-    public void setIntakePower(double intakePower) {
-        this.intakePower = intakePower;
+    public HashSet<CRServo> getCrServos() {
+        return new HashSet<>(Collections.singletonList(INTAKE_SERVO));
     }
 
     public double getEjectPower() {
-        return ejectPower;
-    }
-
-    public void setEjectPower(double ejectPower) {
-        this.ejectPower = ejectPower;
+        return EJECT_POWER;
     }
 
     public boolean isIntakeActive() {
@@ -37,7 +36,7 @@ public class IntakeClaw extends Claw{
     }
 
     public void startIntake() {
-        INTAKE_SERVO.setPower(intakePower);
+        INTAKE_SERVO.setPower(INTAKE_POWER);
     }
 
     public void stopIntake() {
@@ -48,6 +47,6 @@ public class IntakeClaw extends Claw{
      * Make the intake spin in reverse and eject the object.
      */
     public void ejectIntake() {
-        INTAKE_SERVO.setPower(ejectPower);
+        INTAKE_SERVO.setPower(EJECT_POWER);
     }
 }

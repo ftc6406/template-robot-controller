@@ -17,22 +17,13 @@ public class ExtendableArm extends Arm {
         // The motor that extends and retracts the arm.
         private final DcMotor EXTENSION_MOTOR;
 
-        // The type of motor used by the arm.
-        private final MotorType MOTOR_TYPE;
-
         public MotorParams(DcMotor rotationMotor, DcMotor extensionMotor) {
-            this(rotationMotor, extensionMotor, MotorType.TETRIX_TORQUENADO);
-        }
-
-        public MotorParams(DcMotor rotationMotor, DcMotor extensionMotor, MotorType motorType) {
             this.ROTATION_MOTOR = rotationMotor;
             this.EXTENSION_MOTOR = extensionMotor;
 
             MOTORS = new HashSet<>();
             MOTORS.add(rotationMotor);
             MOTORS.add(extensionMotor);
-
-            this.MOTOR_TYPE = motorType;
         }
     }
 
@@ -45,7 +36,7 @@ public class ExtendableArm extends Arm {
         private final int MIN_ROTATION;
         // The maximum rotation of the arm in ticks.
         private final int MAX_ROTATION;
-        ;
+
         // How many ticks it takes to rotate the arm by one degree.
         private final double TICKS_PER_DEGREE;
 
@@ -75,7 +66,7 @@ public class ExtendableArm extends Arm {
     // The motor that rotates the arm up and down.
     private final DcMotor ROTATION_MOTOR;
     // The motor power that the arm uses when rotating.
-    private double rotationPower = 1.0;
+    private static final double ROTATION_POWER = 1.0;
     // How many ticks it takes to rotate the arm by one degree.
     private final double TICKS_PER_ROTATION_DEGREE;
 
@@ -87,7 +78,7 @@ public class ExtendableArm extends Arm {
     // The motor that extends and retracts the arm.
     private final DcMotor EXTENSION_MOTOR;
     // The motor power that the arm uses when rotating.
-    private double extensionPower = 1.0;
+    private static final double EXTENSION_POWER = 1.0;
     // The minimum extension of the arm in ticks.
     private final int MIN_EXTENSION;
     // The maximum extension of the arm in ticks.
@@ -113,19 +104,11 @@ public class ExtendableArm extends Arm {
     }
 
     public double getRotationPower() {
-        return rotationPower;
-    }
-
-    public void setRotationPower(double rotationPower) {
-        this.rotationPower = rotationPower;
+        return ROTATION_POWER;
     }
 
     public double getExtensionPower() {
-        return extensionPower;
-    }
-
-    public void setExtensionPower(double extensionPower) {
-        this.extensionPower = extensionPower;
+        return EXTENSION_POWER;
     }
 
     /**
@@ -141,7 +124,7 @@ public class ExtendableArm extends Arm {
             return;
         }
 
-        ROTATION_MOTOR.setPower(direction * rotationPower);
+        ROTATION_MOTOR.setPower(direction * ROTATION_POWER);
     }
 
     /**
@@ -163,7 +146,7 @@ public class ExtendableArm extends Arm {
         int direction = (int) Math.signum(targetPosition - ROTATION_MOTOR.getCurrentPosition());
 
         ROTATION_MOTOR.setTargetPosition(targetPosition);
-        ROTATION_MOTOR.setPower(direction * rotationPower);
+        ROTATION_MOTOR.setPower(direction * ROTATION_POWER);
         ROTATION_MOTOR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // adjust the extension of the arm to keep the arm length constant
@@ -182,13 +165,13 @@ public class ExtendableArm extends Arm {
             return;
         }
 
-        EXTENSION_MOTOR.setPower(Math.signum(direction) * extensionPower);
+        EXTENSION_MOTOR.setPower(Math.signum(direction) * EXTENSION_POWER);
     }
 
     public void extendArmToPosition(int targetPosition) {
         EXTENSION_MOTOR.setTargetPosition(targetPosition);
         int direction = (int) Math.signum(targetPosition - EXTENSION_MOTOR.getCurrentPosition());
-        EXTENSION_MOTOR.setPower(direction * extensionPower);
+        EXTENSION_MOTOR.setPower(direction * EXTENSION_POWER);
         EXTENSION_MOTOR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 }
