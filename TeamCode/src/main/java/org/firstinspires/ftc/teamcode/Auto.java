@@ -30,12 +30,17 @@ public class Auto extends LinearOpMode {
         // Wait until the player press the start button
         waitForStart();
 
-        // hardware.getClaw().startIntake();
-//        hardware.getWheels().driveDistance(36);
-        hardware.getWheels().drive(1.0, 0.0);
-//        sleep(60000);
-        telemetry.addData("Hello world!", "");
-        hardware.autoSleep(hardware.getWheels().getMotors(), new HashSet<>());
-        sleep(60000);
+        while (opModeIsActive()) {
+
+
+            // hardware.getClaw().startIntake();
+//          hardware.getWheels().driveDistance(36);
+            hardware.getWheels().drive(1.0, 0.0);
+
+            telemetry.addData("Hello world!", "");
+            hardware.autoSleep(hardware.getWheels().getMotors(), new HashSet<>());
+
+            sleep(60000);
+        }
     }
 }
