@@ -1,3 +1,5 @@
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous; 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;  
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
