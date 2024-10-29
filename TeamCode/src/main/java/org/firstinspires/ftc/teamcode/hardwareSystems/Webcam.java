@@ -9,8 +9,8 @@ import org.firstinspires.ftc.vision.VisionPortal;
 public class Webcam {
     private final PredominantColorProcessor COLOR_PROCESSOR;
     private final VisionPortal VISION_PORTAL;
-    private static final int RESOLUTION_WIDTH = 100;
-    private static final int RESOLUTION_HEIGHT = 100;
+    private static final int RESOLUTION_WIDTH = 640;
+    private static final int RESOLUTION_HEIGHT = 480;
 
     public Webcam(WebcamName webcam) {
         COLOR_PROCESSOR = new PredominantColorProcessor.Builder()
@@ -36,5 +36,9 @@ public class Webcam {
 
     public VisionPortal getVisionPortal() {
         return VISION_PORTAL;
+    }
+
+    public PredominantColorProcessor.Result getColorResult() {
+        return COLOR_PROCESSOR.getAnalysis();
     }
 }

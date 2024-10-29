@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Color;
+
 import com.qualcomm.robotcore.eventloop.opmode.*;
+
+import org.firstinspires.ftc.vision.opencv.PredominantColorProcessor;
 
 @TeleOp(name = "DriverMode")
 public class DriverMode extends OpMode {
@@ -18,12 +22,15 @@ public class DriverMode extends OpMode {
          * Right stick moves the robot forwards and backwards and turns it.
          * The triggers controls strafing.
          */
+
+        /*
         double strafe = (gamepad1.left_trigger > 0) ? -gamepad1.left_trigger : gamepad1.right_trigger;
         hardware.getWheels().drive(
                 gamepad1.right_stick_y,
                 strafe,
                 gamepad1.left_stick_x
         );
+         */
 
         /*
          * The right joystick on gamepad2 controls both arm rotation and extension:
@@ -40,6 +47,7 @@ public class DriverMode extends OpMode {
          */
 //        hardware.getArm().rotateClawXServo(gamepad2.left_stick_x);
 
+        /*
         double zRotate = 0;
         if (gamepad1.left_bumper) {
             zRotate = -1;
@@ -55,8 +63,12 @@ public class DriverMode extends OpMode {
         } else if (gamepad2.y) {
             hardware.getClaw().ejectIntake();
         }
+         */
 
+        PredominantColorProcessor.Result colorResult = hardware.getWebCam().getColorResult();
         // Update the information from the robot
+        telemetry.addData("Best Match:", colorResult.closestSwatch);
+        telemetry.addLine(Color.red(colorResult.rgb) + "" + Color.green(colorResult.rgb) + "" + Color.blue(colorResult.rgb));
         telemetry.update();
     }
 }

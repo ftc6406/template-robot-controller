@@ -35,7 +35,7 @@ public class Hardware {
         WHEELS = initWheels();
         ARM = null; // initArm();
         CLAW = initClaw();
-        WEBCAM = null; // new Webcam(OP_MODE.hardwareMap.get(WebcamName.class, "webcam"));
+        WEBCAM = new Webcam(OP_MODE.hardwareMap.get(WebcamName.class, "webcam"));
 
         COLOR_SWITCH = null; //OP_MODE.hardwareMap.get(DigitalChannel.class, "color_switch");
         SIDE_SWITCH = null; //OP_MODE.hardwareMap.get(DigitalChannel.class, "side_switch");
@@ -192,10 +192,8 @@ public class Hardware {
      * @param crServos The CR servos that are running.
      */
     public void autoSleep(HashSet<DcMotor> motors, HashSet<CRServo> crServos) {
-        OP_MODE.telemetry.addData("autoSleep:", "Yes indeed");
         // Does nothing if it isn't a LinearOpMode.
         if (!(OP_MODE instanceof LinearOpMode)) {
-            OP_MODE.telemetry.addLine("Not a linear OpMode");
             return;
         }
 
@@ -203,13 +201,11 @@ public class Hardware {
 
         // Sleep while any of the motors are still running.
         while (motors.stream().anyMatch(DcMotor::isBusy)) {
-            OP_MODE.telemetry.addLine("Motor is busy");
             linearOp.sleep(1);
         }
 
         // Sleep while any of the CR servos are still running.
         while (crServos.stream().anyMatch(crServo -> crServo.getPower() != 0)) {
-            OP_MODE.telemetry.addData("Servo is busy", "");
             linearOp.sleep(1);
         }
     }

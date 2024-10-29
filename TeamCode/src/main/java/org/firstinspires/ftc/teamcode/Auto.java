@@ -35,7 +35,7 @@ public class Auto extends LinearOpMode {
 
             // hardware.getClaw().startIntake();
 //          hardware.getWheels().driveDistance(36);
-            hardware.getWheels().drive(1.0, 0.0);
+            hardware.getWheels().drive(0.0, 1.0, 0.0);
 
             telemetry.addData("Hello world!", "");
             hardware.autoSleep(hardware.getWheels().getMotors(), new HashSet<>());
