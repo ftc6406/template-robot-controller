@@ -20,7 +20,8 @@ public class Webcam {
                         PredominantColorProcessor.Swatch.BLUE,
                         PredominantColorProcessor.Swatch.YELLOW,
                         PredominantColorProcessor.Swatch.BLACK,
-                        PredominantColorProcessor.Swatch.WHITE)
+                        PredominantColorProcessor.Swatch.WHITE
+                        )
                 .build();
 
         VISION_PORTAL = new VisionPortal.Builder()
