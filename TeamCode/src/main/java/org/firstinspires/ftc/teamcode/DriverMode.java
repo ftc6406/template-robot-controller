@@ -20,8 +20,8 @@ public class DriverMode extends OpMode {
          */
         double strafe = (gamepad1.left_trigger > 0) ? -gamepad1.left_trigger : gamepad1.right_trigger;
         hardware.getWheels().drive(
-                gamepad1.right_stick_y,
                 strafe,
+                gamepad1.right_stick_y,
                 gamepad1.left_stick_x
         );
 
