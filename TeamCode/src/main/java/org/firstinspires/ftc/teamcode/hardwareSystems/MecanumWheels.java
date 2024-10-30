@@ -91,15 +91,16 @@ public class MecanumWheels extends Wheels {
         );
         double max = Collections.max(powers);
         if (max > 1.0) {
-            for (Double power : powers) {
-                power /= max;
-            }
+            frontLeftPower /= max;
+            frontRightPower /= max;
+            backLeftPower /= max;
+            backRightPower /= max;
         }
 
-        FRONT_LEFT_MOTOR.setPower(x - y - turn);
-        FRONT_RIGHT_MOTOR.setPower(x + y + turn);
-        BACK_LEFT_MOTOR.setPower(x + y - turn);
-        BACK_RIGHT_MOTOR.setPower(x - y + turn);
+        FRONT_LEFT_MOTOR.setPower(frontLeftPower);
+        FRONT_RIGHT_MOTOR.setPower(frontRightPower);
+        BACK_LEFT_MOTOR.setPower(backLeftPower);
+        BACK_RIGHT_MOTOR.setPower(backRightPower);
     }
 
     /**
