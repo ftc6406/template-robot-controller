@@ -45,6 +45,14 @@ public abstract class Wheels {
     }
 
     /**
+     * Drive forwards and backwards.
+     * @param drivePower
+     */
+    public void drive(double drivePower) {
+        drive(0, drivePower, 0);
+    }
+
+    /**
      * Drive the wheels.
      *
      * @param drivePower Forward power.
@@ -77,13 +85,13 @@ public abstract class Wheels {
     /**
      * Drive the robot a certain distance in two dimensions.
      *
+     * @param sidewaysDistance The distance that the robot travels sideways in inches.
+     *                         Positive is rightward, negative is leftward.
      * @param forwardDistance  The distance that the robot travels forward in
      *                         inches.
      *                         Positive is forward, negative is backward.
-     * @param sidewaysDistance The distance that the robot travels sideways in inches.
-     *                         Positive is rightward, negative is leftward.
      */
-    public abstract void driveDistance(double forwardDistance, double sidewaysDistance);
+    public abstract void driveDistance(double sidewaysDistance, double forwardDistance);
 
     /**
      * Rotate the robot a certain number of degrees.

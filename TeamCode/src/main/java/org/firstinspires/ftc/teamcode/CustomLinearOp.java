@@ -1,47 +1,55 @@
 package org.firstinspires.ftc.teamcode;
 
-import java.util.HashSet;
-
-import com.qualcomm.robotcore.eventloop.opmode.*;
-import com.qualcomm.robotcore.hardware.*;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.hardwareSystems.*;
 
-public class Hardware {
-    // The opMode to access the hardware map from.
-    private final OpMode OP_MODE;
+import java.util.HashSet;
 
+public class CustomLinearOp extends LinearOpMode {
     // Whether the robot will automatically sleep after each command.
-    // Only applicable in LinearOpMode.
-    private boolean autoSleepEnabled;
+    protected boolean autoSleepEnabled;
 
     /* Robot systems */
-    private final MecanumWheels WHEELS;
-    private final ExtendableArm ARM;
-    private final IntakeClaw CLAW;
-    private final Webcam WEBCAM;
+    protected MecanumWheels WHEELS;
+    protected ExtendableArm ARM;
+    protected IntakeClaw CLAW;
+    protected Webcam WEBCAM;
 
-    private final DigitalChannel COLOR_SWITCH;
-    private final DigitalChannel SIDE_SWITCH;
+    protected DigitalChannel COLOR_SWITCH;
+    protected DigitalChannel SIDE_SWITCH;
 
     // Detects whether there is a sample in the claw.
-    private final DigitalChannel INTAKE_SENSOR;
+    protected DigitalChannel INTAKE_SENSOR;
 
-    public Hardware(OpMode opMode) {
-        this.OP_MODE = opMode;
+    // Red or blue team
+    protected TeamColor teamColor;
+    // Far or near
+    protected TeamSide teamSide;
+
+    @Override
+    public void runOpMode() {
+        initialize();
+        waitForStart();
+    }
+
+    public void initialize() {
         autoSleepEnabled = true;
 
         WHEELS = initWheels();
         ARM = null; // initArm();
         CLAW = initClaw();
-        WEBCAM = new Webcam(OP_MODE.hardwareMap.get(WebcamName.class, "webcam"));
+        WEBCAM = new Webcam(hardwareMap.get(WebcamName.class, "webcam"));
 
         COLOR_SWITCH = null; //OP_MODE.hardwareMap.get(DigitalChannel.class, "color_switch");
         SIDE_SWITCH = null; //OP_MODE.hardwareMap.get(DigitalChannel.class, "side_switch");
 
-        INTAKE_SENSOR = null;
-    }
+        INTAKE_SENSOR = null;}
 
     /**
      * Initiates all hardware needed for the Wheels.
@@ -56,10 +64,10 @@ public class Hardware {
          * Define wheels system hardware here.
          * e.g. exampleMotor = OP_MODE.hardwareMap.get(DcMotor.class, "example_motor");
          */
-        DcMotor frontLeftMotor = OP_MODE.hardwareMap.get(DcMotor.class, "frontLeftWheel");
-        DcMotor frontRightMotor = OP_MODE.hardwareMap.get(DcMotor.class, "frontRightWheel");
-        DcMotor backLeftMotor = OP_MODE.hardwareMap.get(DcMotor.class, "backLeftWheel");
-        DcMotor backRightMotor = OP_MODE.hardwareMap.get(DcMotor.class, "backRightWheel");
+        DcMotor frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeftWheel");
+        DcMotor frontRightMotor = hardwareMap.get(DcMotor.class, "frontRightWheel");
+        DcMotor backLeftMotor = hardwareMap.get(DcMotor.class, "backLeftWheel");
+        DcMotor backRightMotor = hardwareMap.get(DcMotor.class, "backRightWheel");
 
         MecanumWheels.MotorParams motorParams = new MecanumWheels.MotorParams(
                 frontLeftMotor,
@@ -118,27 +126,11 @@ public class Hardware {
         }
 
         return new IntakeClaw(
-                OP_MODE.hardwareMap.get(Servo.class, "clawXServo"),
+                hardwareMap.get(Servo.class, "clawXServo"),
                 null,
-                OP_MODE.hardwareMap.get(Servo.class, "clawZServo"),
-                OP_MODE.hardwareMap.get(Servo.class, "intakeServo")
+                hardwareMap.get(Servo.class, "clawZServo"),
+                hardwareMap.get(Servo.class, "intakeServo")
         );
-    }
-
-    public MecanumWheels getWheels() {
-        return WHEELS;
-    }
-
-    public ExtendableArm getArm() {
-        return ARM;
-    }
-
-    public IntakeClaw getClaw() {
-        return CLAW;
-    }
-
-    public Webcam getWebCam() {
-        return WEBCAM;
     }
 
     public HashSet<DcMotor> getAllMotors() {
@@ -161,27 +153,11 @@ public class Hardware {
         return new HashSet<>();
     }
 
-    public DigitalChannel getColorSwitch() {
-        return COLOR_SWITCH;
-    }
-
-    public DigitalChannel getSideSwitch() {
-        return SIDE_SWITCH;
-    }
-
-    public boolean getAutoSleepEnabled() {
-        return autoSleepEnabled;
-    }
-
-    public void setAutoSleepEnabled(boolean autoSleepEnabled) {
-        this.autoSleepEnabled = autoSleepEnabled;
-    }
-
     /**
      * Sleeps the robot while any motors or CR servos are running.
      */
     public void autoSleep() {
-        OP_MODE.telemetry.addLine("No param autoSleep()");
+        telemetry.addLine("No param autoSleep()");
         autoSleep(getAllMotors(), getAllCrServos());
     }
 
@@ -192,21 +168,14 @@ public class Hardware {
      * @param crServos The CR servos that are running.
      */
     public void autoSleep(HashSet<DcMotor> motors, HashSet<CRServo> crServos) {
-        // Does nothing if it isn't a LinearOpMode.
-        if (!(OP_MODE instanceof LinearOpMode)) {
-            return;
-        }
-
-        LinearOpMode linearOp = (LinearOpMode) OP_MODE;
-
         // Sleep while any of the motors are still running.
         while (motors.stream().anyMatch(DcMotor::isBusy)) {
-            linearOp.sleep(1);
+            sleep(1);
         }
 
         // Sleep while any of the CR servos are still running.
         while (crServos.stream().anyMatch(crServo -> crServo.getPower() != 0)) {
-            linearOp.sleep(1);
+            sleep(1);
         }
     }
 }
