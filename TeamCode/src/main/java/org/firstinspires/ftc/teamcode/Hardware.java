@@ -121,7 +121,7 @@ public class Hardware {
                 OP_MODE.hardwareMap.get(Servo.class, "clawXServo"),
                 null,
                 OP_MODE.hardwareMap.get(Servo.class, "clawZServo"),
-                OP_MODE.hardwareMap.get(CRServo.class, "intakeServo")
+                OP_MODE.hardwareMap.get(Servo.class, "intakeServo")
         );
     }
 

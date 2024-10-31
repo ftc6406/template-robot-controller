@@ -77,10 +77,10 @@ public class MecanumWheels extends Wheels {
             motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
 
-        double frontLeftPower = x - y - turn;
-        double frontRightPower = x + y + turn;
-        double backLeftPower =  x + y - turn;
-        double backRightPower = x - y + turn;
+        double frontLeftPower = y - x - turn;
+        double frontRightPower = y + x + turn;
+        double backLeftPower =  y + x - turn;
+        double backRightPower = y - x + turn;
 
         // Scale the motor powers to be within +/- 1.0
         List<Double> powers = Arrays.asList(
@@ -121,9 +121,15 @@ public class MecanumWheels extends Wheels {
      * <strong><i>THIS METHOD IS STILL EXPERIMENTAL!</i></strong>
      */
     @Override
-    public void driveDistance(double forwardDistance, double sidewaysDistance) {
+    public void driveDistance(double sidewaysDistance, double forwardDistance) {
         // Apply Pythagorean's Theorem to find the Euclidean distance
         double totalDistance = Math.sqrt(Math.pow(forwardDistance, 2) + Math.pow(sidewaysDistance, 2));
+
+        // Scale the motor motor power based on trigonometry
+        double xPower = MOTOR_POWER * (sidewaysDistance / totalDistance);
+        double yPower = MOTOR_POWER * (forwardDistance / totalDistance);
+
+        drive(xPower, yPower);
 
         for (DcMotor motor : MOTORS) {
             motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
