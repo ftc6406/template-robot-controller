@@ -7,16 +7,11 @@ import com.qualcomm.robotcore.eventloop.opmode.*;
 import org.firstinspires.ftc.vision.opencv.PredominantColorProcessor;
 
 @TeleOp(name = "DriverMode")
-public class DriverMode extends OpMode {
-    private Hardware hardware;
-
+public class DriverMode extends CustomLinearOp {
     @Override
-    public void init() {
-        hardware = new Hardware(this);
-    }
+    public void runOpMode() {
+        super.runOpMode();
 
-    @Override
-    public void loop() {
         /*
          * Drive robot based on joystick input from gamepad1
          * Right stick moves the robot forwards and backwards and turns it.
@@ -65,7 +60,7 @@ public class DriverMode extends OpMode {
         }
          */
 
-        PredominantColorProcessor.Result colorResult = hardware.getWebCam().getColorResult();
+        PredominantColorProcessor.Result colorResult = WEBCAM.getColorResult();
         // Update the information from the robot
         telemetry.addData("Best Match:", colorResult.closestSwatch);
         telemetry.addLine(Color.red(colorResult.rgb) + "" + Color.green(colorResult.rgb) + "" + Color.blue(colorResult.rgb));

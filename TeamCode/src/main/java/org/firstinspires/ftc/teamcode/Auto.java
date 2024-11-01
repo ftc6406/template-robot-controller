@@ -13,7 +13,7 @@ public class Auto extends CustomLinearOp {
      */
     @Override
     public void runOpMode() {
-        super.initialize();
+        super.runOpMode();
 
         // teamColor = (hardware.getColorSwitch().getState()) ? TeamColor.RED : TeamColor.BLUE;
         // teamSide = (hardware.getSideSwitch().getState()) ? TeamSide.FAR : TeamSide.NEAR;
