@@ -12,10 +12,13 @@ public class Webcam {
     private final PredominantColorProcessor COLOR_PROCESSOR;
 
     private final VisionPortal VISION_PORTAL;
-    private static final int RESOLUTION_WIDTH = 640;
-    private static final int RESOLUTION_HEIGHT = 480;
+    private final int RESOLUTION_WIDTH;
+    private final int RESOLUTION_HEIGHT;
 
-    public Webcam(WebcamName webcam) {
+    public Webcam(WebcamName webcam, int resolutionWidth, int resolutionHeight) {
+        RESOLUTION_WIDTH = resolutionWidth;
+        RESOLUTION_HEIGHT = resolutionHeight;
+
         COLOR_PROCESSOR = new PredominantColorProcessor.Builder()
                 .setRoi(ImageRegion.asUnityCenterCoordinates(-0.5, 0.5, 0.5, -0.5))
                 .setSwatches(
@@ -39,10 +42,6 @@ public class Webcam {
 
     public AprilTagProcessor getAprilTag() {
         return APRIL_TAG;
-    }
-
-    public void printAprilTags() {
-
     }
 
     public PredominantColorProcessor getColorProcessor() {

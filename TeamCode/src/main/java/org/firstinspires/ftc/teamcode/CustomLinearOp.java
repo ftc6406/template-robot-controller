@@ -44,7 +44,7 @@ public class CustomLinearOp extends LinearOpMode {
         WHEELS = initWheels();
         ARM = null; // initArm();
         CLAW = initClaw();
-        WEBCAM = new Webcam(hardwareMap.get(WebcamName.class, "webcam"));
+        WEBCAM = new Webcam(hardwareMap.get(WebcamName.class, "webcam"), 640, 480);
 
         COLOR_SWITCH = null; //OP_MODE.hardwareMap.get(DigitalChannel.class, "color_switch");
         SIDE_SWITCH = null; //OP_MODE.hardwareMap.get(DigitalChannel.class, "side_switch");
@@ -78,7 +78,7 @@ public class CustomLinearOp extends LinearOpMode {
 
         // Approximately measured from the CAD model in inches
         double wheelCircumference = 4.0 * Math.PI;
-        double gearRatio = 30.0 / 30.0;
+        double gearRatio = 1.0;
         double ticksPerInch = MotorType.TETRIX_TORQUENADO.getTicksPerRotation() * gearRatio / wheelCircumference;
 
         return new MecanumWheels(motorParams, ticksPerInch);
@@ -147,7 +147,7 @@ public class CustomLinearOp extends LinearOpMode {
     public HashSet<CRServo> getAllCrServos() {
         // If the claw is an IntakeClaw
         if (CLAW instanceof IntakeClaw) {
-            return ((IntakeClaw) CLAW).getCrServos();
+            return CLAW.getCrServos();
         }
 
         return new HashSet<>();
