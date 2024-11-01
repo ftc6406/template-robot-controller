@@ -49,7 +49,8 @@ public class CustomLinearOp extends LinearOpMode {
         COLOR_SWITCH = null; //OP_MODE.hardwareMap.get(DigitalChannel.class, "color_switch");
         SIDE_SWITCH = null; //OP_MODE.hardwareMap.get(DigitalChannel.class, "side_switch");
 
-        INTAKE_SENSOR = null;}
+        INTAKE_SENSOR = null;
+    }
 
     /**
      * Initiates all hardware needed for the Wheels.
@@ -69,19 +70,18 @@ public class CustomLinearOp extends LinearOpMode {
         DcMotor backLeftMotor = hardwareMap.get(DcMotor.class, "backLeftWheel");
         DcMotor backRightMotor = hardwareMap.get(DcMotor.class, "backRightWheel");
 
-        MecanumWheels.MotorParams motorParams = new MecanumWheels.MotorParams(
-                frontLeftMotor,
-                frontRightMotor,
-                backLeftMotor,
-                backRightMotor
-        );
-
         // Approximately measured from the CAD model in inches
         double wheelCircumference = 4.0 * Math.PI;
         double gearRatio = 1.0;
         double ticksPerInch = MotorType.TETRIX_TORQUENADO.getTicksPerRotation() * gearRatio / wheelCircumference;
 
-        return new MecanumWheels(motorParams, ticksPerInch);
+        return new MecanumWheels(
+                frontLeftMotor,
+                frontRightMotor,
+                backLeftMotor,
+                backRightMotor,
+                ticksPerInch
+        );
     }
 
     /**
@@ -97,13 +97,13 @@ public class CustomLinearOp extends LinearOpMode {
          * Define arm hardware here.
          * e.g. exampleMotor = OP_MODE.hardwareMap.get(DcMotor.class, "example_motor");
          */
-        ExtendableArm.MotorParams motorParams = new ExtendableArm.MotorParams(
-                null, // OP_MODE.hardwareMap.get(DcMotor.class, "rotationMotor"),
+        ExtendableArm.MotorSet motorSet = new ExtendableArm.MotorSet(
+                hardwareMap.get(DcMotor.class, "rotationMotor"),
                 null
         );
 
         double gearRatio = 120.0 / 40.0;
-        ExtendableArm.RotationParams rotationParams = new ExtendableArm.RotationParams(
+        ExtendableArm.RotationRange rotationRange = new ExtendableArm.RotationRange(
                 0,
                 1080,
                 MotorType.TETRIX_TORQUENADO.getTicksPerRotation()
@@ -111,12 +111,12 @@ public class CustomLinearOp extends LinearOpMode {
                         * gearRatio
         );
 
-        ExtendableArm.ExtensionParams extensionParams = new ExtendableArm.ExtensionParams(
+        ExtendableArm.ExtensionRange extensionRange = new ExtendableArm.ExtensionRange(
                 0,
                 1000
         );
 
-        return new ExtendableArm(motorParams, rotationParams, extensionParams);
+        return new ExtendableArm(motorSet, rotationRange, extensionRange);
     }
 
     public IntakeClaw initClaw() {
@@ -142,6 +142,7 @@ public class CustomLinearOp extends LinearOpMode {
 
     /**
      * Gets all CR servos if they are present.
+     *
      * @return A HashSet containing all the CR servos used by this robot.
      */
     public HashSet<CRServo> getAllCrServos() {
@@ -157,7 +158,6 @@ public class CustomLinearOp extends LinearOpMode {
      * Sleeps the robot while any motors or CR servos are running.
      */
     public void autoSleep() {
-        telemetry.addLine("No param autoSleep()");
         autoSleep(getAllMotors(), getAllCrServos());
     }
 
@@ -170,12 +170,12 @@ public class CustomLinearOp extends LinearOpMode {
     public void autoSleep(HashSet<DcMotor> motors, HashSet<CRServo> crServos) {
         // Sleep while any of the motors are still running.
         while (motors.stream().anyMatch(DcMotor::isBusy)) {
-            sleep(1);
+            idle();
         }
 
         // Sleep while any of the CR servos are still running.
         while (crServos.stream().anyMatch(crServo -> crServo.getPower() != 0)) {
-            sleep(1);
+            idle();
         }
     }
 }

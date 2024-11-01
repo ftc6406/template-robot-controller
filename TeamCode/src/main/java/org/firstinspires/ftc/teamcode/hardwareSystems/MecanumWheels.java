@@ -2,57 +2,34 @@ package org.firstinspires.ftc.teamcode.hardwareSystems;
 
 import com.qualcomm.robotcore.hardware.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
 public class MecanumWheels extends Wheels {
-    /**
-     * Passed into the `MecanumWheels` constructor.
-     * Contains all four motors and the motor type.
-     */
-    public static class MotorParams {
-        public final HashSet<DcMotor> MOTORS;
-
-        /* The DcMotors powering the wheels */
-        private final DcMotor FRONT_LEFT_MOTOR;
-        private final DcMotor FRONT_RIGHT_MOTOR;
-        private final DcMotor BACK_LEFT_MOTOR;
-        private final DcMotor BACK_RIGHT_MOTOR;
-
-        public MotorParams(DcMotor frontLeftMotor, DcMotor frontRightMotor, DcMotor backLeftMotor, DcMotor backRightMotor) {
-            MOTORS = new HashSet<>();
-            MOTORS.add(frontLeftMotor);
-            MOTORS.add(frontRightMotor);
-            MOTORS.add(backLeftMotor);
-            MOTORS.add(backRightMotor);
-
-            this.FRONT_LEFT_MOTOR = frontLeftMotor;
-            this.FRONT_RIGHT_MOTOR = frontRightMotor;
-            this.BACK_LEFT_MOTOR = backLeftMotor;
-            this.BACK_RIGHT_MOTOR = backRightMotor;
-        }
-    }
-
     /* The DcMotors powering the wheels */
     private final DcMotor FRONT_LEFT_MOTOR;
     private final DcMotor FRONT_RIGHT_MOTOR;
     private final DcMotor BACK_LEFT_MOTOR;
     private final DcMotor BACK_RIGHT_MOTOR;
 
-    public MecanumWheels(MotorParams motorParams, double ticksPerInch) {
-        super(motorParams.MOTORS, ticksPerInch);
+    public MecanumWheels(DcMotor frontLeftMotor, DcMotor frontRightMotor, DcMotor backLeftMotor, DcMotor backRightMotor, double ticksPerInch) {
+        super(
+                new HashSet<>(
+                        Arrays.asList(frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor)
+                ),
+                ticksPerInch
+        );
 
-        this.FRONT_LEFT_MOTOR = motorParams.FRONT_LEFT_MOTOR;
-        this.FRONT_RIGHT_MOTOR = motorParams.FRONT_RIGHT_MOTOR;
-        this.BACK_LEFT_MOTOR = motorParams.BACK_LEFT_MOTOR;
-        this.BACK_RIGHT_MOTOR = motorParams.BACK_RIGHT_MOTOR;
+        this.FRONT_LEFT_MOTOR = frontLeftMotor;
+        this.FRONT_RIGHT_MOTOR = frontRightMotor;
+        this.BACK_LEFT_MOTOR = backLeftMotor;
+        this.BACK_RIGHT_MOTOR = backRightMotor;
 
         /*
-         * Set the directions of the motors
-         * The right and left motors run in opposite directions of each other
+         * Set the directions of the motors.
+         * The right and left motors run in opposite directions of each other.
          */
         FRONT_LEFT_MOTOR.setDirection(DcMotorSimple.Direction.REVERSE);
         FRONT_RIGHT_MOTOR.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -64,22 +41,14 @@ public class MecanumWheels extends Wheels {
      * {@inheritDoc}
      */
     @Override
-    public void drive(double drivePower, double turn) {
-        drive(0, drivePower, turn);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void drive(double x, double y, double turn) {
-        for (DcMotor motor: MOTORS) {
+    public void drive(double y, double x, double turn) {
+        for (DcMotor motor : MOTORS) {
             motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
 
         double frontLeftPower = y - x - turn;
         double frontRightPower = y + x + turn;
-        double backLeftPower =  y + x - turn;
+        double backLeftPower = y + x - turn;
         double backRightPower = y - x + turn;
 
         // Scale the motor powers to be within +/- 1.0

@@ -16,10 +16,10 @@ public abstract class Wheels {
     }
 
     /**
-     * Instantiate the a wheels object.
+     * Instantiate a {@code Wheels} object.
      *
      * @param motors       All the motors used by the robot.
-     * @param ticksPerInch The number of ticks needed to move the robot by one inh.
+     * @param ticksPerInch The number of ticks needed to move the robot by one inch.
      */
     public Wheels(HashSet<DcMotor> motors, double ticksPerInch) {
         MOTORS = motors;
@@ -36,9 +36,9 @@ public abstract class Wheels {
     }
 
     /**
-     * Get all the DcMotors that are used by this wheels system.
+     * Get all the {@code DcMotor}s that are used by this wheels system.
      *
-     * @return A set that contains every DcMotor included by this wheels system.
+     * @return A {@code HashSet} that contains every {@code DcMotor} included by this wheels system.
      */
     public HashSet<DcMotor> getMotors() {
         return MOTORS;
@@ -46,10 +46,11 @@ public abstract class Wheels {
 
     /**
      * Drive forwards and backwards.
-     * @param drivePower
+     *
+     * @param drivePower What power to set the motors to.
      */
     public void drive(double drivePower) {
-        drive(0, drivePower, 0);
+        drive(drivePower, 0, 0);
     }
 
     /**
@@ -60,19 +61,21 @@ public abstract class Wheels {
      * @param turn       Rotation power.
      *                   Positive is clockwise, negative is counterclockwise.
      */
-    public abstract void drive(double drivePower, double turn);
+    public void drive(double drivePower, double turn) {
+        drive(drivePower, 0, turn);
+    }
 
     /**
      * Drive the wheels.
      *
-     * @param x    Sideways power.
-     *             Positive is rightward, negative is leftward.
      * @param y    Forward power.
      *             Positive is forward, negative is backward.
+     * @param x    Sideways power.
+     *             Positive is rightward, negative is leftward.
      * @param turn Rotation power.
      *             Positive is clockwise, negative is counterclockwise.
      */
-    public abstract void drive(double x, double y, double turn);
+    public abstract void drive(double y, double x, double turn);
 
     /**
      * Drive the robot a certain distance forward.
@@ -85,13 +88,13 @@ public abstract class Wheels {
     /**
      * Drive the robot a certain distance in two dimensions.
      *
-     * @param sidewaysDistance The distance that the robot travels sideways in inches.
-     *                         Positive is rightward, negative is leftward.
      * @param forwardDistance  The distance that the robot travels forward in
      *                         inches.
      *                         Positive is forward, negative is backward.
+     * @param sidewaysDistance The distance that the robot travels sideways in inches.
+     *                         Positive is rightward, negative is leftward.
      */
-    public abstract void driveDistance(double sidewaysDistance, double forwardDistance);
+    public abstract void driveDistance(double forwardDistance, double sidewaysDistance);
 
     /**
      * Rotate the robot a certain number of degrees.

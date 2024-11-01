@@ -1,8 +1,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.*;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.hardwareSystems.Webcam;
@@ -14,7 +13,6 @@ import java.util.List;
 public class AprilTagTest extends LinearOpMode {
     @Override
     public void runOpMode() {
-//        Hardware hardware = new Hardware(this);
         Webcam webcam = new Webcam(hardwareMap.get(WebcamName.class, "webcam"), 640, 480);
 
         waitForStart();
