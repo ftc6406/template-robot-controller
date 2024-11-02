@@ -61,10 +61,6 @@ public class DriverMode extends CustomLinearOp {
             CLAW.ejectIntake();
         }
 
-        PredominantColorProcessor.Result colorResult = WEBCAM.getColorResult();
-        // Update the information from the robot
-        telemetry.addData("Best Match:", colorResult.closestSwatch);
-        telemetry.addLine(Integer.toString(Color.red(colorResult.rgb)) + Color.green(colorResult.rgb) + Color.blue(colorResult.rgb));
-        telemetry.update();
+
     }
 }

@@ -70,16 +70,25 @@ public class CustomLinearOp extends LinearOpMode {
         DcMotor backLeftMotor = hardwareMap.get(DcMotor.class, "backLeftWheel");
         DcMotor backRightMotor = hardwareMap.get(DcMotor.class, "backRightWheel");
 
+
+
         // Approximately measured from the CAD model in inches
         double wheelCircumference = 4.0 * Math.PI;
         double gearRatio = 1.0;
         double ticksPerInch = MotorType.TETRIX_TORQUENADO.getTicksPerRotation() * gearRatio / wheelCircumference;
 
         return new MecanumWheels(
-                frontLeftMotor,
-                frontRightMotor,
-                backLeftMotor,
-                backRightMotor,
+                new MecanumWheels.MotorSet(
+                        frontLeftMotor,
+                        frontRightMotor,
+                        backLeftMotor,
+                        backRightMotor
+                ),
+                // Approximately measured from CAD
+                new MecanumWheels.WheelDistances(
+                        10.0,
+                        14.25
+                ),
                 ticksPerInch
         );
     }

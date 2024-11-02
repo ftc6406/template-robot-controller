@@ -14,27 +14,85 @@ public class MecanumWheels extends Wheels {
     private final DcMotor BACK_LEFT_MOTOR;
     private final DcMotor BACK_RIGHT_MOTOR;
 
-    public MecanumWheels(DcMotor frontLeftMotor, DcMotor frontRightMotor, DcMotor backLeftMotor, DcMotor backRightMotor, double ticksPerInch) {
-        super(
-                new HashSet<>(
-                        Arrays.asList(frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor)
-                ),
-                ticksPerInch
-        );
+    /*
+     * The distance between the front and back wheels,
+     * measured in inches from their centers.
+     */
+    private final double WHEELS_LENGTH;
+    /*
+     * The distance between the left and right wheels,
+     * measured in inches from their centers.
+     */
+    private final double WHEELS_WIDTH;
 
-        this.FRONT_LEFT_MOTOR = frontLeftMotor;
-        this.FRONT_RIGHT_MOTOR = frontRightMotor;
-        this.BACK_LEFT_MOTOR = backLeftMotor;
-        this.BACK_RIGHT_MOTOR = backRightMotor;
+    /**
+     * Passed into the `MecanumWheels` constructor.
+     * Contains all four motors.
+     */
+    public static class MotorSet {
+        public final HashSet<DcMotor> MOTORS;
+        /* The DcMotors powering the wheels */
+        private final DcMotor FRONT_LEFT_MOTOR;
+        private final DcMotor FRONT_RIGHT_MOTOR;
+        private final DcMotor BACK_LEFT_MOTOR;
+        private final DcMotor BACK_RIGHT_MOTOR;
+
+        public MotorSet(DcMotor frontLeftMotor, DcMotor frontRightMotor, DcMotor backLeftMotor, DcMotor backRightMotor) {
+            MOTORS = new HashSet<>();
+            MOTORS.add(frontLeftMotor);
+            MOTORS.add(frontRightMotor);
+            MOTORS.add(backLeftMotor);
+            MOTORS.add(backRightMotor);
+
+            this.FRONT_LEFT_MOTOR = frontLeftMotor;
+            this.FRONT_RIGHT_MOTOR = frontRightMotor;
+            this.BACK_LEFT_MOTOR = backLeftMotor;
+            this.BACK_RIGHT_MOTOR = backRightMotor;
+        }
+    }
+
+    /**
+     * Contains the distances between wheels.
+     * Necessary for calculating rotation.
+     */
+    public static class WheelDistances {
+        /*
+         * The distance between the front and back wheels,
+         * measured in inches from their centers.
+         */
+        private final double LENGTH;
+        /*
+         * The distance between the left and right wheels,
+         * measured in inches from their centers.
+         */
+        private final double WIDTH;
+
+        public WheelDistances(double length, double width) {
+            LENGTH = length;
+            WIDTH = width;
+        }
+    }
+
+    public MecanumWheels(MotorSet motorSet, WheelDistances wheelDistances, double ticksPerInch) {
+        super(motorSet.MOTORS, ticksPerInch);
+
+        this.FRONT_LEFT_MOTOR = motorSet.FRONT_LEFT_MOTOR;
+        this.FRONT_RIGHT_MOTOR = motorSet.FRONT_RIGHT_MOTOR;
+        this.BACK_LEFT_MOTOR = motorSet.BACK_LEFT_MOTOR;
+        this.BACK_RIGHT_MOTOR = motorSet.BACK_RIGHT_MOTOR;
+
+        this.WHEELS_LENGTH = wheelDistances.LENGTH;
+        this.WHEELS_WIDTH = wheelDistances.WIDTH;
 
         /*
-         * Set the directions of the motors.
-         * The right and left motors run in opposite directions of each other.
+         * Set the directions of the motors
+         * The right and left motors run in opposite directions of each other
          */
         FRONT_LEFT_MOTOR.setDirection(DcMotorSimple.Direction.REVERSE);
         FRONT_RIGHT_MOTOR.setDirection(DcMotorSimple.Direction.FORWARD);
         BACK_LEFT_MOTOR.setDirection(DcMotorSimple.Direction.REVERSE);
         BACK_RIGHT_MOTOR.setDirection(DcMotorSimple.Direction.FORWARD);
+
     }
 
     /**
@@ -110,6 +168,28 @@ public class MecanumWheels extends Wheels {
      */
     @Override
     public void turn(double degrees) {
+        // The diameter of the circle that the wheels make when rotating 360 degrees.
+        double diameter = Math.sqrt(Math.pow(WHEELS_LENGTH, 2) + Math.pow(WHEELS_WIDTH, 2));
+        double circumference = diameter * Math.PI;
 
+        // How far the wheels have to move.
+        double arcLength = (degrees / 360.0) * circumference;
+        int ticks = (int) Math.round(arcLength * TICKS_PER_INCH);
+
+        // Left wheels
+        FRONT_LEFT_MOTOR.setTargetPosition(FRONT_LEFT_MOTOR.getCurrentPosition() + ticks);
+        FRONT_LEFT_MOTOR.setPower(MOTOR_POWER);
+        BACK_LEFT_MOTOR.setTargetPosition(BACK_LEFT_MOTOR.getCurrentPosition() + ticks);
+        BACK_LEFT_MOTOR.setPower(MOTOR_POWER);
+
+        // Right wheels
+        FRONT_RIGHT_MOTOR.setTargetPosition(FRONT_RIGHT_MOTOR.getCurrentPosition() - ticks);
+        FRONT_RIGHT_MOTOR.setPower(-MOTOR_POWER);
+        BACK_RIGHT_MOTOR.setTargetPosition(BACK_RIGHT_MOTOR.getCurrentPosition() - ticks);
+        BACK_RIGHT_MOTOR.setPower(-MOTOR_POWER);
+
+        for (DcMotor motor : MOTORS) {
+            motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
     }
 }
