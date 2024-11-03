@@ -18,12 +18,19 @@ public class ExtendableArm extends Arm {
         private final DcMotor EXTENSION_MOTOR;
 
         public MotorSet(DcMotor rotationMotor, DcMotor extensionMotor) {
-            this.ROTATION_MOTOR = rotationMotor;
-            this.EXTENSION_MOTOR = extensionMotor;
-
             MOTORS = new HashSet<>();
             MOTORS.add(rotationMotor);
             MOTORS.add(extensionMotor);
+
+            ROTATION_MOTOR = rotationMotor;
+            EXTENSION_MOTOR = extensionMotor;
+        }
+
+        public MotorSet() {
+            MOTORS = new HashSet<>();
+
+            ROTATION_MOTOR = null;
+            EXTENSION_MOTOR = null;
         }
     }
 

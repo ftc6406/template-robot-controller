@@ -14,17 +14,6 @@ public class MecanumWheels extends Wheels {
     private final DcMotor BACK_LEFT_MOTOR;
     private final DcMotor BACK_RIGHT_MOTOR;
 
-    /*
-     * The distance between the front and back wheels,
-     * measured in inches from their centers.
-     */
-    private final double WHEELS_LENGTH;
-    /*
-     * The distance between the left and right wheels,
-     * measured in inches from their centers.
-     */
-    private final double WHEELS_WIDTH;
-
     /**
      * Passed into the `MecanumWheels` constructor.
      * Contains all four motors.
@@ -44,45 +33,29 @@ public class MecanumWheels extends Wheels {
             MOTORS.add(backLeftMotor);
             MOTORS.add(backRightMotor);
 
-            this.FRONT_LEFT_MOTOR = frontLeftMotor;
-            this.FRONT_RIGHT_MOTOR = frontRightMotor;
-            this.BACK_LEFT_MOTOR = backLeftMotor;
-            this.BACK_RIGHT_MOTOR = backRightMotor;
+            FRONT_LEFT_MOTOR = frontLeftMotor;
+            FRONT_RIGHT_MOTOR = frontRightMotor;
+            BACK_LEFT_MOTOR = backLeftMotor;
+            BACK_RIGHT_MOTOR = backRightMotor;
         }
-    }
 
-    /**
-     * Contains the distances between wheels.
-     * Necessary for calculating rotation.
-     */
-    public static class WheelDistances {
-        /*
-         * The distance between the front and back wheels,
-         * measured in inches from their centers.
-         */
-        private final double LENGTH;
-        /*
-         * The distance between the left and right wheels,
-         * measured in inches from their centers.
-         */
-        private final double WIDTH;
+        public MotorSet() {
+            MOTORS = new HashSet<>();
 
-        public WheelDistances(double length, double width) {
-            LENGTH = length;
-            WIDTH = width;
+            FRONT_LEFT_MOTOR = null;
+            FRONT_RIGHT_MOTOR = null;
+            BACK_LEFT_MOTOR = null;
+            BACK_RIGHT_MOTOR = null;
         }
     }
 
     public MecanumWheels(MotorSet motorSet, WheelDistances wheelDistances, double ticksPerInch) {
-        super(motorSet.MOTORS, ticksPerInch);
+        super(motorSet.MOTORS, wheelDistances, ticksPerInch);
 
         this.FRONT_LEFT_MOTOR = motorSet.FRONT_LEFT_MOTOR;
         this.FRONT_RIGHT_MOTOR = motorSet.FRONT_RIGHT_MOTOR;
         this.BACK_LEFT_MOTOR = motorSet.BACK_LEFT_MOTOR;
         this.BACK_RIGHT_MOTOR = motorSet.BACK_RIGHT_MOTOR;
-
-        this.WHEELS_LENGTH = wheelDistances.LENGTH;
-        this.WHEELS_WIDTH = wheelDistances.WIDTH;
 
         /*
          * Set the directions of the motors
@@ -169,7 +142,7 @@ public class MecanumWheels extends Wheels {
     @Override
     public void turn(double degrees) {
         // The diameter of the circle that the wheels make when rotating 360 degrees.
-        double diameter = Math.sqrt(Math.pow(WHEELS_LENGTH, 2) + Math.pow(WHEELS_WIDTH, 2));
+        double diameter = Math.sqrt(Math.pow(LATERAL_DISTANCE, 2) + Math.pow(LONGITUDINAL_DISTANCE, 2));
         double circumference = diameter * Math.PI;
 
         // How far the wheels have to move.

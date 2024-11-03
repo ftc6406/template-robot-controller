@@ -7,12 +7,50 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public abstract class Wheels {
     protected final HashSet<DcMotor> MOTORS;
 
+    /*
+     * The distance between the left and right wheels,
+     * measured in inches from their centers.
+     */
+    protected final double LATERAL_DISTANCE;
+
+    /*
+     * The distance between the front and back wheels,
+     * measured in inches from their centers.
+     */
+    protected final double LONGITUDINAL_DISTANCE;
+
     // A modifier for much power the wheels run with (0.0 - 1.0)
     protected final static double MOTOR_POWER = 1.0;
     protected final double TICKS_PER_INCH;
 
-    public Wheels(HashSet<DcMotor> motors) {
-        this(motors, 100);
+    /**
+     * Contains the distances between wheels.
+     * Necessary for calculating rotation.
+     */
+    public static class WheelDistances {
+        /*
+         * The distance between the left and right wheels,
+         * measured in inches from their centers.
+         */
+        protected final double LATERAL_DISTANCE;
+        /*
+         * The distance between the front and back wheels,
+         * measured in inches from their centers.
+         */
+        protected final double LONGITUDINAL_DISTANCE;
+
+        /**
+         * Define the wheel's distances.
+         *
+         * @param lateralDistance      The distance between the left and right wheels,
+         *                             measured in inches from their centers.
+         * @param longitudinalDistance The distance between the front and back wheels,
+         *                             measured in inches from their centers.
+         */
+        public WheelDistances(double lateralDistance, double longitudinalDistance) {
+            LONGITUDINAL_DISTANCE = longitudinalDistance;
+            LATERAL_DISTANCE = lateralDistance;
+        }
     }
 
     /**
@@ -21,12 +59,15 @@ public abstract class Wheels {
      * @param motors       All the motors used by the robot.
      * @param ticksPerInch The number of ticks needed to move the robot by one inch.
      */
-    public Wheels(HashSet<DcMotor> motors, double ticksPerInch) {
+    public Wheels(HashSet<DcMotor> motors, WheelDistances wheelDistances, double ticksPerInch) {
         MOTORS = motors;
         // Allow wheels to roll freely.
         for (DcMotor motor : MOTORS) {
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         }
+
+        this.LATERAL_DISTANCE = wheelDistances.LATERAL_DISTANCE;
+        this.LONGITUDINAL_DISTANCE = wheelDistances.LONGITUDINAL_DISTANCE;
 
         TICKS_PER_INCH = ticksPerInch;
     }

@@ -12,6 +12,12 @@ public class IntakeClaw extends Claw{
     private static final double INTAKE_POWER = 0.5;
     private static final double EJECT_POWER = -1.0;
 
+    public IntakeClaw() {
+        super(null, null, null);
+
+        INTAKE_SERVO = null;
+    }
+
     public IntakeClaw(Servo xAxisServo, Servo yAxisServo, Servo zAxisServo, Servo intakeServo) {
         super(xAxisServo, yAxisServo, zAxisServo);
 
@@ -23,7 +29,7 @@ public class IntakeClaw extends Claw{
     }
 
     public HashSet<CRServo> getCrServos() {
-        return null;
+        return new HashSet<>();
         // return new HashSet<>(Collections.singletonList(INTAKE_SERVO));
     }
 

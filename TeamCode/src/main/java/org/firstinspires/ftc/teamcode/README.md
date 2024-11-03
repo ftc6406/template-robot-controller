@@ -1,26 +1,29 @@
 # Table of Contents
 
-- [teamcode/](#teamcode)
-    - [`CustomLinearOp`](#CustomLinearOp)
-    - [`Auto`](#Auto)
-    - [`DriverMode`](#DriverMode)
-    - [`TeamColor`](#TeamColor)
-    - [`TeamSide`](#Teamside)
+- [`CustomLinearOp`](#customlinearop)
+- [`Auto`](#auto)
+- [`DriverMode`](#drivermode)
+- [`TeamColor`](#teamcolor)
+- [`TeamSide`](#teamside)
 - [hardwareSystems/](#hardwareSystems)
-    - [`Wheels`](#Wheels)
-    - [`MecanumWheels`](#MecanumWheels)
-    - [`Arm`](#Arm)
-    - [`ExtendableArm`](#Extendablearm)
+    - [`MotorType`](#motortype)
+    - [`Wheels`](#wheels)
+    - [`MecanumWheels`](#mecanumwheels)
+    - [`Arm`](#arm)
+    - [`ExtendableArm`](#extendablearm)
+    - [`Claw`](#claw)
+    - [`IntakeClaw`](#intakeclaw)
+    - [`Webcam`](#webcam)
 
-# [teamcode/](./)
-
-## [`CustomLinearOp`](./CustomLinearOp.java)
+# [`CustomLinearOp`](./CustomLinearOp.java)
 
 A custom LinearOpMode that is the parent class of [`Auto`](#Auto) and [`DriverMode`](#DriverMode).
 Its `runOpMode()` initializes all the robot's hardware and contains methods for auto-sleep,
-sleeping while motors and continuous servos are runnin.
+sleeping while motors and continuous servos are running.
+For the hardware initializing methods(e.g. `initWheels()`),
+replace the abstract class return type with the the desired class(e.g. `MecanumWheels`).
 
-## [`Auto`](./Auto.java)
+# [`Auto`](./Auto.java)
 
 The Autonomous class, which runs without driver input.
 Child class of [`CustomLinearOp`](#CustomLinearOp).
@@ -30,7 +33,7 @@ The `runOpMode()` method runs automatically without the need to do anything.
 The first line of `runOpMode()` should be `super.runOpMode()` to run the parent class's hardware
 initialization.
 
-## [`DriverMode`](./DriverMode.java)
+# [`DriverMode`](./DriverMode.java)
 
 The TeleOp class which runs using driver input.
 Child class of [`CustomLinearOp`](#CustomLinearOp).
@@ -40,15 +43,15 @@ The `runOpMode()` method runs automatically without the need to do anything.
 The first line of `runOpMode()` should be `super.runOpMode()` to run the parent class's hardware
 initialization.
 
-## [`TeamColor`](./TeamColor.java)
+# [`TeamColor`](./TeamColor.java)
 
 An enum that states whether the robot is on red or blue side.
 
-## [`TeamSide`](./TeamSide.java)
+# [`TeamSide`](./TeamSide.java)
 
 An enum that states whether the robot is on far or near side.
 
-# [hardwareSystems/](./hardwareSystems/)
+# [hardwareSystems/](./hardwareSystems)
 
 This subdirectory contains helper classes.
 The classes are meant to separate and organize the various systems of the robot(e.g. arms, wheels,
@@ -68,13 +71,14 @@ revolution.
 A abstract class for the robot's wheels.
 Contains a HashSet of all motors.
 Sets each motor to float when zero power is applied.
+Contains a inner class called `WheelDistances` to store the distances between the wheels,
+which is needed for turning.
 
 ## [`MecanumWheels`](./hardwareSystems/MecanumWheels.java)
 
 A subclass of the [`Wheels`](#Wheels) class for controlling the driving of a four-mecanum wheel
 system.
-Contains an inner class(`MotorParams`) to pass in the motors and motor types to the `MecanumWheels`
-constructor.
+Contains an inner class(`MotorSet`) to pass in the motors to the `MecanumWheels` constructor.
 
 ## [`Arm`](./hardwareSystems/Arm.java)
 
@@ -95,14 +99,14 @@ More specific details can be found in [`Arm`](#Arm).
 The current system is admittedly clunky.
 If it becomes cumbersome, please do change it.
 
-# [`Claw`](./hardwareSystems/Claw.java)
+## [`Claw`](./hardwareSystems/Claw.java)
 
 An abstract class to control the robot's claw.
 Has properties for servos to rotate in the X, Y, and Z-axes.
 If any of the servos are not needed, set them to null.
 The class methods check for null servo values.
 
-# [`IntakeClaw`](./hardwareSystems/IntakeClaw.java)
+## [`IntakeClaw`](./hardwareSystems/IntakeClaw.java)
 
 A subclass of [`Claw`](#Claw) that controls a claw with a intake servo.
 Each method checks for a null intake servo.

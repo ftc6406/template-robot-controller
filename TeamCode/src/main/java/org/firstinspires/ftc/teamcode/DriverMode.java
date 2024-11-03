@@ -1,10 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Color;
-
 import com.qualcomm.robotcore.eventloop.opmode.*;
-
-import org.firstinspires.ftc.vision.opencv.PredominantColorProcessor;
 
 @TeleOp(name = "DriverMode")
 public class DriverMode extends CustomLinearOp {
@@ -43,6 +39,10 @@ public class DriverMode extends CustomLinearOp {
          */
         CLAW.rotateXAxisServo(gamepad2.left_stick_x);
 
+        /*
+         * The left bumper rotates the claw counter-clockwise around the Z-axis,
+         * and the right bumper rotates it clockwise around the Z-axis.
+         */
         double zRotate = 0;
         if (gamepad1.left_bumper) {
             zRotate = -1;
@@ -51,16 +51,15 @@ public class DriverMode extends CustomLinearOp {
         }
         CLAW.rotateZAxisServo(zRotate);
 
+        /*
+         * Pressing A picks up samples.
+         * Pressing Y releases them.
+         */
         if (gamepad2.a) {
             CLAW.startIntake();
-
-        } else if (gamepad2.b) {
-            // CLAW.stopIntake();
 
         } else if (gamepad2.y) {
             CLAW.ejectIntake();
         }
-
-
     }
 }
