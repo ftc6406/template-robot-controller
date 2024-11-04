@@ -43,6 +43,25 @@ The `runOpMode()` method runs automatically without the need to do anything.
 The first line of `runOpMode()` should be `super.runOpMode()` to run the parent class's hardware
 initialization.
 
+## [`FileManager`](./FileManager.java)
+
+> [!Warning]
+> This class relies on java.nio.file.Paths, which is only available from SDK version 26 and onward.
+
+Reads and writes text files in external storage.
+
+## [`PositionInput`](./PositionInput.java)
+
+> [!Warning]
+> This class relies on java.nio.file.Paths, which is only available from SDK version 26 and onward.
+
+> [!Note]
+> You probably will not need this class.
+
+A TeleOp that writes the [`TeamColor`](#TeamColor) and [`TeamSide`](#TeamSide) of the robot into
+external storage.
+Uses [`FileManager`](#FileManager) to write to external storage files.
+
 # [`TeamColor`](./TeamColor.java)
 
 An enum that states whether the robot is on red or blue side.
