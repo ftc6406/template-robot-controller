@@ -13,7 +13,8 @@ import java.util.List;
 public class AprilTagTest extends LinearOpMode {
     @Override
     public void runOpMode() {
-        Webcam webcam = new Webcam(hardwareMap.get(WebcamName.class, "webcam"), 640, 480);
+        int[] resolution = {640, 480};
+        Webcam webcam = new Webcam(hardwareMap.get(WebcamName.class, "webcam"), resolution);
 
         waitForStart();
 

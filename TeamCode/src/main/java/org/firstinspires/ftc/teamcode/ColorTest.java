@@ -14,7 +14,8 @@ public class ColorTest extends OpMode {
 
     @Override
     public void init() {
-        webcam = new Webcam(hardwareMap.get(WebcamName.class, "webcam"), 640, 480);
+        int[] resolution = {640, 480};
+        webcam = new Webcam(hardwareMap.get(WebcamName.class, "webcam"), resolution);
     }
 
     @Override

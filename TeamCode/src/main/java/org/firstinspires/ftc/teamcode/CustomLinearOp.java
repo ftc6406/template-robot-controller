@@ -43,7 +43,7 @@ public class CustomLinearOp extends LinearOpMode {
         WHEELS = initWheels();
         ARM = initArm();
         CLAW = initClaw();
-        WEBCAM = new Webcam(hardwareMap.get(WebcamName.class, "webcam"), 640, 480);
+        WEBCAM = initWebCam();
 
         COLOR_SWITCH = null; //OP_MODE.hardwareMap.get(DigitalChannel.class, "color_switch");
         SIDE_SWITCH = null; //OP_MODE.hardwareMap.get(DigitalChannel.class, "side_switch");
@@ -163,6 +163,14 @@ public class CustomLinearOp extends LinearOpMode {
         } catch (Exception e) {
             return new IntakeClaw();
         }
+    }
+
+    public Webcam initWebCam() {
+        int[] resolution = {640, 480};
+        return new Webcam(
+                hardwareMap.get(WebcamName.class, "webcam"),
+                resolution
+        );
     }
 
     public HashSet<DcMotor> getAllDcMotors() {
