@@ -14,7 +14,11 @@ public class FileManager {
      * and is intended to be replaced with the name of the current season's repository"
      */
     private static final Path seasonDirectory = Paths.get(
-            Environment.getExternalStorageDirectory().getPath() + "{start year}-{end year}{season name in PascalCase}");
+            Environment.getExternalStorageDirectory().getPath() + "2024-2025IntoTheDeep");
+
+    public static final Path getSeasonDirectory() {
+        return seasonDirectory;
+    }
 
     /**
      * Writes a String to a text file inside this season's directory.

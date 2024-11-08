@@ -167,6 +167,9 @@ public class Webcam {
         return COLOR_PROCESSOR.getAnalysis();
     }
 
-    public double[] getContourPosition() {}
+    public double[] getContourPosition() {
+        double[] position = new double[2];
+        return position;
+    }
 
 }

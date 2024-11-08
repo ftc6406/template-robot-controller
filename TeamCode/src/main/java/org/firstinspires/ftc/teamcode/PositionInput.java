@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 
@@ -8,8 +9,8 @@ import com.qualcomm.robotcore.eventloop.opmode.*;
 @TeleOp(name = "PositionInput")
 public class PositionInput extends OpMode {
     // File name of the storage file,
-    // which is inside the directory specified in FileManager
-    private final Path STORAGE_FILE = Paths.get("position.txt");
+    // which is inside the directory specified in FileManager.
+    private final Path STORAGE_FILE = FileManager.getSeasonDirectory().resolve("position.txt");
 
     /**
      * Reads the current position stored in the external storage file
@@ -33,6 +34,8 @@ public class PositionInput extends OpMode {
     @Override
     public void loop() {
         telemetry.update();
+
+        telemetry.addData("seasonDir: ", FileManager.getSeasonDirectory());
 
         String positionString = "";
         // Green button
