@@ -47,6 +47,10 @@ public abstract class Claw {
      *                  Positive values rotate it clockwise, negative values rotate it counterclockwise.
      */
     public void rotateXAxisServo(double direction) {
+        if (X_AXIS_SERVO == null) {
+            return;
+        }
+
         double targetPosition = X_AXIS_SERVO.getPosition()
                 + Math.signum(direction) * SERVO_INCREMENT;
         X_AXIS_SERVO.setPosition(targetPosition);
@@ -59,7 +63,11 @@ public abstract class Claw {
      *                  Positive values rotate it clockwise, negative values rotate it counterclockwise.
      */
     public void rotateYAxisServo(double direction) {
-        double targetPosition = Z_AXIS_SERVO.getPosition()
+        if (Y_AXIS_SERVO == null) {
+            return;
+        }
+
+        double targetPosition = Y_AXIS_SERVO.getPosition()
                 + Math.signum(direction) * SERVO_INCREMENT;
         Y_AXIS_SERVO.setPosition(targetPosition);
     }
@@ -71,6 +79,10 @@ public abstract class Claw {
      *                  Positive values rotate it clockwise, negative values rotate it counterclockwise.
      */
     public void rotateZAxisServo(double direction) {
+        if (Z_AXIS_SERVO == null) {
+            return;
+        }
+
         double targetPosition = Z_AXIS_SERVO.getPosition()
                 + Math.signum(direction) * SERVO_INCREMENT;
         Z_AXIS_SERVO.setPosition(targetPosition);

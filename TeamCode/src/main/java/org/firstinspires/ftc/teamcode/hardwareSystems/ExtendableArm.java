@@ -9,7 +9,7 @@ public class ExtendableArm extends Arm {
      * Passed into the {@code ExtendableArm} constructor.
      * Contains the motors and motor types.
      */
-    public static class MotorParams {
+    public static class MotorSet {
         private final HashSet<DcMotor> MOTORS;
 
         // The motor that rotates the arm up and down.
@@ -17,13 +17,20 @@ public class ExtendableArm extends Arm {
         // The motor that extends and retracts the arm.
         private final DcMotor EXTENSION_MOTOR;
 
-        public MotorParams(DcMotor rotationMotor, DcMotor extensionMotor) {
-            this.ROTATION_MOTOR = rotationMotor;
-            this.EXTENSION_MOTOR = extensionMotor;
-
+        public MotorSet(DcMotor rotationMotor, DcMotor extensionMotor) {
             MOTORS = new HashSet<>();
             MOTORS.add(rotationMotor);
             MOTORS.add(extensionMotor);
+
+            ROTATION_MOTOR = rotationMotor;
+            EXTENSION_MOTOR = extensionMotor;
+        }
+
+        public MotorSet() {
+            MOTORS = new HashSet<>();
+
+            ROTATION_MOTOR = null;
+            EXTENSION_MOTOR = null;
         }
     }
 
@@ -31,7 +38,7 @@ public class ExtendableArm extends Arm {
      * Passed into the {@code ExtendableArm} constructor.
      * Contains the min rotation, max rotation, and ticks per degree.
      */
-    public static class RotationParams {
+    public static class RotationRange {
         // The minimum rotation of the arm in ticks.
         private final int MIN_ROTATION;
         // The maximum rotation of the arm in ticks.
@@ -40,7 +47,7 @@ public class ExtendableArm extends Arm {
         // How many ticks it takes to rotate the arm by one degree.
         private final double TICKS_PER_DEGREE;
 
-        public RotationParams(int minRotation, int maxRotation, double ticksPerDegree) {
+        public RotationRange(int minRotation, int maxRotation, double ticksPerDegree) {
             this.MIN_ROTATION = minRotation;
             this.MAX_ROTATION = maxRotation;
             this.TICKS_PER_DEGREE = ticksPerDegree;
@@ -51,13 +58,13 @@ public class ExtendableArm extends Arm {
      * Passed into the {@code ExtendableArm} constructor.
      * Contains the min extension and max extension.
      */
-    public static class ExtensionParams {
+    public static class ExtensionRange {
         // The minimum extension of the arm in ticks.
         private final int MIN_EXTENSION;
         // The maximum extension of the arm in ticks.
         private final int MAX_EXTENSION;
 
-        public ExtensionParams(int minExtension, int maxExtension) {
+        public ExtensionRange(int minExtension, int maxExtension) {
             this.MIN_EXTENSION = minExtension;
             this.MAX_EXTENSION = maxExtension;
         }
@@ -86,21 +93,21 @@ public class ExtendableArm extends Arm {
 
     /**
      * Instantiates an extendable arm
-     * @param motorParams     The motors and motor types.
-     * @param rotationParams  The min rotation, max rotation, and ticks per degree.
-     * @param extensionParams The min extension and max extension.
+     * @param motorSet     The motors and motor types.
+     * @param rotationRange  The min rotation, max rotation, and ticks per degree.
+     * @param extensionRange The min extension and max extension.
      */
-    public ExtendableArm(MotorParams motorParams, RotationParams rotationParams, ExtensionParams extensionParams) {
-        super(motorParams.MOTORS);
+    public ExtendableArm(MotorSet motorSet, RotationRange rotationRange, ExtensionRange extensionRange) {
+        super(motorSet.MOTORS);
 
-        this.ROTATION_MOTOR = motorParams.ROTATION_MOTOR;
-        this.TICKS_PER_ROTATION_DEGREE = rotationParams.TICKS_PER_DEGREE;
-        this.MIN_ROTATION = rotationParams.MIN_ROTATION;
-        this.MAX_ROTATION = rotationParams.MAX_ROTATION;
+        this.ROTATION_MOTOR = motorSet.ROTATION_MOTOR;
+        this.TICKS_PER_ROTATION_DEGREE = rotationRange.TICKS_PER_DEGREE;
+        this.MIN_ROTATION = rotationRange.MIN_ROTATION;
+        this.MAX_ROTATION = rotationRange.MAX_ROTATION;
 
-        this.EXTENSION_MOTOR = motorParams.EXTENSION_MOTOR;
-        this.MIN_EXTENSION = extensionParams.MIN_EXTENSION;
-        this.MAX_EXTENSION = extensionParams.MAX_EXTENSION;
+        this.EXTENSION_MOTOR = motorSet.EXTENSION_MOTOR;
+        this.MIN_EXTENSION = extensionRange.MIN_EXTENSION;
+        this.MAX_EXTENSION = extensionRange.MAX_EXTENSION;
     }
 
     public double getRotationPower() {
@@ -119,6 +126,10 @@ public class ExtendableArm extends Arm {
      *                  Positive rotates it up, negative rotates it down, zero stops the motor.
      */
     public void rotateArm(double direction) {
+        if (ROTATION_MOTOR == null) {
+            return;
+        }
+
         if (ROTATION_MOTOR.getCurrentPosition() > MAX_ROTATION || ROTATION_MOTOR.getCurrentPosition() < MIN_ROTATION) {
             ROTATION_MOTOR.setPower(0);
             return;
@@ -134,6 +145,10 @@ public class ExtendableArm extends Arm {
      *                The arm's starting position is 0 degrees.
      */
     public void rotateArmToPosition(double degrees) {
+        if (ROTATION_MOTOR == null) {
+            return;
+        }
+
         int targetPosition = (int) Math.round(degrees * TICKS_PER_ROTATION_DEGREE);
 
         // keep the target position within acceptable bounds
@@ -148,11 +163,6 @@ public class ExtendableArm extends Arm {
         ROTATION_MOTOR.setTargetPosition(targetPosition);
         ROTATION_MOTOR.setPower(direction * ROTATION_POWER);
         ROTATION_MOTOR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        // adjust the extension of the arm to keep the arm length constant
-        EXTENSION_MOTOR.setTargetPosition(targetPosition / -1);
-        EXTENSION_MOTOR.setPower(0.4);
-        EXTENSION_MOTOR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     /**
@@ -160,6 +170,10 @@ public class ExtendableArm extends Arm {
      *                  Positive values extend the arm, negative values retract it.
      */
     public void extendArm(double direction) {
+        if (EXTENSION_MOTOR == null) {
+            return;
+        }
+
         if (EXTENSION_MOTOR.getCurrentPosition() > MAX_EXTENSION || EXTENSION_MOTOR.getCurrentPosition() < MIN_EXTENSION) {
             EXTENSION_MOTOR.setPower(0);
             return;
@@ -169,6 +183,10 @@ public class ExtendableArm extends Arm {
     }
 
     public void extendArmToPosition(int targetPosition) {
+        if (EXTENSION_MOTOR == null) {
+            return;
+        }
+
         EXTENSION_MOTOR.setTargetPosition(targetPosition);
         int direction = (int) Math.signum(targetPosition - EXTENSION_MOTOR.getCurrentPosition());
         EXTENSION_MOTOR.setPower(direction * EXTENSION_POWER);

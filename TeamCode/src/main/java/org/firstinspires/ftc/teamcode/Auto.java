@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.util.Size;
-
 import com.qualcomm.robotcore.eventloop.opmode.*;
 
 import java.util.HashSet;
@@ -21,10 +19,6 @@ public class Auto extends CustomLinearOp {
         // telemetry.addData("Initial position:", teamColor.name() + ' ' + teamSide.name());
 
         while (opModeIsActive()) {
-
-
-            // hardware.getClaw().startIntake();
-//          hardware.getWheels().driveDistance(36);
             WHEELS.drive(0.0, 1.0, 0.0);
 
             telemetry.addData("Hello world!", "");

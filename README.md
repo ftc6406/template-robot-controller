@@ -9,7 +9,7 @@ However, this template is meant for general code to be reused across seasons, so
 please refrain from putting anything year specific into this template
 (e.g. motor names or autonomous commands).
 
-# Creating templates using this template
+# Getting started
 
 To create new repositories using this one, go to GitHub and and create a new repository with chsRobotix as the owner. Then,
 under "Repository template" select "chsRobotix/TemplateRobotController." By default, GitHub does not allow users to pull from a template,
@@ -42,4 +42,5 @@ git pull upstream master
 
 Our team's code is in [./TeamCode/src/main/java/org/firstinspires/ftc/teamcode/](./TeamCode/src/main/java/org/firstinspires/ftc/teamcode/).
 It contains an Autonomous, TeleOp, and various helper classes to ease the process of programming the robot.
-For more details, look at the [README.md](./TeamCode/src/main/java/org/firstinspires/ftc/teamcode/README.md)
+For more details, look at the [README.md](./TeamCode/src/main/java/org/firstinspires/ftc/teamcode/README.md).
+The README also includes details about how OpModes work.

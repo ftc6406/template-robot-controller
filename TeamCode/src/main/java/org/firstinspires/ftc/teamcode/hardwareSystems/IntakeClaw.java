@@ -16,6 +16,10 @@ public class IntakeClaw extends Claw{
     private static final double INTAKE_POWER = 0.5;
     private static final double EJECT_POWER = -1.0;
 
+    public IntakeClaw() {
+        this(null, null, null, null);
+    }
+
     public IntakeClaw(Servo xAxisServo, Servo yAxisServo, Servo zAxisServo, CRServo intakeServo) {
         this(xAxisServo, yAxisServo, zAxisServo, intakeServo, null);
     }
@@ -32,6 +36,7 @@ public class IntakeClaw extends Claw{
     }
 
     public HashSet<CRServo> getCrServos() {
+        // return new HashSet<>();
         return new HashSet<>(Collections.singletonList(INTAKE_SERVO));
     }
 
@@ -44,11 +49,19 @@ public class IntakeClaw extends Claw{
     }
 
     public void startIntake() {
-        // INTAKE_SERVO.setPosition(0.125);
+        if (INTAKE_SERVO == null) {
+            return;
+        }
+
         INTAKE_SERVO.setPower(INTAKE_POWER);
+        // INTAKE_SERVO.setPosition(1.0 / 8.0);
     }
 
     public void stopIntake() {
+        if (INTAKE_SERVO == null) {
+            return;
+        }
+
         INTAKE_SERVO.setPower(0);
     }
 
@@ -56,7 +69,11 @@ public class IntakeClaw extends Claw{
      * Make the intake spin in reverse and eject the object.
      */
     public void ejectIntake() {
-        // INTAKE_SERVO.setPosition(0);
+        if (INTAKE_SERVO == null) {
+            return;
+        }
+
         INTAKE_SERVO.setPower(EJECT_POWER);
+        // INTAKE_SERVO.setPosition(0);
     }
 }
