@@ -129,7 +129,7 @@ public class CustomLinearOp extends LinearOpMode {
                 hardwareMap.get(Servo.class, "clawXServo"),
                 null,
                 hardwareMap.get(Servo.class, "clawZServo"),
-                hardwareMap.get(Servo.class, "intakeServo")
+                hardwareMap.get(CRServo.class, "intakeServo")
         );
     }
 
