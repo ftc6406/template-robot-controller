@@ -13,10 +13,7 @@ public class Auto extends CustomLinearOp {
     public void runOpMode() {
         super.runOpMode();
 
-        // teamColor = (hardware.getColorSwitch().getState()) ? TeamColor.RED : TeamColor.BLUE;
-        // teamSide = (hardware.getSideSwitch().getState()) ? TeamSide.FAR : TeamSide.NEAR;
-
-        // telemetry.addData("Initial position:", teamColor.name() + ' ' + teamSide.name());
+        telemetry.addData("Staring position", startPosition.name());
 
         while (opModeIsActive()) {
             WHEELS.drive(0.0, 1.0, 0.0);

@@ -61,10 +61,14 @@ public class DriverMode extends CustomLinearOp {
 
             /*
              * Pressing A picks up samples.
-             * Pressing Y releases them.
+             * Pressing B stops the intake.
+             * Pressing Y releases the sample.
              */
             if (gamepad2.a) {
                 CLAW.startIntake();
+
+            } else if (gamepad2.b) {
+                CLAW.stopIntake();
 
             } else if (gamepad2.y) {
                 CLAW.ejectIntake();

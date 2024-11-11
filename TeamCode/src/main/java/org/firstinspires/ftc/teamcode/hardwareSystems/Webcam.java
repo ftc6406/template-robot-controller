@@ -36,6 +36,11 @@ import java.util.List;
 
 public class Webcam {
     private static class PipeLine extends OpenCvPipeline {
+        private Scalar lowerBound;
+        private Scalar upperBound;
+
+        private double[] contourPosition;
+
         @Override
         public Mat processFrame(Mat input) {
             // Convert to HSV color space for easier color detection
@@ -43,8 +48,8 @@ public class Webcam {
             Imgproc.cvtColor(input, hsv, Imgproc.COLOR_RGB2HSV);
 
             // Define range of the color you want to detect
-            Scalar lowerBound = new Scalar(50, 100, 100); // Example for green
-            Scalar upperBound = new Scalar(70, 255, 255);
+            // Scalar lowerBound = new Scalar(50, 100, 100); // Example for green
+            // Scalar upperBound = new Scalar(70, 255, 255);
 
             // Create mask to filter out the desired color
             Mat mask = new Mat();
@@ -61,8 +66,8 @@ public class Webcam {
                 Imgproc.rectangle(input, rect, new Scalar(0, 255, 0), 2); // Green rectangles around objects
             }
 
-            if (contours.get(0).toArray().length > 0) {
-
+            if (!contours.isEmpty()) {
+                contourPosition = getContourPosition(contours.get(0).toArray());
             }
 
             hsv.release();
@@ -101,13 +106,13 @@ public class Webcam {
         }
     }
 
-    private final int CAMERA_MONITOR_ID;
     private final VisionPortal VISION_PORTAL;
 
     private final AprilTagProcessor APRIL_TAG;
     private final PredominantColorProcessor COLOR_PROCESSOR;
 
     private final OpenCvCamera OPEN_CV_CAMERA;
+    private PipeLine pipeLine;
 
     public Webcam(WebcamName webcam, int[] resolution) {
         this(webcam, resolution, -1);
@@ -134,13 +139,18 @@ public class Webcam {
                 .setCameraResolution(new Size(resolution[0], resolution[1]))
                 .build();
 
-        CAMERA_MONITOR_ID = cameraMonitorId;
-        OPEN_CV_CAMERA = (CAMERA_MONITOR_ID != -1)
+        OPEN_CV_CAMERA = (cameraMonitorId != -1)
                 ? OpenCvCameraFactory.getInstance().createWebcam(webcam, cameraMonitorId)
                 : null;
 
+        // If the OpenCV camera is not used, terminate.
+        if (OPEN_CV_CAMERA == null) {
+            return;
+        }
+
         // Set the custom pipeline
-        OPEN_CV_CAMERA.setPipeline(new PipeLine());
+        pipeLine = new PipeLine();
+        OPEN_CV_CAMERA.setPipeline(pipeLine);
 
         // Open the camera device and start streaming
         OPEN_CV_CAMERA.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
@@ -154,7 +164,6 @@ public class Webcam {
             }
         });
     }
-
 
     public VisionPortal getVisionPortal() {
         return VISION_PORTAL;
@@ -170,5 +179,36 @@ public class Webcam {
 
     public PredominantColorProcessor.Result getColorResult() {
         return COLOR_PROCESSOR.getAnalysis();
+    }
+
+    /**
+     * Get the target color range of the pipeline.
+     *
+     * @return A Scalar[] that contains the lower and upper bounds of the color range in the format [lowerBound, upperBound]
+     */
+    public Scalar[] getTargetColorRange() {
+        return new Scalar[]{
+                pipeLine.lowerBound,
+                pipeLine.upperBound
+        };
+    }
+
+    /**
+     * Set the target color range of the pipeline.
+     *
+     * @param lowerBound The lower bound of the color range.
+     * @param upperBound The upper bound of the color range.
+     */
+    public void setTargetColorRange(Scalar lowerBound, Scalar upperBound) {
+        pipeLine.lowerBound = lowerBound;
+        pipeLine.upperBound = upperBound;
+    }
+
+    /**
+     * Get the last seen contour position. If the camera has never spotted a contour position, it will return null.
+     * @return The last seen contour position.
+     */
+    public double[] getContourPosition() {
+        return pipeLine.contourPosition;
     }
 }

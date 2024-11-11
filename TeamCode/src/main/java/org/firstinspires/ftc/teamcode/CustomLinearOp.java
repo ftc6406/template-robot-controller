@@ -32,6 +32,10 @@ public class CustomLinearOp extends LinearOpMode {
         waitForStart();
     }
 
+    /**
+     * Initialize all hardware devices used by the robot,
+     * and print out any devices that are missing.
+     */
     public void initialize() {
         autoSleepEnabled = true;
 
@@ -43,6 +47,7 @@ public class CustomLinearOp extends LinearOpMode {
         // Try to read the start position
         try {
             startPosition = StartPosition.valueOf(FileManager.readFile("position.txt"));
+
         } catch (IOException e) {
             startPosition = StartPosition.RED_NEAR;
         }
