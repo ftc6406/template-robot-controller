@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.*;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.hardwareSystems.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
@@ -20,16 +21,10 @@ public class CustomLinearOp extends LinearOpMode {
     protected IntakeClaw CLAW;
     protected Webcam WEBCAM;
 
+    // The robot's color and side.
+    protected StartPosition startPosition;
     protected DigitalChannel COLOR_SWITCH;
     protected DigitalChannel SIDE_SWITCH;
-
-    // Detects whether there is a sample in the claw.
-    protected DigitalChannel INTAKE_SENSOR;
-
-    // Red or blue team
-    protected TeamColor teamColor;
-    // Far or near
-    protected TeamSide teamSide;
 
     @Override
     public void runOpMode() {
@@ -45,15 +40,22 @@ public class CustomLinearOp extends LinearOpMode {
         CLAW = initClaw();
         WEBCAM = initWebCam();
 
+        // Try to read the start position
+        try {
+            startPosition = StartPosition.valueOf(FileManager.readFile("position.txt"));
+        } catch (IOException e) {
+            startPosition = StartPosition.RED_NEAR;
+        }
+
         COLOR_SWITCH = null; //OP_MODE.hardwareMap.get(DigitalChannel.class, "color_switch");
         SIDE_SWITCH = null; //OP_MODE.hardwareMap.get(DigitalChannel.class, "side_switch");
 
-        INTAKE_SENSOR = null;
+        telemetry.addData("Missing devices", getMissingHardwareDevices());
     }
 
     /**
      * Initiates all hardware needed for the wheels.
-     * 
+     * <br>
      * <strong>When starting a new season, change the return type from `Wheels` to the desired return type.</strong>
      */
     private MecanumWheels initWheels() {

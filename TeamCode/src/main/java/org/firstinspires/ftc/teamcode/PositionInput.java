@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 
@@ -35,40 +34,39 @@ public class PositionInput extends OpMode {
     public void loop() {
         telemetry.update();
 
-        telemetry.addData("seasonDir: ", FileManager.getSeasonDirectory());
+        telemetry.addData("seasonDir", FileManager.getSeasonDirectory());
+        telemetry.addData("STORAGE_FILE", STORAGE_FILE.toString());
 
-        String positionString = "";
-        // Green button
-        if (gamepad1.a || gamepad2.a) {
-            positionString += TeamColor.BLUE.name() + '\n';
-            positionString += TeamSide.NEAR.name();
+        String positionString = null;
+        if (gamepad1.y || gamepad2.y) {
+            // Orange button
+            positionString += StartPosition.RED_NEAR.name();
 
         } else if (gamepad1.b || gamepad2.b) {
             // Red button
-            positionString += TeamColor.RED.name() + '\n';
-            positionString += TeamSide.FAR.name();
+            positionString = StartPosition.RED_FAR.name();
+
+        } else if (gamepad1.a || gamepad2.a) {
+            // Green button
+            positionString = StartPosition.BLUE_NEAR.name();
 
         } else if (gamepad1.x || gamepad2.x) {
             // Blue button
-            positionString += TeamColor.BLUE.name() + '\n';
-            positionString += TeamSide.FAR.name();
-
-        } else if (gamepad1.y || gamepad2.y) {
-            // Orange button
-            positionString += TeamColor.RED.name() + '\n';
-            positionString += TeamSide.NEAR.name();
+            positionString += StartPosition.BLUE_FAR.name();
         }
 
         // Do nothing if the driver didn't press any buttons.
-        if (positionString.isEmpty()) {
+        if (positionString == null) {
             return;
         }
 
+        // Try to write to file.
         try {
             FileManager.writeToFile(STORAGE_FILE, positionString);
 
         } catch (IOException e) {
             telemetry.addLine("ERROR: FAILED TO WRITE ROBOT POSITION TO STORAGE FILE!");
+            telemetry.addLine(e.toString());
         }
 
         printRobotPosition();

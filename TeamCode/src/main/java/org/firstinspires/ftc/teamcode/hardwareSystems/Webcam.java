@@ -61,6 +61,10 @@ public class Webcam {
                 Imgproc.rectangle(input, rect, new Scalar(0, 255, 0), 2); // Green rectangles around objects
             }
 
+            if (contours.get(0).toArray().length > 0) {
+
+            }
+
             hsv.release();
             mask.release();
             hierarchy.release();
@@ -68,9 +72,10 @@ public class Webcam {
         }
 
         /**
-         * Find the middle point of the object.
-         * @param contourPoints
-         * @return A 2D double[] that contains the middle point of the object.
+         * Find the middle point of a contour.
+         *
+         * @param contourPoints An array of the points in the contour.
+         * @return Returns the point in the middle of the contour as a double[] of format [x, y].
          */
         private double[] getContourPosition(Point[] contourPoints) {
             double[] position = new double[2];
@@ -166,10 +171,4 @@ public class Webcam {
     public PredominantColorProcessor.Result getColorResult() {
         return COLOR_PROCESSOR.getAnalysis();
     }
-
-    public double[] getContourPosition() {
-        double[] position = new double[2];
-        return position;
-    }
-
 }
