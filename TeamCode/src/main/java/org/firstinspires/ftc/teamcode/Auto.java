@@ -20,7 +20,7 @@ public class Auto extends CustomLinearOp {
         switch (startPosition) {
             case RED_NEAR:
             case RED_FAR:
-                WEBCAM.setTargetColorRange(Color.RED);
+                WEBCAM.setTargetColorRange();
                 break;
 
             case BLUE_NEAR:
