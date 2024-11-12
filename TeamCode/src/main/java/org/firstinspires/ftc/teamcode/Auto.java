@@ -42,11 +42,11 @@ public class Auto extends CustomLinearOp {
         }
 
         if (startPostion == startPosition.BLUE_NEAR) {
-            WHEELS.drive(20.0, -10.0);
+            WHEELS.drive(20.0, 10.0);
         }
 
         if (startPostion == startPosition.BLUE_FAR) {
-            WHEELS.drive2(0.0, 10.0);
+            WHEELS.drive2(20.0, -10.0);
         }
 
         WHEELS.driveDistance(1.0, 2.0);
