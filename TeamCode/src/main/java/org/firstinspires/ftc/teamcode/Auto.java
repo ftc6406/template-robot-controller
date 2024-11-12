@@ -20,11 +20,12 @@ public class Auto extends CustomLinearOp {
         switch (startPosition) {
             case RED_NEAR:
             case RED_FAR:
-                WEBCAM.setTargetColorRange(Color.RED);
+                WEBCAM.setTargetColorRange(Color.LOW_HUE_RED.getRange());
                 break;
 
             case BLUE_NEAR:
             case BLUE_FAR:
+                WEBCAM.setTargetColorRange(Color.BLUE.getRange());
                 break;
         }
 
@@ -37,6 +38,6 @@ public class Auto extends CustomLinearOp {
             sleep(60000);
         }
 
-        WEBCAM.getVisionPortal().close();
+        WEBCAM.getVisionPortal().stopStreaming();
     }
 }
