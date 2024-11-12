@@ -24,7 +24,6 @@ package org.firstinspires.ftc.teamcode.hardwareSystems;
 import android.util.Size;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.Color;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.opencv.*;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -37,11 +36,65 @@ import java.util.HashSet;
 import java.util.List;
 
 public class Webcam {
-    private static class PipeLine extends OpenCvPipeline {
+    public enum Color {
+        /**
+         * Red to reddish-orange.
+         */
+        RED(
+                new Scalar(0, 70, 50), new Scalar(10, 255, 255)
+        ),
+
+        /**
+         * Magenta to red.
+         */
+        MAGENTA(
+                new Scalar(170, 70, 50), new Scalar(180, 255, 255)
+        ),
+
+        /**
+         * Cyan to indigo.
+         */
+        BLUE(
+                new Scalar(90, 70, 50), new Scalar(130, 255, 255)
+        ),
+
+        /**
+         * Yellow-orange to lime-yellow.
+         */
+        YELLOW(
+                new Scalar(20, 70, 50), new Scalar(33, 255, 255)
+        );
+
+        /*
+         * The lower bound of the color in HSV.
+         */
         private Scalar lowerBound;
+
         private Scalar upperBound;
 
-        private HashSet<Scalar> targetRanges;
+        Color(Scalar lowerBound, Scalar upperBound) {
+            this.lowerBound = lowerBound;
+            this.upperBound = upperBound;
+        }
+
+        public Scalar getLowerBound() {
+            return lowerBound;
+        }
+
+        public Scalar getUpperBound() {
+            return upperBound;
+        }
+
+        public Scalar[] getRange() {
+            return new Scalar[] {
+                    lowerBound,
+                    upperBound
+            };
+        }
+    }
+
+    private static class PipeLine extends OpenCvPipeline {
+        private HashSet<Color> targetColors;
 
         private double[] contourPosition;
 
@@ -57,7 +110,13 @@ public class Webcam {
 
             // Create mask to filter out the desired color
             Mat mask = new Mat();
-            Core.inRange(hsv, lowerBound, upperBound, mask);
+
+            // Add all target colors to the mask
+            for (Color color : targetColors) {
+                Mat mask1 = new Mat();
+                Core.inRange(hsv, color.lowerBound, color.upperBound, mask1);
+                Core.bitwise_or(mask, mask1, mask);
+            }
 
             // Find contours
             List<MatOfPoint> contours = new ArrayList<>();
@@ -77,6 +136,7 @@ public class Webcam {
             hsv.release();
             mask.release();
             hierarchy.release();
+
             return input;
         }
 
@@ -190,32 +250,16 @@ public class Webcam {
      *
      * @return A Scalar[] that contains the lower and upper bounds of the color range in the format [lowerBound, upperBound]
      */
-    public Scalar[] getTargetColorRange() {
-        return new Scalar[]{
-                pipeLine.lowerBound,
-                pipeLine.upperBound
-        };
+    public HashSet<Color> getTargetColors() {
+        return pipeLine.targetColors;
     }
 
-    /**
-     * Set the target color range of the pipeline.
-     *
-     * @param colorRange Two `Scalar`s representing the lower and upper bound of the color range.
-     */
-    public void setTargetColorRange(Scalar ...colorRange) {
-        pipeLine.lowerBound = colorRange[0];
-        pipeLine.upperBound = colorRange[1];
+    public void addTargetColor(Color color) {
+        pipeLine.targetColors.add(color);
     }
 
-    /**
-     * Set the target color range of the pipeline.
-     *
-     * @param lowerBound The lower bound of the color range.
-     * @param upperBound The upper bound of the color range.
-     */
-    public void setTargetColorRange(Scalar lowerBound, Scalar upperBound) {
-        pipeLine.lowerBound = lowerBound;
-        pipeLine.upperBound = upperBound;
+    public void clearTargetColors() {
+        pipeLine.targetColors.clear();
     }
 
     /**
