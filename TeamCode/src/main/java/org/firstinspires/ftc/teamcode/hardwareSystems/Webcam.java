@@ -24,6 +24,7 @@ package org.firstinspires.ftc.teamcode.hardwareSystems;
 import android.util.Size;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.Color;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.opencv.*;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -32,12 +33,15 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class Webcam {
     private static class PipeLine extends OpenCvPipeline {
         private Scalar lowerBound;
         private Scalar upperBound;
+
+        private HashSet<Scalar> targetRanges;
 
         private double[] contourPosition;
 
