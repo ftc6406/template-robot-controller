@@ -17,6 +17,7 @@ public class Auto extends CustomLinearOp {
 
         telemetry.addData("Starting position", startPosition.name());
 
+
         switch (startPosition) {
             case RED_NEAR:
             case RED_FAR:
@@ -28,14 +29,17 @@ public class Auto extends CustomLinearOp {
                 break;
         }
 
-        while (opModeIsActive()) {
-            WHEELS.drive(0.0, 1.0, 0.0);
-
-            telemetry.addData("Hello world!", "");
-            autoSleep(WHEELS.getMotors(), new HashSet<>());
-
-            sleep(60000);
+        if (startPosition == startPosition.RED_NEAR) {
+            WHEELS.drive(1.0, 0.0);
         }
+
+        WHEELS.driveDistance(1.0, 2.0);
+        WHEELS.turn(90);
+
+        telemetry.addData("Hello world!", "");
+        autoSleep(WHEELS.getMotors(), new HashSet<>());
+
+        sleep(60000);
 
         WEBCAM.getVisionPortal().close();
     }
