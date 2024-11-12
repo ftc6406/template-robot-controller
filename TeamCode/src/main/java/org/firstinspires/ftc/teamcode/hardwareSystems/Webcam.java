@@ -196,6 +196,16 @@ public class Webcam {
     /**
      * Set the target color range of the pipeline.
      *
+     * @param colorRange Two `Scalar`s representing the lower and upper bound of the color range.
+     */
+    public void setTargetColorRange(Scalar ...colorRange) {
+        pipeLine.lowerBound = colorRange[0];
+        pipeLine.upperBound = colorRange[1];
+    }
+
+    /**
+     * Set the target color range of the pipeline.
+     *
      * @param lowerBound The lower bound of the color range.
      * @param upperBound The upper bound of the color range.
      */
