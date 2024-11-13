@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.*;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.hardwareSystems.*;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,6 +25,8 @@ public class CustomLinearOp extends LinearOpMode {
 
     // The robot's color and side.
     protected StartPosition startPosition;
+    protected AllianceColor ALLIANCE_COLOR;
+    protected TeamSide TEAM_SIDE;
     protected DigitalChannel COLOR_SWITCH;
     protected DigitalChannel SIDE_SWITCH;
 
@@ -45,11 +49,16 @@ public class CustomLinearOp extends LinearOpMode {
         WEBCAM = initWebCam();
 
         // Try to read the start position
-        try {
-            startPosition = StartPosition.valueOf(FileManager.readFile("position.txt").trim());
+        try (BufferedReader reader = new BufferedReader(new FileReader(PositionInput.getStorageFile().toFile()))) {
+            // Read first line.
+            String data = reader.readLine();
+            telemetry.addData("Current position: ", data);
+
+            ALLIANCE_COLOR = AllianceColor.valueOf(data.split(",")[0]);
+            TEAM_SIDE = TeamSide.valueOf(data.split(",")[1]);
 
         } catch (IOException e) {
-            startPosition = StartPosition.RED_NEAR;
+            telemetry.addLine("ERROR: FAILED TO READ ROBOT POSITION FROM STORAGE FILE!");
         }
 
         COLOR_SWITCH = null; //OP_MODE.hardwareMap.get(DigitalChannel.class, "color_switch");
