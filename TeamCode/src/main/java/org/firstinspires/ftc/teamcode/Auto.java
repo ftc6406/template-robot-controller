@@ -13,16 +13,19 @@ public class Auto extends CustomLinearOp {
     public void runOpMode() {
         super.runOpMode();
 
-        telemetry.addData("Starting position", startPosition.name());
+        telemetry.addData("Starting position", ALLIANCE_COLOR.name() + ", " + TEAM_SIDE.name());
 
-        switch (startPosition) {
-            case RED_NEAR:
-            case RED_FAR:
+        // Both alliances need yellow.
+        WEBCAM.addTargetColor(Color.YELLOW);
+        switch (ALLIANCE_COLOR) {
+            case RED:
+                // RED only reads 0 <= H <= 10.
                 WEBCAM.addTargetColor(Color.RED);
+                // Magenta reads 170 <= H <= 180.
+                WEBCAM.addTargetColor(Color.MAGENTA);
                 break;
 
-            case BLUE_NEAR:
-            case BLUE_FAR:
+            case Blue:
                 WEBCAM.addTargetColor(Color.BLUE);
                 break;
         }
@@ -30,21 +33,17 @@ public class Auto extends CustomLinearOp {
         /*
          * Hard coded robot movement for autonomous
          */
-        if (startPosition == StartPosition.RED_NEAR) {
-            WHEELS.drive(20.0, -10.0);
-        }
-
-        if (startPosition == StartPosition.RED_FAR) {
-            WHEELS.drive(20.0, 10.0);
-        }
-
-        if (startPosition == StartPosition.BLUE_NEAR) {
-            WHEELS.drive(20.0, 10.0);
-        }
-
-        if (startPosition == StartPosition.BLUE_FAR) {
-            WHEELS.driveDistance(20.0, -10.0);
-        }
+        WHEELS.driveDistance(
+                20.0,
+                /*
+                 * 10.0 if red-far or blue-near.
+                 * -10.0 otherwise.
+                 */
+                (ALLIANCE_COLOR == AllianceColor.RED && TEAM_SIDE == TeamSide.FAR
+                        || ALLIANCE_COLOR == AllianceColor.BLUE && TEAM_SIDE == TeamSide.FAR)
+                        ? 10.0
+                        : -10.0
+        );
 
         WHEELS.driveDistance(1.0, 2.0);
         WHEELS.turn(90);
