@@ -9,23 +9,25 @@ public enum Color {
     /**
      * Red to reddish-orange.
      */
-    LOW_HUE_RED(new Scalar(0, 65, 65), new Scalar(10, 255, 255)),
+    RED(new Scalar(0, 70, 50), new Scalar(10, 255, 255)),
 
     /**
      * Magenta to red.
      */
-    HIGH_HUE_RED(new Scalar(-170, 65, 65), new Scalar(180, 255, 255)),
+    MAGENTA(new Scalar(-170, 70, 50), new Scalar(180, 255, 255)),
 
     /**
      * Teal to indigo.
      */
-    BLUE(new Scalar(100, 65, 65), new Scalar(125, 255, 255)),
+    BLUE(new Scalar(90, 70, 50), new Scalar(125, 255, 255)),
 
-    YELLOW(new Scalar(0, 0, 0), new Scalar(0, 0, 0));
+    /**
+     * Yellow-orange to lime-yellow.
+     */
+    YELLOW(new Scalar(20, 70, 50), new Scalar(33, 255, 255));
 
-
-    private Scalar lowerBound;
-    private Scalar upperBound;
+    private final Scalar lowerBound;
+    private final Scalar upperBound;
 
     private Color(Scalar lowerBound, Scalar upperBound) {
         this.lowerBound = lowerBound;

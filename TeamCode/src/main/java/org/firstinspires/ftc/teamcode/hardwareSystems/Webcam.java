@@ -24,6 +24,7 @@ package org.firstinspires.ftc.teamcode.hardwareSystems;
 import android.util.Size;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.Color;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.opencv.*;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -32,12 +33,12 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class Webcam {
     private static class PipeLine extends OpenCvPipeline {
-        private Scalar lowerBound;
-        private Scalar upperBound;
+        private HashSet<Color> targetColors = new HashSet<>();
 
         private double[] contourPosition;
 
@@ -51,9 +52,15 @@ public class Webcam {
             // Scalar lowerBound = new Scalar(50, 100, 100); // Example for green
             // Scalar upperBound = new Scalar(70, 255, 255);
 
-            // Create mask to filter out the desired color
+            // Create mask to filter out the desired color(s)
             Mat mask = new Mat();
-            Core.inRange(hsv, lowerBound, upperBound, mask);
+            Mat tempMask = new Mat();
+            // Add each desired color
+            for (Color color : targetColors) {
+                tempMask = new Mat();
+                Core.inRange(hsv, color.getLowerBound(), color.getUpperBound(), tempMask);
+                Core.bitwise_or(tempMask, mask, mask);
+            }
 
             // Find contours
             List<MatOfPoint> contours = new ArrayList<>();
@@ -70,8 +77,10 @@ public class Webcam {
                 contourPosition = getContourPosition(contours.get(0).toArray());
             }
 
+            // Release all the memory used for the masks.
             hsv.release();
             mask.release();
+            tempMask.release();
             hierarchy.release();
             return input;
         }
@@ -181,41 +190,21 @@ public class Webcam {
         return COLOR_PROCESSOR.getAnalysis();
     }
 
-    /**
-     * Get the target color range of the pipeline.
-     *
-     * @return A Scalar[] that contains the lower and upper bounds of the color range in the format [lowerBound, upperBound]
-     */
-    public Scalar[] getTargetColorRange() {
-        return new Scalar[]{
-                pipeLine.lowerBound,
-                pipeLine.upperBound
-        };
+    public HashSet<Color> getTargetColors() {
+        return pipeLine.targetColors;
     }
 
-    /**
-     * Set the target color range of the pipeline.
-     *
-     * @param colorRange Two `Scalar`s representing the lower and upper bound of the color range.
-     */
-    public void setTargetColorRange(Scalar ...colorRange) {
-        pipeLine.lowerBound = colorRange[0];
-        pipeLine.upperBound = colorRange[1];
+    public void addTargetColor(Color color) {
+        pipeLine.targetColors.add(color);
     }
 
-    /**
-     * Set the target color range of the pipeline.
-     *
-     * @param lowerBound The lower bound of the color range.
-     * @param upperBound The upper bound of the color range.
-     */
-    public void setTargetColorRange(Scalar lowerBound, Scalar upperBound) {
-        pipeLine.lowerBound = lowerBound;
-        pipeLine.upperBound = upperBound;
+    public void clearTargetColors() {
+        pipeLine.targetColors.clear();
     }
 
     /**
      * Get the last seen contour position. If the camera has never spotted a contour position, it will return null.
+     *
      * @return The last seen contour position.
      */
     public double[] getContourPosition() {

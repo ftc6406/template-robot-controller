@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.*;
 
-import org.opencv.core.Scalar;
-
 import java.util.HashSet;
 
 @Autonomous(name = "Auto")
@@ -20,23 +18,41 @@ public class Auto extends CustomLinearOp {
         switch (startPosition) {
             case RED_NEAR:
             case RED_FAR:
-                WEBCAM.setTargetColorRange(Color.LOW_HUE_RED.getRange());
+                WEBCAM.addTargetColor(Color.RED);
                 break;
 
             case BLUE_NEAR:
             case BLUE_FAR:
-                WEBCAM.setTargetColorRange(Color.BLUE.getRange());
+                WEBCAM.addTargetColor(Color.BLUE);
                 break;
         }
 
-        while (opModeIsActive()) {
-            WHEELS.drive(0.0, 1.0, 0.0);
-
-            telemetry.addData("Hello world!", "");
-            autoSleep(WHEELS.getMotors(), new HashSet<>());
-
-            sleep(60000);
+        /*
+         * Hard coded robot movement for autonomous
+         */
+        if (startPosition == StartPosition.RED_NEAR) {
+            WHEELS.drive(20.0, -10.0);
         }
+
+        if (startPosition == StartPosition.RED_FAR) {
+            WHEELS.drive(20.0, 10.0);
+        }
+
+        if (startPosition == StartPosition.BLUE_NEAR) {
+            WHEELS.drive(20.0, 10.0);
+        }
+
+        if (startPosition == StartPosition.BLUE_FAR) {
+            WHEELS.driveDistance(20.0, -10.0);
+        }
+
+        WHEELS.driveDistance(1.0, 2.0);
+        WHEELS.turn(90);
+
+        telemetry.addData("Hello world!", "");
+        autoSleep(WHEELS.getMotors(), new HashSet<>());
+
+        sleep(60000);
 
         WEBCAM.getVisionPortal().stopStreaming();
     }

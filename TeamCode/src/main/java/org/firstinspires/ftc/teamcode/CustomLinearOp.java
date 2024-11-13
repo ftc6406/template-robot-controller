@@ -46,7 +46,7 @@ public class CustomLinearOp extends LinearOpMode {
 
         // Try to read the start position
         try {
-            startPosition = StartPosition.valueOf(FileManager.readFile("position.txt"));
+            startPosition = StartPosition.valueOf(FileManager.readFile("position.txt").trim());
 
         } catch (IOException e) {
             startPosition = StartPosition.RED_NEAR;

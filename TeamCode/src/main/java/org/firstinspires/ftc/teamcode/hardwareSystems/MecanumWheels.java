@@ -121,7 +121,7 @@ public class MecanumWheels extends Wheels {
      * <strong><i>THIS METHOD IS STILL EXPERIMENTAL!</i></strong>
      */
     @Override
-    public void driveDistance(double sidewaysDistance, double forwardDistance) {
+    public void driveDistance(double forwardDistance, double sidewaysDistance) {
         // Apply Pythagorean's Theorem to find the Euclidean distance
         double totalDistance = Math.sqrt(Math.pow(forwardDistance, 2) + Math.pow(sidewaysDistance, 2));
 
