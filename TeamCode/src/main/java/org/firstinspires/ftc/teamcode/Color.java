@@ -14,7 +14,7 @@ public enum Color {
     /**
      * Magenta to red.
      */
-    HIGH_HUE_RED(new Scalar(170, 65, 65), new Scalar(180, 255, 255)),
+    HIGH_HUE_RED(new Scalar(-170, 65, 65), new Scalar(180, 255, 255)),
 
     /**
      * Teal to indigo.
