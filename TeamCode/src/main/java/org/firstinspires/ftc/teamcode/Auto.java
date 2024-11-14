@@ -13,22 +13,13 @@ public class Auto extends CustomLinearOp {
     public void runOpMode() {
         super.runOpMode();
 
-        telemetry.addData("Starting position", ALLIANCE_COLOR.name() + ", " + TEAM_SIDE.name());
+        telemetry.addData("Webcam", WEBCAM.getPipeLine().getTargetColors() == null);
+        telemetry.update();
 
-        // Both alliances need yellow.
-        WEBCAM.addTargetColor(Color.YELLOW);
-        switch (ALLIANCE_COLOR) {
-            case RED:
-                // RED only reads 0 <= H <= 10.
-                WEBCAM.addTargetColor(Color.RED);
-                // Magenta reads 170 <= H <= 180.
-                WEBCAM.addTargetColor(Color.MAGENTA);
-                break;
+        telemetry.addData("targetColors", WEBCAM.getTargetColors());
+        telemetry.update();
 
-            case BLUE:
-                WEBCAM.addTargetColor(Color.BLUE);
-                break;
-        }
+        sleep(15000);
 
         /*
          * Hard coded robot movement for autonomous
@@ -51,8 +42,6 @@ public class Auto extends CustomLinearOp {
         telemetry.addData("Hello world!", "");
         autoSleep(WHEELS.getMotors(), new HashSet<>());
 
-        sleep(60000);
-
-        WEBCAM.getVisionPortal().stopStreaming();
+        sleep(30000);
     }
 }

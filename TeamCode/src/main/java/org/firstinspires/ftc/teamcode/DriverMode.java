@@ -8,7 +8,16 @@ public class DriverMode extends CustomLinearOp {
     public void runOpMode() {
         super.runOpMode();
 
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName()
+        );
+        telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
+
         while (opModeIsActive()) {
+            telemetry.addData("targetColors", WEBCAM.getTargetColors());
+            telemetry.addData("contourPosition", WEBCAM.getContourPosition());
+            telemetry.addData("numContours", WEBCAM.getPipeLine().numContours);
+
             /* Gamepad 1 (Wheel and Webcam Controls) */
             /* Wheel Controls */
             /*
@@ -73,6 +82,8 @@ public class DriverMode extends CustomLinearOp {
             } else if (gamepad2.y) {
                 CLAW.ejectIntake();
             }
+
+            telemetry.update();
         }
     }
 }

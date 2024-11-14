@@ -24,7 +24,6 @@ package org.firstinspires.ftc.teamcode.hardwareSystems;
 import android.util.Size;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.Color;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.opencv.*;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -33,12 +32,64 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.EnumSet;
 import java.util.List;
 
 public class Webcam {
-    private static class PipeLine extends OpenCvPipeline {
-        private HashSet<Color> targetColors = new HashSet<>();
+    /**
+     * Specify a range of HSV values for each color.
+     */
+    public enum Color {
+        /**
+         * Red to reddish-orange.
+         */
+        RED(new Scalar(0, 70, 40), new Scalar(15, 255, 255)),
+
+        /**
+         * Yellow-orange to lime-yellow.
+         */
+        YELLOW(new Scalar(20, 70, 50), new Scalar(33, 255, 255)),
+
+        GREEN(new Scalar(50, 100, 100), new Scalar(70, 255, 255)),
+
+        /**
+         * Teal to indigo.
+         */
+        BLUE(new Scalar(90, 70, 50), new Scalar(125, 255, 255)),
+
+        /**
+         * Magenta to red.
+         */
+        MAGENTA(new Scalar(-165, 70, 40), new Scalar(180, 255, 255));
+
+        private final Scalar lowerBound;
+        private final Scalar upperBound;
+
+        Color(Scalar lowerBound, Scalar upperBound) {
+            this.lowerBound = lowerBound;
+            this.upperBound = upperBound;
+        }
+
+        public Scalar getLowerBound() {
+            return lowerBound;
+        }
+
+        public Scalar getUpperBound() {
+            return upperBound;
+        }
+
+        public Scalar[] getRange() {
+            return new Scalar[] {
+                    lowerBound,
+                    upperBound
+            };
+        }
+    }
+
+    public static class PipeLine extends OpenCvPipeline {
+        private EnumSet<Color> targetColors = EnumSet.noneOf(Color.class);
+
+        public int numContours = 0;
 
         private double[] contourPosition;
 
@@ -74,6 +125,7 @@ public class Webcam {
             }
 
             if (!contours.isEmpty()) {
+                numContours = contours.size();
                 contourPosition = getContourPosition(contours.get(0).toArray());
             }
 
@@ -82,6 +134,7 @@ public class Webcam {
             mask.release();
             tempMask.release();
             hierarchy.release();
+
             return input;
         }
 
@@ -113,6 +166,10 @@ public class Webcam {
 
             return position;
         }
+
+        public EnumSet<Color> getTargetColors() {
+            return targetColors;
+        }
     }
 
     private final VisionPortal VISION_PORTAL;
@@ -127,7 +184,7 @@ public class Webcam {
         this(webcam, resolution, -1);
     }
 
-    public Webcam(WebcamName webcam, int[] resolution, int cameraMonitorId) {
+    public Webcam(WebcamName webcam, int[] resolution, int cameraMonitorViewId) {
         APRIL_TAG = new AprilTagProcessor.Builder().build();
 
         COLOR_PROCESSOR = new PredominantColorProcessor.Builder()
@@ -148,14 +205,10 @@ public class Webcam {
                 .setCameraResolution(new Size(resolution[0], resolution[1]))
                 .build();
 
-        OPEN_CV_CAMERA = (cameraMonitorId != -1)
-                ? OpenCvCameraFactory.getInstance().createWebcam(webcam, cameraMonitorId)
-                : null;
-
-        // If the OpenCV camera is not used, terminate.
-        if (OPEN_CV_CAMERA == null) {
-            return;
-        }
+        OPEN_CV_CAMERA = (cameraMonitorViewId == -1)
+                ? OpenCvCameraFactory.getInstance().createWebcam(webcam)
+                : OpenCvCameraFactory.getInstance().createWebcam(webcam, cameraMonitorViewId);
+        ;
 
         // Set the custom pipeline
         pipeLine = new PipeLine();
@@ -190,15 +243,35 @@ public class Webcam {
         return COLOR_PROCESSOR.getAnalysis();
     }
 
-    public HashSet<Color> getTargetColors() {
+    public OpenCvCamera getOpenCvCamera() {
+        return OPEN_CV_CAMERA;
+    }
+
+    public PipeLine getPipeLine() {
+        return pipeLine;
+    }
+
+    public EnumSet<Color> getTargetColors() {
+        if (pipeLine.targetColors == null) {
+            return EnumSet.noneOf(Color.class);
+        }
+
         return pipeLine.targetColors;
     }
 
     public void addTargetColor(Color color) {
+        if (pipeLine == null) {
+            return;
+        }
+
         pipeLine.targetColors.add(color);
     }
 
     public void clearTargetColors() {
+        if (pipeLine == null) {
+            return;
+        }
+
         pipeLine.targetColors.clear();
     }
 
@@ -208,6 +281,10 @@ public class Webcam {
      * @return The last seen contour position.
      */
     public double[] getContourPosition() {
+        if (pipeLine == null) {
+            return new double[]{-1, -1};
+        }
+
         return pipeLine.contourPosition;
     }
 }
