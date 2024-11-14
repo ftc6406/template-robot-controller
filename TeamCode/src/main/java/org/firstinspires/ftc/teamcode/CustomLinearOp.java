@@ -24,7 +24,6 @@ public class CustomLinearOp extends LinearOpMode {
     protected Webcam WEBCAM;
 
     // The robot's color and side.
-    protected StartPosition startPosition;
     protected AllianceColor ALLIANCE_COLOR;
     protected TeamSide TEAM_SIDE;
     protected DigitalChannel COLOR_SWITCH;

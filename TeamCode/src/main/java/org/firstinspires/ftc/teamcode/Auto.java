@@ -25,7 +25,7 @@ public class Auto extends CustomLinearOp {
                 WEBCAM.addTargetColor(Color.MAGENTA);
                 break;
 
-            case Blue:
+            case BLUE:
                 WEBCAM.addTargetColor(Color.BLUE);
                 break;
         }
