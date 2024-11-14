@@ -24,6 +24,7 @@ package org.firstinspires.ftc.teamcode.hardwareSystems;
 import android.util.Size;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.opencv.*;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -181,6 +182,9 @@ public class Webcam {
     private final VisionPortal VISION_PORTAL;
 
     private final AprilTagProcessor APRIL_TAG;
+    // A 3D vector to adjust
+    private final double[] POSE_ADJUST = new double[3];
+
     private final PredominantColorProcessor COLOR_PROCESSOR;
 
     private final OpenCvCamera OPEN_CV_CAMERA;
@@ -239,6 +243,10 @@ public class Webcam {
 
     public AprilTagProcessor getAprilTag() {
         return APRIL_TAG;
+    }
+
+    public List<AprilTagDetection> getAprilTagDetections() {
+        return APRIL_TAG.getDetections();
     }
 
     public PredominantColorProcessor getColorProcessor() {

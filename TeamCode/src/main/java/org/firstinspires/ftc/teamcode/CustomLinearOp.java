@@ -147,7 +147,7 @@ public class CustomLinearOp extends LinearOpMode {
              */
             motorSet = new FoldingArm.MotorSet(
                     hardwareMap.get(DcMotor.class, "rotationMotor"),
-                    null
+                    hardwareMap.get(DcMotor.class, "foldingMotor")
             );
 
         } catch (Exception e) {
@@ -165,7 +165,9 @@ public class CustomLinearOp extends LinearOpMode {
 
         FoldingArm.FoldingRange foldingRange = new FoldingArm.FoldingRange(
                 0,
-                1000
+                1000,
+                MotorType.TETRIX_TORQUENADO.getTicksPerRotation()
+                            /  360.0
         );
 
         return new FoldingArm(motorSet, rotationRange, foldingRange);

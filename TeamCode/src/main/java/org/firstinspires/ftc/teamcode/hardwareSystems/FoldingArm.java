@@ -64,9 +64,14 @@ public class FoldingArm extends Arm {
         // The maximum extension of the arm in ticks.
         private final int MAX_FOLDING;
 
-        public FoldingRange(int minExtension, int maxExtension) {
+        // How many ticks are in a degree.
+        private final double TICKS_PER_DEGREE;
+
+        public FoldingRange(int minExtension, int maxExtension, double ticksPerDegree) {
             this.MIN_FOLDING = minExtension;
             this.MAX_FOLDING = maxExtension;
+
+            this.TICKS_PER_DEGREE = ticksPerDegree;
         }
     }
 
@@ -85,6 +90,8 @@ public class FoldingArm extends Arm {
     private final DcMotor FOLDING_MOTOR;
     // The motor power that the arm uses when rotating.
     private static final double FOLDING_POWER = 1.0;
+    // How many ticks it takes to rotate the arm by one degree.
+    private final double TICKS_PER_FOLDING_DEGREE = 0;
     // The minimum extension of the arm in ticks.
     private final int MIN_FOLDING;
     // The maximum extension of the arm in ticks.
@@ -115,6 +122,11 @@ public class FoldingArm extends Arm {
 
     public double getFoldingPower() {
         return FOLDING_POWER;
+    }
+
+    // Return the rotation of the arm in degrees.
+    public double getRotationDegree() {
+        return ROTATION_MOTOR.getCurrentPosition() / TICKS_PER_ROTATION_DEGREE ;
     }
 
     /**
@@ -162,6 +174,10 @@ public class FoldingArm extends Arm {
         ROTATION_MOTOR.setTargetPosition(targetPosition);
         ROTATION_MOTOR.setPower(direction * ROTATION_POWER);
         ROTATION_MOTOR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    public int getFoldingTicks() {
+        return FOLDING_MOTOR.getCurrentPosition();
     }
 
     /**

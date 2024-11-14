@@ -13,6 +13,8 @@ public class DriverMode extends CustomLinearOp {
         );
         telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
 
+        telemetry.addData("foldingArm", ARM.getFoldingTicks());
+
         while (opModeIsActive()) {
             telemetry.addData("contourPosition", WEBCAM.getContourPosition());
             telemetry.addData("numContours", WEBCAM.getPipeLine().numContours);
@@ -52,9 +54,9 @@ public class DriverMode extends CustomLinearOp {
              * D-pad controls the claw's X-axis rotation.
              */
             if (gamepad2.dpad_left) {
-                CLAW.rotateXAxisServo(-1);
+                CLAW.rotateXAxisServo(-1.0);
             } else if (gamepad2.dpad_right) {
-                CLAW.rotateXAxisServo(1);
+                CLAW.rotateXAxisServo(1.0);
             }
 
             /*
