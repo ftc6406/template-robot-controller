@@ -3,14 +3,14 @@
 - [`CustomLinearOp`](#customlinearop)
 - [`Auto`](#auto)
 - [`DriverMode`](#drivermode)
-- [`TeamColor`](#teamcolor)
+- [`AlllianceColor`](#teamcolor)
 - [`TeamSide`](#teamside)
 - [hardwareSystems/](#hardwareSystems)
     - [`MotorType`](#motortype)
     - [`Wheels`](#wheels)
     - [`MecanumWheels`](#mecanumwheels)
     - [`Arm`](#arm)
-    - [`ExtendableArm`](#extendablearm)
+    - [`FoldingArm`](#FoldingArm)
     - [`Claw`](#claw)
     - [`IntakeClaw`](#intakeclaw)
     - [`Webcam`](#webcam)
@@ -43,26 +43,13 @@ The `runOpMode()` method runs automatically without the need to do anything.
 The first line of `runOpMode()` should be `super.runOpMode()` to run the parent class's hardware
 initialization.
 
-## [`FileManager`](./FileManager.java)
-
-> [!Warning]
-> This class relies on java.nio.file.Paths, which is only available from SDK version 26 and onward.
-
-Reads and writes text files in external storage.
 
 ## [`PositionInput`](./PositionInput.java)
 
-> [!Warning]
-> This class relies on java.nio.file.Paths, which is only available from SDK version 26 and onward.
+A TeleOp that writes the [`AllianceColor`](#AllianceColor) and [`TeamSide`](#TeamSide) of the robot into
+external storage. It also stores the position of the position file. 
 
-> [!Note]
-> You probably will not need this class.
-
-A TeleOp that writes the [`TeamColor`](#TeamColor) and [`TeamSide`](#TeamSide) of the robot into
-external storage.
-Uses [`FileManager`](#FileManager) to write to external storage files.
-
-# [`TeamColor`](./TeamColor.java)
+# [`AllianceColor`](./AllianceColor.java)
 
 An enum that states whether the robot is on red or blue side.
 
@@ -109,9 +96,9 @@ Sets each motor to brake when zero power is applied.
 > `Arm` does not contain the servos for controlling the claw.
 > For that, look at [`Claw`](#Claw)
 
-## [`ExtendableArm`](./hardwareSystems/ExtendableArm.java)
+## [`FoldingArm`](./hardwareSystems/FoldingArm.java)
 
-A subclass of [`Arm`](#Arm) that controls a rotating, extendable arm.
+A subclass of [`Arm`](#Arm) that controls a rotating arm that can fold in two like an elbow.
 Contains four inner classes(i.e. `MotorSet`, `RotationRange`,
 and `ExtensionRange`) that group together parameters for the constructor.
 More specific details can be found in [`Arm`](#Arm).

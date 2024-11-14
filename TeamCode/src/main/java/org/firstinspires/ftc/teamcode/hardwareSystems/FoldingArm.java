@@ -4,7 +4,7 @@ import java.util.HashSet;
 
 import com.qualcomm.robotcore.hardware.*;
 
-public class ExtendableArm extends Arm {
+public class FoldingArm extends Arm {
     /**
      * Passed into the {@code ExtendableArm} constructor.
      * Contains the motors and motor types.
@@ -14,23 +14,23 @@ public class ExtendableArm extends Arm {
 
         // The motor that rotates the arm up and down.
         private final DcMotor ROTATION_MOTOR;
-        // The motor that extends and retracts the arm.
-        private final DcMotor EXTENSION_MOTOR;
+        // The motor that folds the arm.
+        private final DcMotor FOLDING_MOTOR;
 
-        public MotorSet(DcMotor rotationMotor, DcMotor extensionMotor) {
+        public MotorSet(DcMotor rotationMotor, DcMotor foldingMotor) {
             MOTORS = new HashSet<>();
             MOTORS.add(rotationMotor);
-            MOTORS.add(extensionMotor);
+            MOTORS.add(foldingMotor);
 
             ROTATION_MOTOR = rotationMotor;
-            EXTENSION_MOTOR = extensionMotor;
+            FOLDING_MOTOR = foldingMotor;
         }
 
         public MotorSet() {
             MOTORS = new HashSet<>();
 
             ROTATION_MOTOR = null;
-            EXTENSION_MOTOR = null;
+            FOLDING_MOTOR = null;
         }
     }
 
@@ -55,18 +55,18 @@ public class ExtendableArm extends Arm {
     }
 
     /**
-     * Passed into the {@code ExtendableArm} constructor.
+     * Passed into the {@code FoldingArm} constructor.
      * Contains the min extension and max extension.
      */
-    public static class ExtensionRange {
+    public static class FoldingRange {
         // The minimum extension of the arm in ticks.
-        private final int MIN_EXTENSION;
+        private final int MIN_FOLDING;
         // The maximum extension of the arm in ticks.
-        private final int MAX_EXTENSION;
+        private final int MAX_FOLDING;
 
-        public ExtensionRange(int minExtension, int maxExtension) {
-            this.MIN_EXTENSION = minExtension;
-            this.MAX_EXTENSION = maxExtension;
+        public FoldingRange(int minExtension, int maxExtension) {
+            this.MIN_FOLDING = minExtension;
+            this.MAX_FOLDING = maxExtension;
         }
     }
 
@@ -76,28 +76,27 @@ public class ExtendableArm extends Arm {
     private static final double ROTATION_POWER = 1.0;
     // How many ticks it takes to rotate the arm by one degree.
     private final double TICKS_PER_ROTATION_DEGREE;
-
     // The minimum rotation of the arm in ticks.
     private final int MIN_ROTATION;
     // The maximum rotation of the arm in ticks.
     private final int MAX_ROTATION;
 
-    // The motor that extends and retracts the arm.
-    private final DcMotor EXTENSION_MOTOR;
+    // The motor that folds and retracts the arm.
+    private final DcMotor FOLDING_MOTOR;
     // The motor power that the arm uses when rotating.
-    private static final double EXTENSION_POWER = 1.0;
+    private static final double FOLDING_POWER = 1.0;
     // The minimum extension of the arm in ticks.
-    private final int MIN_EXTENSION;
+    private final int MIN_FOLDING;
     // The maximum extension of the arm in ticks.
-    private final int MAX_EXTENSION;
+    private final int MAX_FOLDING;
 
     /**
-     * Instantiates an extendable arm
+     * Instantiates an foldable arm
      * @param motorSet     The motors and motor types.
      * @param rotationRange  The min rotation, max rotation, and ticks per degree.
-     * @param extensionRange The min extension and max extension.
+     * @param foldingRange The min extension and max extension.
      */
-    public ExtendableArm(MotorSet motorSet, RotationRange rotationRange, ExtensionRange extensionRange) {
+    public FoldingArm(MotorSet motorSet, RotationRange rotationRange, FoldingRange foldingRange) {
         super(motorSet.MOTORS);
 
         this.ROTATION_MOTOR = motorSet.ROTATION_MOTOR;
@@ -105,17 +104,17 @@ public class ExtendableArm extends Arm {
         this.MIN_ROTATION = rotationRange.MIN_ROTATION;
         this.MAX_ROTATION = rotationRange.MAX_ROTATION;
 
-        this.EXTENSION_MOTOR = motorSet.EXTENSION_MOTOR;
-        this.MIN_EXTENSION = extensionRange.MIN_EXTENSION;
-        this.MAX_EXTENSION = extensionRange.MAX_EXTENSION;
+        this.FOLDING_MOTOR = motorSet.FOLDING_MOTOR;
+        this.MIN_FOLDING = foldingRange.MIN_FOLDING;
+        this.MAX_FOLDING = foldingRange.MAX_FOLDING;
     }
 
     public double getRotationPower() {
         return ROTATION_POWER;
     }
 
-    public double getExtensionPower() {
-        return EXTENSION_POWER;
+    public double getFoldingPower() {
+        return FOLDING_POWER;
     }
 
     /**
@@ -167,29 +166,29 @@ public class ExtendableArm extends Arm {
 
     /**
      * @param direction The direction that the extension motor moves.
-     *                  Positive values extend the arm, negative values retract it.
+     *                  Positive values fold the arm, negative values retract it.
      */
-    public void extendArm(double direction) {
-        if (EXTENSION_MOTOR == null) {
+    public void foldArm(double direction) {
+        if (FOLDING_MOTOR == null) {
             return;
         }
 
-        if (EXTENSION_MOTOR.getCurrentPosition() > MAX_EXTENSION || EXTENSION_MOTOR.getCurrentPosition() < MIN_EXTENSION) {
-            EXTENSION_MOTOR.setPower(0);
+        if (FOLDING_MOTOR.getCurrentPosition() > MAX_FOLDING || FOLDING_MOTOR.getCurrentPosition() < MIN_FOLDING) {
+            FOLDING_MOTOR.setPower(0);
             return;
         }
 
-        EXTENSION_MOTOR.setPower(Math.signum(direction) * EXTENSION_POWER);
+        FOLDING_MOTOR.setPower(direction * FOLDING_POWER);
     }
 
-    public void extendArmToPosition(int targetPosition) {
-        if (EXTENSION_MOTOR == null) {
+    public void foldArmToPosition(int targetPosition) {
+        if (FOLDING_MOTOR == null) {
             return;
         }
 
-        EXTENSION_MOTOR.setTargetPosition(targetPosition);
-        int direction = (int) Math.signum(targetPosition - EXTENSION_MOTOR.getCurrentPosition());
-        EXTENSION_MOTOR.setPower(direction * EXTENSION_POWER);
-        EXTENSION_MOTOR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FOLDING_MOTOR.setTargetPosition(targetPosition);
+        int direction = (int) Math.signum(targetPosition - FOLDING_MOTOR.getCurrentPosition());
+        FOLDING_MOTOR.setPower(direction * FOLDING_POWER);
+        FOLDING_MOTOR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 }

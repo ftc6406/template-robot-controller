@@ -14,7 +14,6 @@ public class DriverMode extends CustomLinearOp {
         telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
 
         while (opModeIsActive()) {
-            telemetry.addData("targetColors", WEBCAM.getTargetColors());
             telemetry.addData("contourPosition", WEBCAM.getContourPosition());
             telemetry.addData("numContours", WEBCAM.getPipeLine().numContours);
 
@@ -47,27 +46,26 @@ public class DriverMode extends CustomLinearOp {
              * Right extends the arm, left retracts it.
              */
             ARM.rotateArm(gamepad2.right_stick_y);
-            ARM.extendArm(gamepad2.left_stick_x);
+            ARM.foldArm(gamepad2.left_stick_x);
 
             /*
-             * The left joystick on gamepad2 controls the claw rotation:
-             * Right rotates the claw clockwise on the X-axis, left rotates it counterclockwise.
-             * Up rotates the claw clockwise on the Z-axis, left rotates it counterclockwise.
+             * D-pad controls the claw's X-axis rotation.
              */
-            CLAW.rotateXAxisServo(gamepad2.left_stick_x);
+            if (gamepad2.dpad_left) {
+                CLAW.rotateXAxisServo(-1);
+            } else if (gamepad2.dpad_right) {
+                CLAW.rotateXAxisServo(1);
+            }
 
             /*
              * The left bumper rotates the claw counter-clockwise around the Z-axis,
              * and the right bumper rotates it clockwise around the Z-axis.
              */
-            double zRotate = 0;
-            if (gamepad1.left_bumper) {
-                zRotate = -1;
-            } else if (gamepad1.right_bumper) {
-                zRotate = 1;
+            if (gamepad2.left_bumper) {
+                CLAW.rotateZAxisServo(-1.0);
+            } else if (gamepad2.right_bumper) {
+                CLAW.rotateZAxisServo(1.0);
             }
-            CLAW.rotateZAxisServo(zRotate);
-
             /*
              * Pressing A picks up samples.
              * Pressing B stops the intake.

@@ -86,8 +86,6 @@ public class PositionInput extends OpMode {
             positionString = AllianceColor.BLUE.name() + "," + TeamSide.FAR.name();
         }
 
-        positionString = AllianceColor.RED.name() + "," + TeamSide.NEAR.name();
-
         // Do nothing if the driver didn't press any buttons.
         if (positionString == null) {
             return;

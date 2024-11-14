@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.hardwareSystems.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
 
@@ -21,7 +20,7 @@ public class CustomLinearOp extends LinearOpMode {
 
     /* Robot systems */
     protected MecanumWheels WHEELS;
-    protected ExtendableArm ARM;
+    protected FoldingArm ARM;
     protected IntakeClaw CLAW;
     protected Webcam WEBCAM;
 
@@ -133,30 +132,30 @@ public class CustomLinearOp extends LinearOpMode {
      * Initiate all hardware needed for the arm.
      * <strong>When starting a new season, change the return type from `Arm` to the desired return type.</strong>
      */
-    private ExtendableArm initArm() {
+    private FoldingArm initArm() {
         // Prevent multiple instantiation.
         if (ARM != null) {
             return ARM;
         }
 
-        ExtendableArm.MotorSet motorSet;
+        FoldingArm.MotorSet motorSet;
         // Catch errors that result from hardware not being connected.
         try {
             /*
              * Define arm hardware here.
              * e.g. hardwareMap.get(DcMotor.class, "exampleMotor");
              */
-            motorSet = new ExtendableArm.MotorSet(
+            motorSet = new FoldingArm.MotorSet(
                     hardwareMap.get(DcMotor.class, "rotationMotor"),
                     null
             );
 
         } catch (Exception e) {
-            motorSet = new ExtendableArm.MotorSet();
+            motorSet = new FoldingArm.MotorSet();
         }
 
         double gearRatio = 120.0 / 40.0;
-        ExtendableArm.RotationRange rotationRange = new ExtendableArm.RotationRange(
+        FoldingArm.RotationRange rotationRange = new FoldingArm.RotationRange(
                 0,
                 1080,
                 MotorType.TETRIX_TORQUENADO.getTicksPerRotation()
@@ -164,12 +163,12 @@ public class CustomLinearOp extends LinearOpMode {
                         * gearRatio
         );
 
-        ExtendableArm.ExtensionRange extensionRange = new ExtendableArm.ExtensionRange(
+        FoldingArm.FoldingRange foldingRange = new FoldingArm.FoldingRange(
                 0,
                 1000
         );
 
-        return new ExtendableArm(motorSet, rotationRange, extensionRange);
+        return new FoldingArm(motorSet, rotationRange, foldingRange);
     }
 
     /**

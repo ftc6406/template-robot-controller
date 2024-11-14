@@ -12,17 +12,13 @@ public class Auto extends CustomLinearOp {
     @Override
     public void runOpMode() {
         super.runOpMode();
-
-        telemetry.addData("Webcam", WEBCAM.getPipeLine().getTargetColors() == null);
         telemetry.update();
-
-        telemetry.update();
-
         sleep(15000);
 
         /*
          * Hard coded robot movement for autonomous
          */
+        // Moves the robot to the alliance-specific spike mark
         WHEELS.driveDistance(
                 20.0,
                 /*
@@ -34,9 +30,6 @@ public class Auto extends CustomLinearOp {
                         ? 10.0
                         : -10.0
         );
-
-        WHEELS.driveDistance(1.0, 2.0);
-        WHEELS.turn(90);
 
         telemetry.addData("Hello world!", "");
         autoSleep(WHEELS.getMotors(), new HashSet<>());
