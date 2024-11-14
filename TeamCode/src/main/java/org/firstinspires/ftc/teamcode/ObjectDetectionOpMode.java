@@ -78,8 +78,6 @@ public class ObjectDetectionOpMode extends LinearOpMode {
 //                Core.bitwise_or(tempMask, mask, mask);
 //            }
 
-            Core.inRange(hsv, lowerBound, upperBound, mask);
-
             // Find contours
             List<MatOfPoint> contours = new ArrayList<>();
             Mat hierarchy = new Mat();

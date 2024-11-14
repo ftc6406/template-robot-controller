@@ -43,24 +43,24 @@ public class Webcam {
         /**
          * Red to reddish-orange.
          */
-        RED(new Scalar(0, 70, 40), new Scalar(15, 255, 255)),
+        RED(new Scalar(0, 128, 64), new Scalar(10, 255, 255)),
 
         /**
          * Yellow-orange to lime-yellow.
          */
-        YELLOW(new Scalar(20, 70, 50), new Scalar(33, 255, 255)),
+        YELLOW(new Scalar(20, 100, 100), new Scalar(33, 255, 255)),
 
         GREEN(new Scalar(50, 100, 100), new Scalar(70, 255, 255)),
 
         /**
          * Teal to indigo.
          */
-        BLUE(new Scalar(90, 70, 50), new Scalar(125, 255, 255)),
+        BLUE(new Scalar(90, 100, 100), new Scalar(125, 255, 255)),
 
         /**
          * Magenta to red.
          */
-        MAGENTA(new Scalar(-165, 70, 40), new Scalar(180, 255, 255));
+        MAGENTA(new Scalar(-170, 100, 100), new Scalar(180, 255, 255));
 
         private final Scalar lowerBound;
         private final Scalar upperBound;
