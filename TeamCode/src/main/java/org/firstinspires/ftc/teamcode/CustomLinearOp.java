@@ -71,20 +71,15 @@ public class CustomLinearOp extends LinearOpMode {
             TEAM_SIDE = TeamSide.NEAR;
         }
 
-        // Both alliances need yellow.
-        WEBCAM.addTargetColor(Webcam.Color.YELLOW);
-//        switch (ALLIANCE_COLOR) {
-//            case RED:
-//                // RED only reads 0 <= H <= 10.
-//                WEBCAM.addTargetColor(Webcam.Color.RED);
-//                // Magenta reads 170 <= H <= 180.
-//                WEBCAM.addTargetColor(Webcam.Color.MAGENTA);
-//                break;
-//
-//            case BLUE:
-//                WEBCAM.addTargetColor(Webcam.Color.BLUE);
-//                break;
-//        }
+        switch (ALLIANCE_COLOR) {
+            case RED:
+                WEBCAM.setTargetColor(Webcam.Color.RED);
+                break;
+
+            case BLUE:
+                WEBCAM.setTargetColor(Webcam.Color.BLUE);
+                break;
+        }
 
         COLOR_SWITCH = null; //OP_MODE.hardwareMap.get(DigitalChannel.class, "color_switch");
         SIDE_SWITCH = null; //OP_MODE.hardwareMap.get(DigitalChannel.class, "side_switch");

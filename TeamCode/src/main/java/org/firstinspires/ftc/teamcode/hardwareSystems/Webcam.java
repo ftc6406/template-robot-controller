@@ -32,7 +32,6 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.*;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
 
 public class Webcam {
@@ -87,11 +86,19 @@ public class Webcam {
     }
 
     public static class PipeLine extends OpenCvPipeline {
-        private EnumSet<Color> targetColors = EnumSet.noneOf(Color.class);
+        private Color targetColor;
 
         public int numContours = 0;
 
         private double[] contourPosition;
+
+        // Convert to HSV color space for easier color detection
+        private Mat hsv = new Mat();
+        private Mat mask = new Mat();
+        private Mat yellowMask = new Mat();
+        private Mat redMask = new Mat();
+        private Mat magentaMask = new Mat();
+        private Mat allianceColorMask = new Mat();
 
         @Override
         public Mat processFrame(Mat input) {
@@ -104,14 +111,19 @@ public class Webcam {
             // Scalar upperBound = new Scalar(70, 255, 255);
 
             // Create mask to filter out the desired color(s)
-            Mat mask = new Mat();
-            Mat tempMask = new Mat();
-            // Add each desired color
-            for (Color color : targetColors) {
-                tempMask = new Mat();
-                Core.inRange(hsv, color.getLowerBound(), color.getUpperBound(), tempMask);
-                Core.bitwise_or(tempMask, mask, mask);
+            Core.inRange(hsv, Color.YELLOW.getLowerBound(), Webcam.Color.RED.getUpperBound(), yellowMask);
+            switch (targetColor) {
+                case RED:
+                    Core.inRange(hsv, Color.RED.getLowerBound(), Color.RED.getUpperBound(), redMask);
+                    Core.inRange(hsv, Color.MAGENTA.getLowerBound(), Color.MAGENTA.getUpperBound(), magentaMask);
+                    Core.bitwise_or(redMask, magentaMask, allianceColorMask);
+                    break;
+
+                case BLUE:
+                    Core.inRange(hsv, Color.BLUE.getLowerBound(), Color.BLUE.getUpperBound(), allianceColorMask);
+                    break;
             }
+            Core.bitwise_or(yellowMask, allianceColorMask, mask);
 
             // Find contours
             List<MatOfPoint> contours = new ArrayList<>();
@@ -131,8 +143,6 @@ public class Webcam {
 
             // Release all the memory used for the masks.
             hsv.release();
-            mask.release();
-            tempMask.release();
             hierarchy.release();
 
             return input;
@@ -165,10 +175,6 @@ public class Webcam {
             position[1] = (yMax + yMin) / 2.0;
 
             return position;
-        }
-
-        public EnumSet<Color> getTargetColors() {
-            return targetColors;
         }
     }
 
@@ -251,28 +257,12 @@ public class Webcam {
         return pipeLine;
     }
 
-    public EnumSet<Color> getTargetColors() {
-        if (pipeLine.targetColors == null) {
-            return EnumSet.noneOf(Color.class);
-        }
-
-        return pipeLine.targetColors;
+    public Color getTargetColor() {
+        return pipeLine.targetColor;
     }
 
-    public void addTargetColor(Color color) {
-        if (pipeLine == null) {
-            return;
-        }
-
-        pipeLine.targetColors.add(color);
-    }
-
-    public void clearTargetColors() {
-        if (pipeLine == null) {
-            return;
-        }
-
-        pipeLine.targetColors.clear();
+    public void setTargetColor(Color targetColor) {
+        pipeLine.targetColor = targetColor;
     }
 
     /**

@@ -16,7 +16,6 @@ public class Auto extends CustomLinearOp {
         telemetry.addData("Webcam", WEBCAM.getPipeLine().getTargetColors() == null);
         telemetry.update();
 
-        telemetry.addData("targetColors", WEBCAM.getTargetColors());
         telemetry.update();
 
         sleep(15000);

@@ -72,11 +72,12 @@ public class ObjectDetectionOpMode extends LinearOpMode {
             Core.inRange(hsv, Webcam.Color.RED.getLowerBound(), Webcam.Color.RED.getUpperBound(), mask);
 
             // Add each desired color
-//            for (Webcam.Color color : enumSet) {
-//                tempMask = new Mat();
-//                Core.inRange(hsv, color.getLowerBound(), color.getUpperBound(), tempMask);
-//                Core.bitwise_or(tempMask, mask, mask);
-//            }
+            for (Webcam.Color color : enumSet) {
+                tempMask = new Mat();
+                Core.inRange(hsv, color.getLowerBound(), color.getUpperBound(), tempMask);
+                Core.bitwise_or(tempMask, mask, mask);
+                tempMask.release();
+            }
 
             // Find contours
             List<MatOfPoint> contours = new ArrayList<>();
@@ -91,6 +92,7 @@ public class ObjectDetectionOpMode extends LinearOpMode {
 
             hsv.release();
             mask.release();
+            tempMask.release();
             hierarchy.release();
             return input;
         }
