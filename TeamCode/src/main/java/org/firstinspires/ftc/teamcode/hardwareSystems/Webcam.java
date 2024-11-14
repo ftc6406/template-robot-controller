@@ -32,45 +32,37 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class Webcam {
+    /**
+     * Specify a range of HSV values for each color.
+     */
     public enum Color {
         /**
          * Red to reddish-orange.
          */
-        RED(
-                new Scalar(0, 70, 50), new Scalar(10, 255, 255)
-        ),
-
-        /**
-         * Magenta to red.
-         */
-        MAGENTA(
-                new Scalar(170, 70, 50), new Scalar(180, 255, 255)
-        ),
-
-        /**
-         * Cyan to indigo.
-         */
-        BLUE(
-                new Scalar(90, 70, 50), new Scalar(130, 255, 255)
-        ),
+        RED(new Scalar(0, 128, 64), new Scalar(10, 255, 255)),
 
         /**
          * Yellow-orange to lime-yellow.
          */
-        YELLOW(
-                new Scalar(20, 70, 50), new Scalar(33, 255, 255)
-        );
+        YELLOW(new Scalar(20, 100, 100), new Scalar(33, 255, 255)),
 
-        /*
-         * The lower bound of the color in HSV.
+        GREEN(new Scalar(50, 100, 100), new Scalar(70, 255, 255)),
+
+        /**
+         * Teal to indigo.
          */
-        private Scalar lowerBound;
+        BLUE(new Scalar(90, 100, 100), new Scalar(125, 255, 255)),
 
-        private Scalar upperBound;
+        /**
+         * Magenta to red.
+         */
+        MAGENTA(new Scalar(-170, 100, 100), new Scalar(180, 255, 255));
+
+        private final Scalar lowerBound;
+        private final Scalar upperBound;
 
         Color(Scalar lowerBound, Scalar upperBound) {
             this.lowerBound = lowerBound;
@@ -93,10 +85,20 @@ public class Webcam {
         }
     }
 
-    private static class PipeLine extends OpenCvPipeline {
-        private HashSet<Color> targetColors;
+    public static class PipeLine extends OpenCvPipeline {
+        private Color targetColor;
+
+        public int numContours = 0;
 
         private double[] contourPosition;
+
+        // Convert to HSV color space for easier color detection
+        private Mat hsv = new Mat();
+        private Mat mask = new Mat();
+        private Mat yellowMask = new Mat();
+        private Mat redMask = new Mat();
+        private Mat magentaMask = new Mat();
+        private Mat allianceColorMask = new Mat();
 
         @Override
         public Mat processFrame(Mat input) {
@@ -108,15 +110,20 @@ public class Webcam {
             // Scalar lowerBound = new Scalar(50, 100, 100); // Example for green
             // Scalar upperBound = new Scalar(70, 255, 255);
 
-            // Create mask to filter out the desired color
-            Mat mask = new Mat();
+            // Create mask to filter out the desired color(s)
+            Core.inRange(hsv, Color.YELLOW.getLowerBound(), Webcam.Color.RED.getUpperBound(), yellowMask);
+            switch (targetColor) {
+                case RED:
+                    Core.inRange(hsv, Color.RED.getLowerBound(), Color.RED.getUpperBound(), redMask);
+                    Core.inRange(hsv, Color.MAGENTA.getLowerBound(), Color.MAGENTA.getUpperBound(), magentaMask);
+                    Core.bitwise_or(redMask, magentaMask, allianceColorMask);
+                    break;
 
-            // Add all target colors to the mask
-            for (Color color : targetColors) {
-                Mat mask1 = new Mat();
-                Core.inRange(hsv, color.lowerBound, color.upperBound, mask1);
-                Core.bitwise_or(mask, mask1, mask);
+                case BLUE:
+                    Core.inRange(hsv, Color.BLUE.getLowerBound(), Color.BLUE.getUpperBound(), allianceColorMask);
+                    break;
             }
+            Core.bitwise_or(yellowMask, allianceColorMask, mask);
 
             // Find contours
             List<MatOfPoint> contours = new ArrayList<>();
@@ -130,11 +137,12 @@ public class Webcam {
             }
 
             if (!contours.isEmpty()) {
+                numContours = contours.size();
                 contourPosition = getContourPosition(contours.get(0).toArray());
             }
 
+            // Release all the memory used for the masks.
             hsv.release();
-            mask.release();
             hierarchy.release();
 
             return input;
@@ -182,7 +190,7 @@ public class Webcam {
         this(webcam, resolution, -1);
     }
 
-    public Webcam(WebcamName webcam, int[] resolution, int cameraMonitorId) {
+    public Webcam(WebcamName webcam, int[] resolution, int cameraMonitorViewId) {
         APRIL_TAG = new AprilTagProcessor.Builder().build();
 
         COLOR_PROCESSOR = new PredominantColorProcessor.Builder()
@@ -203,14 +211,10 @@ public class Webcam {
                 .setCameraResolution(new Size(resolution[0], resolution[1]))
                 .build();
 
-        OPEN_CV_CAMERA = (cameraMonitorId != -1)
-                ? OpenCvCameraFactory.getInstance().createWebcam(webcam, cameraMonitorId)
-                : null;
-
-        // If the OpenCV camera is not used, terminate.
-        if (OPEN_CV_CAMERA == null) {
-            return;
-        }
+        OPEN_CV_CAMERA = (cameraMonitorViewId == -1)
+                ? OpenCvCameraFactory.getInstance().createWebcam(webcam)
+                : OpenCvCameraFactory.getInstance().createWebcam(webcam, cameraMonitorViewId);
+        ;
 
         // Set the custom pipeline
         pipeLine = new PipeLine();
@@ -245,28 +249,32 @@ public class Webcam {
         return COLOR_PROCESSOR.getAnalysis();
     }
 
-    /**
-     * Get the target color range of the pipeline.
-     *
-     * @return A Scalar[] that contains the lower and upper bounds of the color range in the format [lowerBound, upperBound]
-     */
-    public HashSet<Color> getTargetColors() {
-        return pipeLine.targetColors;
+    public OpenCvCamera getOpenCvCamera() {
+        return OPEN_CV_CAMERA;
     }
 
-    public void addTargetColor(Color color) {
-        pipeLine.targetColors.add(color);
+    public PipeLine getPipeLine() {
+        return pipeLine;
     }
 
-    public void clearTargetColors() {
-        pipeLine.targetColors.clear();
+    public Color getTargetColor() {
+        return pipeLine.targetColor;
+    }
+
+    public void setTargetColor(Color targetColor) {
+        pipeLine.targetColor = targetColor;
     }
 
     /**
      * Get the last seen contour position. If the camera has never spotted a contour position, it will return null.
+     *
      * @return The last seen contour position.
      */
     public double[] getContourPosition() {
+        if (pipeLine == null) {
+            return new double[]{-1, -1};
+        }
+
         return pipeLine.contourPosition;
     }
 }

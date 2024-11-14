@@ -1,24 +1,41 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.os.Environment;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.*;
 
 import com.qualcomm.robotcore.eventloop.opmode.*;
 
 @TeleOp(name = "PositionInput")
 public class PositionInput extends OpMode {
-    // File name of the storage file,
-    // which is inside the directory specified in FileManager.
-    private final Path STORAGE_FILE = FileManager.getSeasonDirectory().resolve("position.txt");
+    private static final String DIRECTORY = Environment.getExternalStorageDirectory().getAbsolutePath() + "/FTC/";
+
+    /*
+     * The file that saves the position file.
+     */
+    /**
+     * File name of the storage file,
+     * which is inside the directory specified by `SEASON_DIRECTORY`
+     */
+    private static final String POSITION_FILE = DIRECTORY + "position.txt";
+
+    public static String getPositionFile() {
+        return POSITION_FILE;
+    }
 
     /**
-     * Reads the current position stored in the external storage file
-     * and prints it.
+     * Reads the current position stored in the external storage file and prints it.
      * Prints an error message if it fails.
      */
     private void printRobotPosition() {
-        try {
-            telemetry.addData("Current position: ", FileManager.readFile(STORAGE_FILE));
+        try (BufferedReader reader = new BufferedReader(new FileReader(POSITION_FILE))) {
+            // Read first line.
+            String data = reader.readLine();
+            telemetry.addData("Current position", data);
 
         } catch (IOException e) {
             telemetry.addLine("ERROR: FAILED TO READ ROBOT POSITION FROM STORAGE FILE!");
@@ -33,42 +50,56 @@ public class PositionInput extends OpMode {
     @Override
     public void loop() {
         telemetry.update();
+        printRobotPosition();
 
-        telemetry.addData("seasonDir", FileManager.getSeasonDirectory());
-        telemetry.addData("STORAGE_FILE", STORAGE_FILE.toString());
+        // If the directory and file do not exist, create them.
+        try {
+            File directory = new File(DIRECTORY);
+            if (!directory.mkdirs()) {
+                throw new IOException("/FTC/ directory couldn't be created.");
+            }
+
+            File file = file = new File(POSITION_FILE);
+            if (!file.createNewFile()) {
+                throw new IOException("position.txt could not be created.");
+            }
+
+        } catch (IOException e) {
+            telemetry.addLine(e.getMessage());
+        }
 
         String positionString = null;
         if (gamepad1.y || gamepad2.y) {
             // Orange button
-            positionString += StartPosition.RED_NEAR.name();
+            positionString = AllianceColor.RED.name() + "," + TeamSide.NEAR.name();
 
         } else if (gamepad1.b || gamepad2.b) {
             // Red button
-            positionString = StartPosition.RED_FAR.name();
+            positionString = AllianceColor.RED.name() + "," + TeamSide.FAR.name();
 
         } else if (gamepad1.a || gamepad2.a) {
             // Green button
-            positionString = StartPosition.BLUE_NEAR.name();
+            positionString = AllianceColor.BLUE.name() + "," + TeamSide.NEAR.name();
 
         } else if (gamepad1.x || gamepad2.x) {
             // Blue button
-            positionString += StartPosition.BLUE_FAR.name();
+            positionString = AllianceColor.BLUE.name() + "," + TeamSide.FAR.name();
         }
+
+        positionString = AllianceColor.RED.name() + "," + TeamSide.NEAR.name();
 
         // Do nothing if the driver didn't press any buttons.
         if (positionString == null) {
             return;
         }
 
-        // Try to write to file.
-        try {
-            FileManager.writeToFile(STORAGE_FILE, positionString);
+        // Write the string to the file.
+        try (FileWriter writer = new FileWriter(POSITION_FILE, false)) {
+            writer.write(positionString);
 
         } catch (IOException e) {
             telemetry.addLine("ERROR: FAILED TO WRITE ROBOT POSITION TO STORAGE FILE!");
             telemetry.addLine(e.toString());
         }
-
-        printRobotPosition();
     }
 }

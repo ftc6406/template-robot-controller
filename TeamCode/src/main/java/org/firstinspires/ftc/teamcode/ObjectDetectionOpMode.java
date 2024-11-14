@@ -4,11 +4,14 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.hardwareSystems.Webcam;
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.*;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.List;
 
 @TeleOp(name = "ObjectDetection", group = "Test")
@@ -20,8 +23,9 @@ public class ObjectDetectionOpMode extends LinearOpMode {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
             "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName()
         );
+        telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
         webcam = OpenCvCameraFactory.getInstance().createWebcam(
-            hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId
+            hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId
         );
 
         // Set the custom pipeline
@@ -60,7 +64,20 @@ public class ObjectDetectionOpMode extends LinearOpMode {
 
             // Create mask to filter out the desired color
             Mat mask = new Mat();
-            Core.inRange(hsv, lowerBound, upperBound, mask);
+            Mat tempMask = new Mat();
+
+            HashSet<Webcam.Color> enumSet = new HashSet<>();
+            enumSet.add(Webcam.Color.GREEN);
+
+            Core.inRange(hsv, Webcam.Color.RED.getLowerBound(), Webcam.Color.RED.getUpperBound(), mask);
+
+            // Add each desired color
+            for (Webcam.Color color : enumSet) {
+                tempMask = new Mat();
+                Core.inRange(hsv, color.getLowerBound(), color.getUpperBound(), tempMask);
+                Core.bitwise_or(tempMask, mask, mask);
+                tempMask.release();
+            }
 
             // Find contours
             List<MatOfPoint> contours = new ArrayList<>();
@@ -75,6 +92,7 @@ public class ObjectDetectionOpMode extends LinearOpMode {
 
             hsv.release();
             mask.release();
+            tempMask.release();
             hierarchy.release();
             return input;
         }

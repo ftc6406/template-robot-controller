@@ -1,16 +1,20 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.*;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.hardwareSystems.*;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
 
+@TeleOp(name = "Test")
 public class CustomLinearOp extends LinearOpMode {
     // Whether the robot will automatically sleep after each command.
     protected boolean autoSleepEnabled;
@@ -22,40 +26,65 @@ public class CustomLinearOp extends LinearOpMode {
     protected Webcam WEBCAM;
 
     // The robot's color and side.
-    protected StartPosition startPosition;
+    protected AllianceColor ALLIANCE_COLOR;
+    protected TeamSide TEAM_SIDE;
     protected DigitalChannel COLOR_SWITCH;
     protected DigitalChannel SIDE_SWITCH;
 
     @Override
     public void runOpMode() {
-        initialize();
-        waitForStart();
-    }
-
-    /**
-     * Initialize all hardware devices used by the robot,
-     * and print out any devices that are missing.
-     */
-    public void initialize() {
         autoSleepEnabled = true;
 
         WHEELS = initWheels();
         ARM = initArm();
         CLAW = initClaw();
-        WEBCAM = initWebCam();
+
+        /*
+         * Get camera ID to stream.
+         * Currently not working.
+         */
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName()
+        );
+        telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
+        WEBCAM = initWebCam(cameraMonitorViewId);
 
         // Try to read the start position
-        try {
-            startPosition = StartPosition.valueOf(FileManager.readFile("position.txt"));
+        try (BufferedReader reader = new BufferedReader(new FileReader(PositionInput.getPositionFile()))) {
+            // Read first line.
+            String data = reader.readLine();
+            telemetry.addData("Starting position: ", data);
 
-        } catch (IOException e) {
-            startPosition = StartPosition.RED_NEAR;
+            // Extract the data values.
+            ALLIANCE_COLOR = AllianceColor.valueOf(data.split(",")[0]);
+            TEAM_SIDE = TeamSide.valueOf(data.split(",")[1]);
+
+        } catch (IOException | NullPointerException e) {
+            telemetry.addLine(
+                    (e instanceof IOException)
+                            ? "ERROR: FAILED TO READ ROBOT POSITION FROM STORAGE FILE!"
+                            : "The position file is blank."
+            );
+
+            telemetry.addLine("Defaulting to RED NEAR");
+            ALLIANCE_COLOR = AllianceColor.RED;
+            TEAM_SIDE = TeamSide.NEAR;
+        }
+
+        switch (ALLIANCE_COLOR) {
+            case RED:
+                WEBCAM.setTargetColor(Webcam.Color.RED);
+                break;
+
+            case BLUE:
+                WEBCAM.setTargetColor(Webcam.Color.BLUE);
+                break;
         }
 
         COLOR_SWITCH = null; //OP_MODE.hardwareMap.get(DigitalChannel.class, "color_switch");
         SIDE_SWITCH = null; //OP_MODE.hardwareMap.get(DigitalChannel.class, "side_switch");
 
-        telemetry.addData("Missing devices", getMissingHardwareDevices());
+        waitForStart();
     }
 
     /**
@@ -171,10 +200,16 @@ public class CustomLinearOp extends LinearOpMode {
         }
     }
 
-    public Webcam initWebCam() {
+    /**
+     * Initiate the webcam.
+     *
+     * @return The `Webcam` object instantiated by this method.
+     */
+    public Webcam initWebCam(int cameraMonitorViewId) {
         int[] resolution = {640, 480};
+
         return new Webcam(
-                hardwareMap.get(WebcamName.class, "webcam"),
+                hardwareMap.get(WebcamName.class, "Webcam 1"),
                 resolution
         );
     }
@@ -207,7 +242,8 @@ public class CustomLinearOp extends LinearOpMode {
     /**
      * Get all the names in the `HardwareMap` that that are not connected to a device.
      * <br>
-     * <em><strong>THIS METHOD IS YET TO BE TESTED!</strong></em>
+     * <em><strong>THIS METHOD IS NOT WORKING CURRENTLY!</strong></em>
+     *
      * @return A `HashSet` of all the hardware devices that can not be found.
      */
     public HashSet<String> getMissingHardwareDevices() {
