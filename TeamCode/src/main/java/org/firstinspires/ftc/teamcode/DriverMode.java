@@ -13,9 +13,10 @@ public class DriverMode extends CustomLinearOp {
         );
         telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
 
-        telemetry.addData("foldingArm", ARM.getFoldingTicks());
 
         while (opModeIsActive()) {
+
+            telemetry.addData("foldingArm", ARM.getFoldingTicks());
             telemetry.addData("contourPosition", WEBCAM.getContourPosition());
             telemetry.addData("numContours", WEBCAM.getPipeLine().numContours);
 
