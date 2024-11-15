@@ -91,7 +91,7 @@ public class FoldingArm extends Arm {
     // The motor power that the arm uses when rotating.
     private static final double FOLDING_POWER = 1.0;
     // How many ticks it takes to rotate the arm by one degree.
-    private final double TICKS_PER_FOLDING_DEGREE = 0;
+    private final double TICKS_PER_FOLDING_DEGREE;
     // The minimum extension of the arm in ticks.
     private final int MIN_FOLDING;
     // The maximum extension of the arm in ticks.
@@ -112,6 +112,7 @@ public class FoldingArm extends Arm {
         this.MAX_ROTATION = rotationRange.MAX_ROTATION;
 
         this.FOLDING_MOTOR = motorSet.FOLDING_MOTOR;
+        this.TICKS_PER_FOLDING_DEGREE = foldingRange.TICKS_PER_DEGREE;
         this.MIN_FOLDING = foldingRange.MIN_FOLDING;
         this.MAX_FOLDING = foldingRange.MAX_FOLDING;
     }
@@ -161,18 +162,17 @@ public class FoldingArm extends Arm {
         }
 
         int targetPosition = (int) Math.round(degrees * TICKS_PER_ROTATION_DEGREE);
-
-        // keep the target position within acceptable bounds
+        // Keep the target position within acceptable bounds
         targetPosition = Math.min(Math.max(targetPosition, MIN_ROTATION), MAX_ROTATION);
+        ROTATION_MOTOR.setTargetPosition(targetPosition);
 
         /*
          * Calculate the direction that the arm will have to rotate.
          * Negative is down, positive is up
          */
         int direction = (int) Math.signum(targetPosition - ROTATION_MOTOR.getCurrentPosition());
-
-        ROTATION_MOTOR.setTargetPosition(targetPosition);
         ROTATION_MOTOR.setPower(direction * ROTATION_POWER);
+
         ROTATION_MOTOR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
@@ -184,17 +184,33 @@ public class FoldingArm extends Arm {
      * @param direction The direction that the extension motor moves.
      *                  Positive values fold the arm, negative values retract it.
      */
-    public void foldArm(double direction) {
+    public void foldArm(double direction) throws NullPointerException, IllegalStateException {
         if (FOLDING_MOTOR == null) {
-            return;
+            throw new NullPointerException("The folding motor is null.");
         }
 
         if (FOLDING_MOTOR.getCurrentPosition() > MAX_FOLDING || FOLDING_MOTOR.getCurrentPosition() < MIN_FOLDING) {
             FOLDING_MOTOR.setPower(0);
-            return;
+            throw new IllegalStateException("Reached limits.");
         }
 
         FOLDING_MOTOR.setPower(direction * FOLDING_POWER);
+    }
+
+    public void foldArmToPosition(double degrees) {
+        if (FOLDING_MOTOR == null) {
+            return;
+        }
+
+        int targetPosition = (int) Math.round(degrees * TICKS_PER_FOLDING_DEGREE);
+        // Keep the target position within acceptable bounds
+        targetPosition = Math.min(Math.max(targetPosition, MIN_FOLDING), MAX_FOLDING);
+        FOLDING_MOTOR.setTargetPosition(targetPosition);
+
+        int direction = (int) Math.signum(targetPosition - FOLDING_MOTOR.getCurrentPosition());
+        FOLDING_MOTOR.setPower(direction * FOLDING_POWER);
+
+        FOLDING_MOTOR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     public void foldArmToPosition(int targetPosition) {
@@ -202,9 +218,14 @@ public class FoldingArm extends Arm {
             return;
         }
 
+        // Keep the target position within acceptable bounds
+        targetPosition = Math.min(Math.max(targetPosition, MIN_FOLDING), MAX_FOLDING);
         FOLDING_MOTOR.setTargetPosition(targetPosition);
+
+        // Get the direction of turning.
         int direction = (int) Math.signum(targetPosition - FOLDING_MOTOR.getCurrentPosition());
         FOLDING_MOTOR.setPower(direction * FOLDING_POWER);
+
         FOLDING_MOTOR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 }

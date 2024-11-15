@@ -49,7 +49,11 @@ public class DriverMode extends CustomLinearOp {
              * Right extends the arm, left retracts it.
              */
             ARM.rotateArm(gamepad2.right_stick_y);
-            ARM.foldArm(gamepad2.left_stick_x);
+            try {
+                ARM.foldArm(gamepad2.left_stick_x);
+            } catch (Exception e) {
+                telemetry.addData("Folding motor", e.getMessage());
+            }
 
             /*
              * D-pad controls the claw's X-axis rotation.

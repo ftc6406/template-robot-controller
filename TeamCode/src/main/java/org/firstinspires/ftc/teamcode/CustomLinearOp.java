@@ -27,8 +27,6 @@ public class CustomLinearOp extends LinearOpMode {
     // The robot's color and side.
     protected AllianceColor ALLIANCE_COLOR;
     protected TeamSide TEAM_SIDE;
-    protected DigitalChannel COLOR_SWITCH;
-    protected DigitalChannel SIDE_SWITCH;
 
     @Override
     public void runOpMode() {
@@ -70,6 +68,7 @@ public class CustomLinearOp extends LinearOpMode {
             TEAM_SIDE = TeamSide.NEAR;
         }
 
+        // Set the camera color.
         switch (ALLIANCE_COLOR) {
             case RED:
                 WEBCAM.setTargetColor(Webcam.Color.RED);
@@ -79,9 +78,6 @@ public class CustomLinearOp extends LinearOpMode {
                 WEBCAM.setTargetColor(Webcam.Color.BLUE);
                 break;
         }
-
-        COLOR_SWITCH = null; //OP_MODE.hardwareMap.get(DigitalChannel.class, "color_switch");
-        SIDE_SWITCH = null; //OP_MODE.hardwareMap.get(DigitalChannel.class, "side_switch");
 
         waitForStart();
     }
@@ -163,11 +159,13 @@ public class CustomLinearOp extends LinearOpMode {
                         * gearRatio
         );
 
+        double foldingGearRatio = 80.0 / 40.0;
         FoldingArm.FoldingRange foldingRange = new FoldingArm.FoldingRange(
                 0,
                 1000,
                 MotorType.TETRIX_TORQUENADO.getTicksPerRotation()
                             /  360.0
+
         );
 
         return new FoldingArm(motorSet, rotationRange, foldingRange);
