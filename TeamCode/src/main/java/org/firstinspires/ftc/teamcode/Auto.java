@@ -14,17 +14,17 @@ public class Auto extends CustomLinearOp {
     private static final double TICKS_PER_DEGREE = 175;
 
     /**
-     * Raises the arm 28.5 inches and ejects the object.
+     * Raise the arm 28.5 inches and ejects the sample.
      */
-    public void raiseArmANDEject() {
+    public void raiseArmAndEject() {
         // Set target degrees to reach the height of 28.5 inches
-        double targetDegrees = 90; // Replace with actual degrees needed to reach 28.5 inches
+        double targetDegrees = 175.0; // Replace with actual degrees needed to reach 28.5 inches
 
         // Move the arm to the calculated target position
         ARM.rotateArmToPosition(targetDegrees);
 
         // Eject the object using the claw
-        IntakeClaw.ejectIntake();
+        CLAW.ejectIntake();
     }
 
     public void nearDriveToBucket() {
@@ -63,8 +63,6 @@ public class Auto extends CustomLinearOp {
 
             // Turn to face yellow pixels
             WHEELS.turn(135);
-
-
 
         } else {
             WHEELS.driveDistance(20);
