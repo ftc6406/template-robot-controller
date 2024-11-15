@@ -150,22 +150,22 @@ public class CustomLinearOp extends LinearOpMode {
             motorSet = new FoldingArm.MotorSet();
         }
 
-        double gearRatio = 120.0 / 40.0;
+        double rotationGearRatio = 120.0 / 40.0;
         FoldingArm.RotationRange rotationRange = new FoldingArm.RotationRange(
                 0,
                 1080,
                 MotorType.TETRIX_TORQUENADO.getTicksPerRotation()
                         / 360.0
-                        * gearRatio
+                        * rotationGearRatio
         );
 
-        double foldingGearRatio = 80.0 / 40.0;
+        double foldingGearRatio = 120.0 / 40.0;
         FoldingArm.FoldingRange foldingRange = new FoldingArm.FoldingRange(
                 0,
                 1000,
                 MotorType.TETRIX_TORQUENADO.getTicksPerRotation()
                             /  360.0
-
+                            * foldingGearRatio
         );
 
         return new FoldingArm(motorSet, rotationRange, foldingRange);
