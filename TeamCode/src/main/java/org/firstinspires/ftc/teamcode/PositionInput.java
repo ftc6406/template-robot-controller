@@ -2,13 +2,15 @@ package org.firstinspires.ftc.teamcode;
 
 import android.os.Environment;
 
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import com.qualcomm.robotcore.eventloop.opmode.*;
 
 @TeleOp(name = "PositionInput")
 public class PositionInput extends OpMode {

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.hardwareSystems;
 
-import com.qualcomm.robotcore.hardware.*;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import java.util.Arrays;
 import java.util.Collections;

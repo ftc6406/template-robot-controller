@@ -26,11 +26,20 @@ import android.util.Size;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-import org.firstinspires.ftc.vision.opencv.*;
 import org.firstinspires.ftc.vision.VisionPortal;
-import org.opencv.core.*;
+import org.firstinspires.ftc.vision.opencv.ImageRegion;
+import org.firstinspires.ftc.vision.opencv.PredominantColorProcessor;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.Point;
+import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
-import org.openftc.easyopencv.*;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,19 +57,19 @@ public class Webcam {
         /**
          * Yellow-orange to lime-yellow.
          */
-        YELLOW(new Scalar(20, 100, 100), new Scalar(33, 255, 255)),
+        YELLOW(new Scalar(20, 128, 64), new Scalar(33, 255, 255)),
 
-        GREEN(new Scalar(50, 100, 100), new Scalar(70, 255, 255)),
+        GREEN(new Scalar(50, 128, 64), new Scalar(70, 255, 255)),
 
         /**
          * Teal to indigo.
          */
-        BLUE(new Scalar(90, 100, 100), new Scalar(125, 255, 255)),
+        BLUE(new Scalar(90, 128, 64), new Scalar(125, 255, 255)),
 
         /**
          * Magenta to red.
          */
-        MAGENTA(new Scalar(-170, 100, 100), new Scalar(180, 255, 255));
+        MAGENTA(new Scalar(-170, 128, 64), new Scalar(180, 255, 255));
 
         private final Scalar lowerBound;
         private final Scalar upperBound;
@@ -79,7 +88,7 @@ public class Webcam {
         }
 
         public Scalar[] getRange() {
-            return new Scalar[] {
+            return new Scalar[]{
                     lowerBound,
                     upperBound
             };
@@ -89,8 +98,7 @@ public class Webcam {
     public static class PipeLine extends OpenCvPipeline {
         private Color targetColor;
 
-        public int numContours = 0;
-
+        private int numContours = 0;
         private double[] contourPosition;
 
         // Convert to HSV color space for easier color detection
@@ -100,11 +108,13 @@ public class Webcam {
         private Mat redMask = new Mat();
         private Mat magentaMask = new Mat();
         private Mat allianceColorMask = new Mat();
+        private Mat hierarchy = new Mat();
+
+        private final Mat erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new org.opencv.core.Size(12, 12));
+        private final Mat dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new org.opencv.core.Size(12, 12));
 
         @Override
         public Mat processFrame(Mat input) {
-            // Convert to HSV color space for easier color detection
-            Mat hsv = new Mat();
             Imgproc.cvtColor(input, hsv, Imgproc.COLOR_RGB2HSV);
 
             // Define range of the color you want to detect
@@ -128,7 +138,6 @@ public class Webcam {
 
             // Find contours
             List<MatOfPoint> contours = new ArrayList<>();
-            Mat hierarchy = new Mat();
             Imgproc.findContours(mask, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
 
             // Draw contours on the original image
@@ -137,16 +146,17 @@ public class Webcam {
                 Imgproc.rectangle(input, rect, new Scalar(0, 255, 0), 2); // Green rectangles around objects
             }
 
+            // If any contours were found.
             if (!contours.isEmpty()) {
                 numContours = contours.size();
                 contourPosition = getContourPosition(contours.get(0).toArray());
             }
 
-            // Release all the memory used for the masks.
-            hsv.release();
-            hierarchy.release();
-
             return input;
+        }
+
+        public int getNumContours() {
+            return numContours;
         }
 
         /**
@@ -182,19 +192,25 @@ public class Webcam {
     private final VisionPortal VISION_PORTAL;
 
     private final AprilTagProcessor APRIL_TAG;
-    // A 3D vector to adjust
-    private final double[] POSE_ADJUST = new double[3];
+    /**
+     * A 3D vector to adjust for the camera's positioning on the robot.
+     */
+    private double[] poseAdjust;
 
     private final PredominantColorProcessor COLOR_PROCESSOR;
 
     private final OpenCvCamera OPEN_CV_CAMERA;
     private PipeLine pipeLine;
 
-    public Webcam(WebcamName webcam, int[] resolution) {
-        this(webcam, resolution, -1);
+    public Webcam(WebcamName webcamName, int[] resolution) {
+        this(webcamName, resolution, new double[]{0, 0, 0},-1);
     }
 
-    public Webcam(WebcamName webcam, int[] resolution, int cameraMonitorViewId) {
+    public Webcam(WebcamName webcamName, int[] resolution, double[] poseAdjust) {
+        this(webcamName, resolution, poseAdjust, -1);
+    }
+
+    public Webcam(WebcamName webcamName, int[] resolution, double[] poseAdjust, int cameraMonitorViewId) {
         APRIL_TAG = new AprilTagProcessor.Builder().build();
 
         COLOR_PROCESSOR = new PredominantColorProcessor.Builder()
@@ -211,14 +227,15 @@ public class Webcam {
         VISION_PORTAL = new VisionPortal.Builder()
                 .addProcessor(COLOR_PROCESSOR)
                 .addProcessor(APRIL_TAG)
-                .setCamera(webcam)
+                .setCamera(webcamName)
                 .setCameraResolution(new Size(resolution[0], resolution[1]))
                 .build();
 
         OPEN_CV_CAMERA = (cameraMonitorViewId == -1)
-                ? OpenCvCameraFactory.getInstance().createWebcam(webcam)
-                : OpenCvCameraFactory.getInstance().createWebcam(webcam, cameraMonitorViewId);
-        ;
+                ? OpenCvCameraFactory.getInstance().createWebcam(webcamName)
+                : OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
+
+        this.poseAdjust = poseAdjust;
 
         // Set the custom pipeline
         pipeLine = new PipeLine();
@@ -243,6 +260,14 @@ public class Webcam {
 
     public AprilTagProcessor getAprilTag() {
         return APRIL_TAG;
+    }
+
+    public double[] getPoseAdjust() {
+        return poseAdjust;
+    }
+
+    public void setPoseAdjust(double[] poseAdjust) {
+        this.poseAdjust = poseAdjust;
     }
 
     public List<AprilTagDetection> getAprilTagDetections() {

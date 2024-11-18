@@ -5,7 +5,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.*;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.hardwareSystems.*;
+import org.firstinspires.ftc.teamcode.hardwareSystems.FoldingArm;
+import org.firstinspires.ftc.teamcode.hardwareSystems.IntakeClaw;
+import org.firstinspires.ftc.teamcode.hardwareSystems.MecanumWheels;
+import org.firstinspires.ftc.teamcode.hardwareSystems.MotorType;
+import org.firstinspires.ftc.teamcode.hardwareSystems.Webcam;
+import org.firstinspires.ftc.teamcode.hardwareSystems.Wheels;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -44,6 +49,7 @@ public class CustomLinearOp extends LinearOpMode {
                 "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName()
         );
         telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
+        telemetry.update();
         WEBCAM = initWebCam(cameraMonitorViewId);
 
         // Try to read the start position
@@ -140,6 +146,7 @@ public class CustomLinearOp extends LinearOpMode {
         FoldingArm.RotationRange rotationRange = new FoldingArm.RotationRange(
                 0,
                 1080,
+                -40,
                 MotorType.TETRIX_TORQUENADO.getTicksPerRotation()
                         / 360.0
                         * rotationGearRatio
@@ -149,9 +156,10 @@ public class CustomLinearOp extends LinearOpMode {
         FoldingArm.FoldingRange foldingRange = new FoldingArm.FoldingRange(
                 0,
                 1000,
+                160,
                 MotorType.TETRIX_TORQUENADO.getTicksPerRotation()
-                            /  360.0
-                            * foldingGearRatio
+                        / 360.0
+                        * foldingGearRatio
         );
 
         return new FoldingArm(motorSet, rotationRange, foldingRange);
@@ -189,7 +197,12 @@ public class CustomLinearOp extends LinearOpMode {
 
         return new Webcam(
                 hardwareMap.get(WebcamName.class, "Webcam 1"),
-                resolution
+                resolution,
+                new double[]{
+                        12,
+                        -2,
+                        12
+                }
         );
     }
 

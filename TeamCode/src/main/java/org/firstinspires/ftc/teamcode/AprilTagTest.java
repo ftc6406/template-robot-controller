@@ -9,7 +9,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import java.util.List;
 
-@TeleOp(name="AprilTagTest", group="Test")
+@TeleOp(name = "AprilTagTest", group = "Test")
 public class AprilTagTest extends LinearOpMode {
     @Override
     public void runOpMode() {

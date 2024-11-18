@@ -5,27 +5,33 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.hardwareSystems.Webcam;
-import org.opencv.core.*;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
-import org.openftc.easyopencv.*;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 
 @TeleOp(name = "ObjectDetection", group = "Test")
 public class ObjectDetectionOpMode extends LinearOpMode {
     OpenCvCamera webcam;
-    
+
     @Override
     public void runOpMode() {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-            "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName()
+                "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName()
         );
-        telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
+
         webcam = OpenCvCameraFactory.getInstance().createWebcam(
-            hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId
+                hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId
         );
 
         // Set the custom pipeline
@@ -47,6 +53,7 @@ public class ObjectDetectionOpMode extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
+            telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
             telemetry.update();
         }
     }
