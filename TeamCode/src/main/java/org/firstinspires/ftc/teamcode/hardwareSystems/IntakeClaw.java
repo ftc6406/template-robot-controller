@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import java.util.Collections;
 import java.util.HashSet;
 
-public class IntakeClaw extends Claw{
+public class IntakeClaw extends Claw {
     // The servo that spins the intake.
     private final CRServo INTAKE_SERVO;
     // The touch sensor that touches whether there is a piece in the intake.

@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.*;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name = "DriverMode")
 public class DriverMode extends CustomLinearOp {
@@ -11,16 +11,15 @@ public class DriverMode extends CustomLinearOp {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName()
         );
-        telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
-
 
         while (opModeIsActive()) {
-
-            telemetry.addData("foldingArm", ARM.getFoldingTicks());
+            telemetry.addData("folding ticks", ARM.getFoldingTicks());
+            telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
             telemetry.addData("contourPosition", WEBCAM.getContourPosition());
-            telemetry.addData("numContours", WEBCAM.getPipeLine().numContours);
+            telemetry.addData("numContours", WEBCAM.getPipeLine().getNumContours());
 
             /* Gamepad 1 (Wheel and Webcam Controls) */
+
             /* Wheel Controls */
             /*
              * Drive robot based on joystick input from gamepad1
@@ -34,6 +33,7 @@ public class DriverMode extends CustomLinearOp {
                     gamepad1.left_stick_x
             );
 
+            /* Webcam controls */
             // Save CPU resources; can resume streaming when needed.
             if (gamepad1.dpad_down) {
                 WEBCAM.getVisionPortal().stopStreaming();
@@ -44,9 +44,10 @@ public class DriverMode extends CustomLinearOp {
             /* Gamepad 2 (Arm and Claw Controls) */
 
             /*
-             * The right joystick on gamepad2 controls both arm rotation and extension:
+             * The right joystick on gamepad2 controls the arm rotation.
              * Up rotates the arm up, and down rotates it down.
-             * Right extends the arm, left retracts it.
+             * The left joystick on gamepad1 controls the arm folding.
+             * Left rotates it leftward, right rotates it rightward.
              */
             ARM.rotateArm(gamepad2.right_stick_y);
             try {
@@ -73,6 +74,7 @@ public class DriverMode extends CustomLinearOp {
             } else if (gamepad2.right_bumper) {
                 CLAW.rotateZAxisServo(1.0);
             }
+
             /*
              * Pressing A picks up samples.
              * Pressing B stops the intake.

@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.*;
 
-import org.firstinspires.ftc.teamcode.hardwareSystems.IntakeClaw;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import java.util.HashSet;
@@ -18,25 +18,32 @@ public class Auto extends CustomLinearOp {
      */
     public void raiseArmAndEject() {
         // Set target degrees to reach the height of 28.5 inches
-        double targetDegrees = 175.0; // Replace with actual degrees needed to reach 28.5 inches
+        double targetDegrees = 170; // Replace with actual degrees needed to reach 28.5 inches
 
         // Move the arm to the calculated target position
-        ARM.rotateArmToPosition(targetDegrees);
+        ARM.rotateArmToAngle(targetDegrees);
 
         // Eject the object using the claw
         CLAW.ejectIntake();
     }
 
+    public void pickUpSample() {
+        ARM.rotateArmToAngle(0);
+        CLAW.startIntake();
+        sleep(100);
+        CLAW.stopIntake();
+    }
+
     public void nearDriveToBucket() {
         int targetTagId = (ALLIANCE_COLOR == AllianceColor.RED) ? 16 : 13;
-
-        WHEELS.turn(-90);
 
         // Drive in front of the AprilTag next to the bucket.
         List<AprilTagDetection> currentDetections = WEBCAM.getAprilTag().getDetections();
         for (AprilTagDetection detection : currentDetections) {
             if (detection.id == targetTagId) {
-                WHEELS.driveDistance(detection.ftcPose.x, detection.ftcPose.y - 20);
+                double forwardDistance = detection.ftcPose.y + WEBCAM.getPoseAdjust()[1] - 20;
+                double sidewaysDistance = detection.ftcPose.x + WEBCAM.getPoseAdjust()[0];
+                WHEELS.driveDistance(sidewaysDistance, forwardDistance);
             }
         }
         autoSleep();
@@ -57,19 +64,47 @@ public class Auto extends CustomLinearOp {
             nearDriveToBucket();
 
             // Turn to face the bucket
-            WHEELS.turn(-45);
+            WHEELS.turn(45);
+            raiseArmAndEject();
 
             // Drop pixel
 
             // Turn to face yellow pixels
-            WHEELS.turn(135);
+            WHEELS.turn(-45);
+
+            // Drive to pixel and pick it up
+            double[] contourPosition = WEBCAM.getContourPosition();
+            if (contourPosition.length != 0) {
+                WHEELS.driveDistance(contourPosition[1]);
+
+            } else {
+                WHEELS.driveDistance(12);
+            }
+            autoSleep(WHEELS.getMotors(), new HashSet<>());
+            pickUpSample();
+
+            // Drive back and dump it in bucket
+            if (contourPosition.length != 0) {
+                WHEELS.driveDistance(-contourPosition[1]);
+
+            } else {
+                WHEELS.driveDistance(-12);
+            }
+            WHEELS.turn(45);
+            raiseArmAndEject();
+
+            // Park
+            WHEELS.turn(-45);
+            WHEELS.driveDistance(18, 12);
 
         } else {
+            // Park
             WHEELS.driveDistance(20);
         }
 
+        // When the Autonomous is stopped, lower the arm to prevent damage.
         if (isStopRequested()) {
-            ARM.rotateArmToPosition(0);
+            ARM.rotateArmToAngle(0);
         }
     }
 }

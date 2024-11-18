@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.hardwareSystems;
 
 import java.util.HashSet;
 
-import com.qualcomm.robotcore.hardware.*;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 public abstract class Arm {
     protected final HashSet<DcMotor> MOTORS;
