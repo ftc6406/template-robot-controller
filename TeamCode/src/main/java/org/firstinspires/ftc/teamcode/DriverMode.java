@@ -15,7 +15,6 @@ public class DriverMode extends CustomLinearOp {
 
 
         while (opModeIsActive()) {
-
             telemetry.addData("foldingArm", ARM.getFoldingTicks());
             telemetry.addData("contourPosition", WEBCAM.getContourPosition());
             telemetry.addData("numContours", WEBCAM.getPipeLine().numContours);
@@ -33,6 +32,10 @@ public class DriverMode extends CustomLinearOp {
                     strafe,
                     gamepad1.left_stick_x
             );
+            telemetry.addData("frontLeftWheel", WHEELS.FRONT_LEFT_MOTOR.getPower());
+            telemetry.addData("frontRightWheel", WHEELS.FRONT_RIGHT_MOTOR.getPower());
+            telemetry.addData("backLeftWheel", WHEELS.BACK_LEFT_MOTOR.getPower());
+            telemetry.addData("backRightWheel", WHEELS.BACK_RIGHT_MOTOR.getPower());
 
             // Save CPU resources; can resume streaming when needed.
             if (gamepad1.dpad_down) {
@@ -49,8 +52,11 @@ public class DriverMode extends CustomLinearOp {
              * Right extends the arm, left retracts it.
              */
             ARM.rotateArm(gamepad2.right_stick_y);
+            telemetry.addData("Rotation", ARM.ROTATION_MOTOR.getPower());
             try {
                 ARM.foldArm(gamepad2.left_stick_x);
+                telemetry.addData("Folding", ARM.FOLDING_MOTOR.getPower());
+
             } catch (Exception e) {
                 telemetry.addData("Folding motor", e.getMessage());
             }
@@ -79,12 +85,15 @@ public class DriverMode extends CustomLinearOp {
              * Pressing Y releases the sample.
              */
             if (gamepad2.a) {
+                telemetry.addLine("Start intake");
                 CLAW.startIntake();
 
             } else if (gamepad2.b) {
+                telemetry.addLine("Stop intake");
                 CLAW.stopIntake();
 
             } else if (gamepad2.y) {
+                telemetry.addLine("Eject");
                 CLAW.ejectIntake();
             }
 

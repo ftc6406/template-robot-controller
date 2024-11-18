@@ -9,10 +9,10 @@ import java.util.List;
 
 public class MecanumWheels extends Wheels {
     /* The DcMotors powering the wheels */
-    private final DcMotor FRONT_LEFT_MOTOR;
-    private final DcMotor FRONT_RIGHT_MOTOR;
-    private final DcMotor BACK_LEFT_MOTOR;
-    private final DcMotor BACK_RIGHT_MOTOR;
+    public final DcMotor FRONT_LEFT_MOTOR;
+    public final DcMotor FRONT_RIGHT_MOTOR;
+    public final DcMotor BACK_LEFT_MOTOR;
+    public final DcMotor BACK_RIGHT_MOTOR;
 
     /**
      * Passed into the `MecanumWheels` constructor.
@@ -58,29 +58,29 @@ public class MecanumWheels extends Wheels {
         this.BACK_RIGHT_MOTOR = motorSet.BACK_RIGHT_MOTOR;
 
         /*
-         * Set the directions of the motors
-         * The right and left motors run in opposite directions of each other
+         * Set the directions of the motors.
+         * The right and left motors run in opposite directions of each other.
+         * Positive is forward for all motors.
          */
         FRONT_LEFT_MOTOR.setDirection(DcMotorSimple.Direction.REVERSE);
         FRONT_RIGHT_MOTOR.setDirection(DcMotorSimple.Direction.FORWARD);
         BACK_LEFT_MOTOR.setDirection(DcMotorSimple.Direction.REVERSE);
         BACK_RIGHT_MOTOR.setDirection(DcMotorSimple.Direction.FORWARD);
-
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void drive(double y, double x, double turn) {
+    public void drive(double y, double x, double theta) {
         for (DcMotor motor : MOTORS) {
             motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
 
-        double frontLeftPower = y - x - turn;
-        double frontRightPower = y + x + turn;
-        double backLeftPower = y + x - turn;
-        double backRightPower = y - x + turn;
+        double frontLeftPower = y + x + theta;
+        double frontRightPower = y - x - theta;
+        double backLeftPower = y - x + theta;
+        double backRightPower = y + x - theta;
 
         // Scale the motor powers to be within +/- 1.0
         List<Double> powers = Arrays.asList(

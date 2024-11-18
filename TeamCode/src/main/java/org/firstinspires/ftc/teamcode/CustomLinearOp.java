@@ -93,23 +93,16 @@ public class CustomLinearOp extends LinearOpMode {
             return WHEELS;
         }
 
-        MecanumWheels.MotorSet motorSet;
-        // Catch errors that result from hardware not being connected.
-        try {
-            /*
-             * Define wheels system hardware here.
-             * e.g. hardwareMap.get(DcMotor.class, "exampleMotor");
-             */
-            motorSet = new MecanumWheels.MotorSet(
-                    hardwareMap.get(DcMotor.class, "frontLeftWheel"),
-                    hardwareMap.get(DcMotor.class, "frontRightWheel"),
-                    hardwareMap.get(DcMotor.class, "backLeftWheel"),
-                    hardwareMap.get(DcMotor.class, "backRightWheel")
-            );
-
-        } catch (Exception e) {
-            motorSet = new MecanumWheels.MotorSet();
-        }
+        /*
+         * Define wheels system hardware here.
+         * e.g. hardwareMap.get(DcMotor.class, "exampleMotor");
+         */
+        MecanumWheels.MotorSet motorSet = new MecanumWheels.MotorSet(
+                hardwareMap.get(DcMotor.class, "frontLeftWheel"),
+                hardwareMap.get(DcMotor.class, "frontRightWheel"),
+                hardwareMap.get(DcMotor.class, "backLeftWheel"),
+                hardwareMap.get(DcMotor.class, "backRightWheel")
+        );
 
         // Approximately measured from the CAD model in inches
         double wheelCircumference = 4.0 * Math.PI;
@@ -134,21 +127,14 @@ public class CustomLinearOp extends LinearOpMode {
             return ARM;
         }
 
-        FoldingArm.MotorSet motorSet;
-        // Catch errors that result from hardware not being connected.
-        try {
-            /*
-             * Define arm hardware here.
-             * e.g. hardwareMap.get(DcMotor.class, "exampleMotor");
-             */
-            motorSet = new FoldingArm.MotorSet(
-                    hardwareMap.get(DcMotor.class, "rotationMotor"),
-                    hardwareMap.get(DcMotor.class, "foldingMotor")
-            );
-
-        } catch (Exception e) {
-            motorSet = new FoldingArm.MotorSet();
-        }
+        /*
+         * Define arm hardware here.
+         * e.g. hardwareMap.get(DcMotor.class, "exampleMotor");
+         */
+        FoldingArm.MotorSet motorSet = new FoldingArm.MotorSet(
+                hardwareMap.get(DcMotor.class, "rotationMotor"),
+                hardwareMap.get(DcMotor.class, "foldingMotor")
+        );
 
         double rotationGearRatio = 120.0 / 40.0;
         FoldingArm.RotationRange rotationRange = new FoldingArm.RotationRange(
@@ -181,22 +167,16 @@ public class CustomLinearOp extends LinearOpMode {
             return null;
         }
 
-        // Catch errors that result from hardware not being connected.
-        try {
-            /*
-             * Define claw hardware here.
-             * e.g. hardwareMap.get(Servo.class, "exampleServo");
-             */
-            return new IntakeClaw(
-                    hardwareMap.get(Servo.class, "clawXServo"),
-                    null,
-                    hardwareMap.get(Servo.class, "clawZServo"),
-                    hardwareMap.get(CRServo.class, "intakeServo")
-            );
-
-        } catch (Exception e) {
-            return new IntakeClaw();
-        }
+        /*
+         * Define claw hardware here.
+         * e.g. hardwareMap.get(Servo.class, "exampleServo");
+         */
+        return new IntakeClaw(
+                hardwareMap.get(Servo.class, "clawXServo"),
+                null,
+                hardwareMap.get(Servo.class, "clawZServo"),
+                hardwareMap.get(CRServo.class, "intakeServo")
+        );
     }
 
     /**

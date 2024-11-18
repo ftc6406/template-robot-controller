@@ -76,7 +76,7 @@ public class FoldingArm extends Arm {
     }
 
     // The motor that rotates the arm up and down.
-    private final DcMotor ROTATION_MOTOR;
+    public final DcMotor ROTATION_MOTOR;
     // The motor power that the arm uses when rotating.
     private static final double ROTATION_POWER = 1.0;
     // How many ticks it takes to rotate the arm by one degree.
@@ -87,7 +87,7 @@ public class FoldingArm extends Arm {
     private final int MAX_ROTATION;
 
     // The motor that folds and retracts the arm.
-    private final DcMotor FOLDING_MOTOR;
+    public final DcMotor FOLDING_MOTOR;
     // The motor power that the arm uses when rotating.
     private static final double FOLDING_POWER = 1.0;
     // How many ticks it takes to rotate the arm by one degree.
