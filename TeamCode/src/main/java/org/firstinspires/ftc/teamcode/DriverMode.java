@@ -66,6 +66,8 @@ public class DriverMode extends CustomLinearOp {
                 CLAW.rotateXAxisServo(-1.0);
             } else if (gamepad2.dpad_right) {
                 CLAW.rotateXAxisServo(1.0);
+            } else if (gamepad2.dpad_up) {
+
             }
 
             /*
