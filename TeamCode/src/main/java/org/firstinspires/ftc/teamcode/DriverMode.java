@@ -69,7 +69,8 @@ public class DriverMode extends CustomLinearOp {
 
                 // Move the arm to the calculated target position
                 ARM.rotateArmToAngle(targetDegrees);
-                autoSleep(ARM.getRotationMotor());
+                // Spin claw 90 degrees
+                CLAW.rotateXAxisServoToPosition(90.0);
             }
 
             /*

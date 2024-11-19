@@ -58,6 +58,10 @@ public abstract class Claw {
         X_AXIS_SERVO.setPosition(targetPosition);
     }
 
+    public void rotateXAxisServoToPosition(double position) {
+        X_AXIS_SERVO.setPosition(position);
+    }
+
     /**
      * Rotate the Y rotation servo.
      *
