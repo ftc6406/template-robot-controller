@@ -79,17 +79,6 @@ public class DriverMode extends CustomLinearOp {
             }
 
             /*
-             * The left bumper rotates the claw counter-clockwise around the Z-axis,
-             * and the right bumper rotates it clockwise around the Z-axis.
-             */
-            if (gamepad2.left_bumper) {
-                CLAW.rotateZAxisServo(-1.0);
-            } else if (gamepad2.right_bumper) {
-                CLAW.rotateZAxisServo(1.0);
-            }
-            CLAW.rotateXAxisServo(gamepad2.left_stick_x);
-
-            /*
              * Pressing A picks up samples.
              * Pressing B stops the intake.
              * Pressing Y releases the sample.
