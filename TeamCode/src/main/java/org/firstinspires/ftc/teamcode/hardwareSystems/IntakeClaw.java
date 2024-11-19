@@ -17,10 +17,6 @@ public class IntakeClaw extends Claw {
     private static final double INTAKE_POWER = 0.5;
     private static final double EJECT_POWER = -1.0;
 
-    public IntakeClaw() {
-        this(null, null, null, null);
-    }
-
     public IntakeClaw(Servo xAxisServo, Servo yAxisServo, Servo zAxisServo, CRServo intakeServo) {
         this(xAxisServo, yAxisServo, zAxisServo, intakeServo, null);
     }
