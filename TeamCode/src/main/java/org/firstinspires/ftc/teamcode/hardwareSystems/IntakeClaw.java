@@ -36,13 +36,25 @@ public class IntakeClaw extends Claw {
         return INTAKE_POWER;
     }
 
+    public double getEjectPower() {
+        return EJECT_POWER;
+    }
+
     public HashSet<CRServo> getCrServos() {
         // return new HashSet<>();
         return new HashSet<>(Collections.singletonList(INTAKE_SERVO));
     }
 
-    public double getEjectPower() {
-        return EJECT_POWER;
+    public CRServo getIntakeServo() {
+        return INTAKE_SERVO;
+    }
+
+    public void startIntake() throws NullPointerException {
+        if (INTAKE_SERVO == null) {
+            throw new NullPointerException("WARNING: THE INTAKE SERVO IS NULL!");
+        }
+
+        INTAKE_SERVO.setPower(INTAKE_POWER);
     }
 
     /**
@@ -57,14 +69,6 @@ public class IntakeClaw extends Claw {
         }
 
         return INTAKE_SERVO.getPower() != 0;
-    }
-
-    public void startIntake() throws NullPointerException {
-        if (INTAKE_SERVO == null) {
-            throw new NullPointerException("WARNING: THE INTAKE SERVO IS NULL!");
-        }
-
-        INTAKE_SERVO.setPower(INTAKE_POWER);
     }
 
     public void stopIntake() throws NullPointerException {

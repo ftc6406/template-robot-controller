@@ -70,17 +70,22 @@ public class DriverMode extends CustomLinearOp {
              */
             if (gamepad2.a) {
                 telemetry.addLine("Start intake");
-                CLAW.startIntake();
+//                CLAW.startIntake();
+                CLAW.getIntakeServo().setPower(1.0);
 
             } else if (gamepad2.b) {
                 telemetry.addLine("Stop intake");
-                CLAW.stopIntake();
+//                CLAW.stopIntake();
+                CLAW.getIntakeServo().setPower(0.0);
+
 
             } else if (gamepad2.y) {
                 telemetry.addLine("Eject");
-                CLAW.ejectIntake();
-            }
+//                CLAW.ejectIntake();
+                CLAW.getIntakeServo().setPower(-0.5);
 
+            }
+            telemetry.addData("Intake power", CLAW.getIntakeServo().getPower());
 
         } catch (Exception e) {
             telemetry.addLine(e.getMessage());
