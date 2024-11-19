@@ -70,7 +70,7 @@ public class DriverMode extends CustomLinearOp {
                 CLAW.rotateXAxisServo(1.0);
 
             } /*else if (gamepad2.dpad_up) {
-                double targetDegrees = 90.0;
+                double targetDegrees = -90.0;
 
                 // Move the arm to the calculated target position
                 ARM.rotateArmToAngle(targetDegrees);
