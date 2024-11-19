@@ -58,9 +58,29 @@ public class DriverMode extends CustomLinearOp {
             ARM.foldArm(gamepad2.right_stick_y);
             telemetry.addData("Folding power", ARM.getFoldingMotor().getPower());
 
+            CLAW.rotateXAxisServo(gamepad2.left_stick_x);
+
             /*
              * D-pad controls the claw's X-axis rotation.
              */
+
+            if (gamepad2.dpad_up) {
+                double targetDegrees = 90.0;
+
+                // Move the arm to the calculated target position
+                ARM.rotateArmToAngle(targetDegrees);
+                autoSleep(ARM.getRotationMotor());
+            }
+
+            /*
+             * The left bumper rotates the claw counter-clockwise around the Z-axis,
+             * and the right bumper rotates it clockwise around the Z-axis.
+             */
+            if (gamepad2.left_bumper) {
+                CLAW.rotateZAxisServo(-1.0);
+            } else if (gamepad2.right_bumper) {
+                CLAW.rotateZAxisServo(1.0);
+            }
             CLAW.rotateXAxisServo(gamepad2.left_stick_x);
 
             /*
