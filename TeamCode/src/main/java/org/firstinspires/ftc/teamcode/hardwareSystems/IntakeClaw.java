@@ -93,7 +93,7 @@ public class IntakeClaw extends Claw {
      * @throws NullPointerException When `INTAKE_SERVO` is null.
      */
     public boolean isSensorPressed() throws NullPointerException {
-        if (INTAKE_SERVO == null) {
+        if (INTAKE_SENSOR == null) {
             throw new NullPointerException("WARNING: THE INTAKE SERVO IS NULL!");
         }
 

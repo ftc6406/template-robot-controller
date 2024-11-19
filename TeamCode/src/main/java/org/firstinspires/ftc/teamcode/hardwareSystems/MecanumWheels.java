@@ -64,9 +64,9 @@ public class MecanumWheels extends Wheels {
          * Positive is forward for all motors.
          */
         FRONT_LEFT_MOTOR.setDirection(DcMotorSimple.Direction.REVERSE);
-        FRONT_RIGHT_MOTOR.setDirection(DcMotorSimple.Direction.FORWARD);
+        FRONT_RIGHT_MOTOR.setDirection(DcMotorSimple.Direction.REVERSE);
         BACK_LEFT_MOTOR.setDirection(DcMotorSimple.Direction.REVERSE);
-        BACK_RIGHT_MOTOR.setDirection(DcMotorSimple.Direction.FORWARD);
+        BACK_RIGHT_MOTOR.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     /**
@@ -78,10 +78,10 @@ public class MecanumWheels extends Wheels {
             motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
 
-        double frontLeftPower  = x - y - theta;
-        double frontRightPower = x + y + theta;
-        double backLeftPower   = x + y - theta;
-        double backRightPower  = x - y + theta;
+        double frontLeftPower = y + x + theta;
+        double frontRightPower = y - x - theta;
+        double backLeftPower = y - x + theta;
+        double backRightPower = y + x - theta;
 
         // Scale the motor powers to be within +/- 1.0
         List<Double> powers = Arrays.asList(

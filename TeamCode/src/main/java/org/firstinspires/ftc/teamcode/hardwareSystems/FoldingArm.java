@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import java.util.HashSet;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class FoldingArm extends Arm {
     /**
@@ -116,7 +117,7 @@ public class FoldingArm extends Arm {
     /**
      * The motor power that the arm uses when rotating.
      */
-    private static final double ROTATION_POWER = 1.0;
+    private static final double ROTATION_POWER = 0.67;
     /**
      * The minimum rotation of the arm in ticks.
      */
@@ -172,6 +173,8 @@ public class FoldingArm extends Arm {
         super(motorSet.MOTORS);
 
         this.ROTATION_MOTOR = motorSet.ROTATION_MOTOR;
+        this.ROTATION_MOTOR.setDirection(DcMotorSimple.Direction.REVERSE);
+
         this.MIN_ROTATION = rotationRange.MIN_ROTATION;
         this.MAX_ROTATION = rotationRange.MAX_ROTATION;
         this.INITIAL_ROTATION_ANGLE = rotationRange.INITIAL_ANGLE;

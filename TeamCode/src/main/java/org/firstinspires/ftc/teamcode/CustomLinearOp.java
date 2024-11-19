@@ -159,7 +159,7 @@ public class CustomLinearOp extends LinearOpMode {
 
         double foldingGearRatio = 120.0 / 40.0;
         FoldingArm.FoldingRange foldingRange = new FoldingArm.FoldingRange(
-                Integer.MAX_VALUE,
+                Integer.MIN_VALUE,
                 Integer.MAX_VALUE,
                 160,
                 MotorType.TETRIX_TORQUENADO.getTicksPerRotation()
@@ -187,7 +187,7 @@ public class CustomLinearOp extends LinearOpMode {
         return new IntakeClaw(
                 hardwareMap.get(Servo.class, "clawXServo"),
                 null,
-                hardwareMap.get(Servo.class, "clawZServo"),
+                null,
                 hardwareMap.get(CRServo.class, "intakeServo")
         );
     }

@@ -30,7 +30,9 @@ public class DriverMode extends CustomLinearOp {
                     strafe,
                     gamepad1.left_stick_x
             );
+            telemetry.addData("right stick y", gamepad1.right_stick_y);
             telemetry.addData("Strafe", strafe);
+            telemetry.addData("left stick x", gamepad1.left_stick_x);
 
             telemetry.addData("frontLeftWheel", WHEELS.FRONT_LEFT_MOTOR.getPower());
             telemetry.addData("frontRightWheel", WHEELS.FRONT_RIGHT_MOTOR.getPower());
@@ -48,35 +50,18 @@ public class DriverMode extends CustomLinearOp {
             /* Gamepad 2 (Arm and Claw Controls) */
 
             /*
-             * The right joystick on gamepad2 controls the arm rotation.
-             * Up rotates the arm up, and down rotates it down.
-             * The left joystick on gamepad1 controls the arm folding.
-             * Left rotates it leftward, right rotates it rightward.
+             * The right joystick on gamepad2 controls the arm rotation and folding.
              */
             ARM.rotateArm(gamepad2.right_stick_y);
             telemetry.addData("Rotation power", ARM.getRotationMotor().getPower());
 
-            ARM.foldArm(gamepad2.left_stick_x);
+            ARM.foldArm(gamepad2.right_stick_y);
             telemetry.addData("Folding power", ARM.getFoldingMotor().getPower());
 
             /*
              * D-pad controls the claw's X-axis rotation.
              */
-            if (gamepad2.dpad_left) {
-                CLAW.rotateXAxisServo(-1.0);
-            } else if (gamepad2.dpad_right) {
-                CLAW.rotateXAxisServo(1.0);
-            }
-
-            /*
-             * The left bumper rotates the claw counter-clockwise around the Z-axis,
-             * and the right bumper rotates it clockwise around the Z-axis.
-             */
-            if (gamepad2.left_bumper) {
-                CLAW.rotateZAxisServo(-1.0);
-            } else if (gamepad2.right_bumper) {
-                CLAW.rotateZAxisServo(1.0);
-            }
+            CLAW.rotateXAxisServo(gamepad2.left_stick_x);
 
             /*
              * Pressing A picks up samples.
@@ -95,6 +80,7 @@ public class DriverMode extends CustomLinearOp {
                 telemetry.addLine("Eject");
                 CLAW.ejectIntake();
             }
+
 
         } catch (Exception e) {
             telemetry.addLine(e.getMessage());
