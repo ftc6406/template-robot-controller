@@ -65,7 +65,11 @@ public class DriverMode extends CustomLinearOp {
              */
 
             if (gamepad2.dpad_up) {
+                double targetDegrees = 90.0;
 
+                // Move the arm to the calculated target position
+                ARM.rotateArmToAngle(targetDegrees);
+                autoSleep(ARM.getRotationMotor());
             }
 
             /*
