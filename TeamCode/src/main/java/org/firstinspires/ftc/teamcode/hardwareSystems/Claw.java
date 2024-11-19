@@ -14,7 +14,7 @@ public abstract class Claw {
     // The servo that rotates the claw about the Z-axis
     private final Servo Z_AXIS_SERVO;
     // How much to gradually move the servo.
-    private final static double SERVO_INCREMENT = 0.01;
+    private final static double SERVO_INCREMENT = 0.1;
 
     public Claw(Servo xAxisServo, Servo yAxisServo, Servo zAxisServo) {
         SERVOS = new HashSet<>();
@@ -49,11 +49,12 @@ public abstract class Claw {
      */
     public void rotateXAxisServo(double direction) throws NullPointerException {
         if (X_AXIS_SERVO == null) {
-            throw new NullPointerException("WARNING: CLAW X AXIS SERVO IS NULL!");
+            throw new NullPointerException("WARNING: CLAW X-AXIS SERVO IS NULL!");
         }
 
         double targetPosition = X_AXIS_SERVO.getPosition()
                 + Math.signum(direction) * SERVO_INCREMENT;
+
         X_AXIS_SERVO.setPosition(targetPosition);
     }
 
@@ -66,7 +67,7 @@ public abstract class Claw {
      */
     public void rotateYAxisServo(double direction) throws NullPointerException {
         if (Y_AXIS_SERVO == null) {
-            throw new NullPointerException("WARNING: CLAW X AXIS SERVO IS NULL!");
+            throw new NullPointerException("WARNING: CLAW Y-AXIS SERVO IS NULL!");
         }
 
         double targetPosition = Y_AXIS_SERVO.getPosition()
