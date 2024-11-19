@@ -142,7 +142,7 @@ public class FoldingArm extends Arm {
     /**
      * The motor power that the arm uses when rotating.
      */
-    private static final double FOLDING_POWER = 1.0;
+    private static final double FOLDING_POWER = 0.75;
     /**
      * The minimum extension of the arm in ticks.
      */

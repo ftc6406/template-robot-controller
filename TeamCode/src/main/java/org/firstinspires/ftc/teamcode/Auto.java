@@ -48,8 +48,8 @@ public class Auto extends CustomLinearOp {
         List<AprilTagDetection> currentDetections = WEBCAM.getAprilTag().getDetections();
         for (AprilTagDetection detection : currentDetections) {
             if (detection.id == targetTagId) {
-                double forwardDistance = detection.ftcPose.y + WEBCAM.getPoseAdjust()[1] - 20;
-                double sidewaysDistance = detection.ftcPose.x + WEBCAM.getPoseAdjust()[0];
+                double forwardDistance = detection.ftcPose.y + WEBCAM.getPoseAdjust()[1] - 12 ;
+                double sidewaysDistance = detection.ftcPose.x + WEBCAM.getPoseAdjust()[0] - 12;
                 WHEELS.driveDistance(sidewaysDistance, forwardDistance);
             }
         }
@@ -72,9 +72,8 @@ public class Auto extends CustomLinearOp {
 
             // Turn to face the bucket
             WHEELS.turn(45);
-            raiseArmAndEject();
-
             // Drop pixel
+            raiseArmAndEject();
 
             // Turn to face yellow pixels
             WHEELS.turn(-45);
@@ -85,7 +84,7 @@ public class Auto extends CustomLinearOp {
                 WHEELS.driveDistance(contourPosition[1]);
 
             } else {
-                WHEELS.driveDistance(12);
+                WHEELS.driveDistance(36, 12);
             }
             autoSleep(WHEELS.getMotors(), new HashSet<>());
             pickUpSample();
@@ -95,7 +94,7 @@ public class Auto extends CustomLinearOp {
                 WHEELS.driveDistance(-contourPosition[1]);
 
             } else {
-                WHEELS.driveDistance(-12);
+                WHEELS.driveDistance(-36, 12);
             }
             WHEELS.turn(45);
             raiseArmAndEject();

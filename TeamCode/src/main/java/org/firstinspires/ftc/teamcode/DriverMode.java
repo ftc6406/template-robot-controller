@@ -1,19 +1,16 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "DriverMode")
 public class DriverMode extends CustomLinearOp {
-    @Override
-    public void runOpMode() {
-        super.runOpMode();
+    private static int cameraMonitorViewId;
 
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName()
-        );
-
-        while (opModeIsActive()) {
+    /**
+     * Run the loop once.
+     */
+    private void runLoop() {
+        try {
             telemetry.addData("folding ticks", ARM.getFoldingTicks());
             telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
             telemetry.addData("contourPosition", WEBCAM.getContourPosition());
@@ -56,21 +53,11 @@ public class DriverMode extends CustomLinearOp {
              * The left joystick on gamepad1 controls the arm folding.
              * Left rotates it leftward, right rotates it rightward.
              */
-            try {
-                ARM.rotateArm(gamepad2.right_stick_y);
-                telemetry.addData("Rotation power", ARM.getRotationMotor().getPower());
+            ARM.rotateArm(gamepad2.right_stick_y);
+            telemetry.addData("Rotation power", ARM.getRotationMotor().getPower());
 
-            } catch (NullPointerException | IllegalStateException e) {
-                telemetry.addData("Rotation motor", e.getMessage());
-            }
-
-            try {
-                ARM.foldArm(gamepad2.left_stick_x);
-                telemetry.addData("Folding power", ARM.getFoldingMotor().getPower());
-
-            } catch (NullPointerException | IllegalStateException e) {
-                telemetry.addData("Folding motor", e.getMessage());
-            }
+            ARM.foldArm(gamepad2.left_stick_x);
+            telemetry.addData("Folding power", ARM.getFoldingMotor().getPower());
 
             /*
              * D-pad controls the claw's X-axis rotation.
@@ -109,6 +96,23 @@ public class DriverMode extends CustomLinearOp {
                 CLAW.ejectIntake();
             }
 
+        } catch (Exception e) {
+            telemetry.addLine(e.getMessage());
+        }
+
+        telemetry.update();
+    }
+
+    @Override
+    public void runOpMode() {
+        super.runOpMode();
+
+        cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName()
+        );
+
+        while (opModeIsActive()) {
+            runLoop();
             telemetry.update();
         }
     }

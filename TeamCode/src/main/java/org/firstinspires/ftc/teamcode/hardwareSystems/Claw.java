@@ -45,10 +45,11 @@ public abstract class Claw {
      *
      * @param direction The direction to rotate the servo in.
      *                  Positive values rotate it clockwise, negative values rotate it counterclockwise.
+     * @throws NullPointerException If {@code X_AXIS_SERVO} is null;
      */
-    public void rotateXAxisServo(double direction) {
+    public void rotateXAxisServo(double direction) throws NullPointerException {
         if (X_AXIS_SERVO == null) {
-            return;
+            throw new NullPointerException("WARNING: CLAW X AXIS SERVO IS NULL!");
         }
 
         double targetPosition = X_AXIS_SERVO.getPosition()
@@ -61,10 +62,11 @@ public abstract class Claw {
      *
      * @param direction The direction to rotate the servo in.
      *                  Positive values rotate it clockwise, negative values rotate it counterclockwise.
+     *                  2
      */
-    public void rotateYAxisServo(double direction) {
+    public void rotateYAxisServo(double direction) throws NullPointerException {
         if (Y_AXIS_SERVO == null) {
-            return;
+            throw new NullPointerException("WARNING: CLAW X AXIS SERVO IS NULL!");
         }
 
         double targetPosition = Y_AXIS_SERVO.getPosition()
