@@ -78,10 +78,10 @@ public class MecanumWheels extends Wheels {
             motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
 
-        double frontLeftPower = y + x + theta;
-        double frontRightPower = y - x - theta;
-        double backLeftPower = y - x + theta;
-        double backRightPower = y + x - theta;
+        double frontLeftPower  = x - y - theta;
+        double frontRightPower = x + y + theta;
+        double backLeftPower   = x + y - theta;
+        double backRightPower  = x - y + theta;
 
         // Scale the motor powers to be within +/- 1.0
         List<Double> powers = Arrays.asList(

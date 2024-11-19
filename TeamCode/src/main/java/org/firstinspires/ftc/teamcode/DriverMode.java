@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "DriverMode")
 public class DriverMode extends CustomLinearOp {
@@ -32,6 +33,8 @@ public class DriverMode extends CustomLinearOp {
                     strafe,
                     gamepad1.left_stick_x
             );
+            telemetry.addData("Strafe", strafe);
+
             telemetry.addData("frontLeftWheel", WHEELS.FRONT_LEFT_MOTOR.getPower());
             telemetry.addData("frontRightWheel", WHEELS.FRONT_RIGHT_MOTOR.getPower());
             telemetry.addData("backLeftWheel", WHEELS.BACK_LEFT_MOTOR.getPower());
@@ -53,13 +56,19 @@ public class DriverMode extends CustomLinearOp {
              * The left joystick on gamepad1 controls the arm folding.
              * Left rotates it leftward, right rotates it rightward.
              */
-            ARM.rotateArm(gamepad2.right_stick_y);
-            telemetry.addData("Rotation power", ARM.getRotationMotor().getPower());
+            try {
+                ARM.rotateArm(gamepad2.right_stick_y);
+                telemetry.addData("Rotation power", ARM.getRotationMotor().getPower());
+
+            } catch (NullPointerException | IllegalStateException e) {
+                telemetry.addData("Rotation motor", e.getMessage());
+            }
+
             try {
                 ARM.foldArm(gamepad2.left_stick_x);
                 telemetry.addData("Folding power", ARM.getFoldingMotor().getPower());
 
-            } catch (Exception e) {
+            } catch (NullPointerException | IllegalStateException e) {
                 telemetry.addData("Folding motor", e.getMessage());
             }
 
