@@ -105,6 +105,19 @@ public class Auto extends CustomLinearOp {
             autoSleep();
             WHEELS.driveDistance(18, 12);
 
+            double targetDegrees = 90.0;
+
+            // Move the arm to the calculated target position
+            ARM.rotateArmToAngle(targetDegrees);
+            autoSleep(ARM.getRotationMotor());
+
+            // Eject the object using the claw
+            try {
+                CLAW.ejectIntake();
+
+            } catch (IllegalStateException e) {
+                telemetry.addLine("Failed to eject intake");
+            }
 
         } else {
             // Park
