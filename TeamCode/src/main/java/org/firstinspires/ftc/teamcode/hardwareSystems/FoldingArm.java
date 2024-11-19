@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.hardwareSystems;
 
+import androidx.annotation.NonNull;
+
 import java.util.HashSet;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class FoldingArm extends Arm {
     /**
-     * Passed into the {@code ExtendableArm} constructor.
+     * Passed into the {@code FoldingArm} constructor.
      * Contains the motors and motor types.
      */
     public static class MotorSet {
@@ -35,7 +37,7 @@ public class FoldingArm extends Arm {
     }
 
     /**
-     * Passed into the {@code ExtendableArm} constructor.
+     * Passed into the {@code FoldingArm} constructor.
      * Contains the min rotation, max rotation, and ticks per degree.
      */
     public static class RotationRange {
@@ -52,7 +54,7 @@ public class FoldingArm extends Arm {
          * The angle that the arm rotation starts from.
          * 0.0 ticks will be considered equal to `INITIAL_ANGLE`.
          */
-        private double INITIAL_ANGLE;
+        private final double INITIAL_ANGLE;
 
         /**
          * How many ticks it takes to rotate the arm by one degree.
@@ -174,13 +176,24 @@ public class FoldingArm extends Arm {
         this.MAX_ROTATION = rotationRange.MAX_ROTATION;
         this.INITIAL_ROTATION_ANGLE = rotationRange.INITIAL_ANGLE;
         this.TICKS_PER_ROTATION_DEGREE = rotationRange.TICKS_PER_DEGREE;
-        ;
 
         this.FOLDING_MOTOR = motorSet.FOLDING_MOTOR;
         this.MIN_FOLDING = foldingRange.MIN_FOLDING;
         this.MAX_FOLDING = foldingRange.MAX_FOLDING;
         this.INITIAL_FOLDING_ANGLE = foldingRange.INITIAL_ANGLE;
         this.TICKS_PER_FOLDING_DEGREE = foldingRange.TICKS_PER_DEGREE;
+    }
+
+    private void checkNullRotationMotor() throws NullPointerException {
+        if (ROTATION_MOTOR == null) {
+            throw new NullPointerException("WARNING: ARM ROTATION MOTOR IS NULL!");
+        }
+    }
+
+    private void checkNullFoldingMotor() throws NullPointerException {
+        if (FOLDING_MOTOR == null) {
+            throw new NullPointerException("WARNING: ARM FOLDING MOTOR IS NULL!");
+        }
     }
 
     public double getRotationPower() {
@@ -191,14 +204,32 @@ public class FoldingArm extends Arm {
         return FOLDING_POWER;
     }
 
-    public int getRotationTicks() {
+    public DcMotor getRotationMotor() throws NullPointerException {
+        checkNullRotationMotor();
+
+        return ROTATION_MOTOR;
+    }
+
+    public DcMotor getFoldingMotor() throws NullPointerException {
+        checkNullFoldingMotor();
+
+        return FOLDING_MOTOR;
+    }
+    
+    public int getRotationTicks() throws NullPointerException {
+        checkNullRotationMotor();
         return ROTATION_MOTOR.getCurrentPosition();
     }
 
     /**
      * Return the rotation of the arm in degrees.
+     *
+     * @return A double representing the rotation angle of the arm in degrees.
+     * @throws NullPointerException If {@code ROTATION_MOTOR} is null.
      */
-    public double getRotationDegrees() {
+    public double getRotationDegrees() throws NullPointerException {
+        checkNullRotationMotor();
+
         return ROTATION_MOTOR.getCurrentPosition() / TICKS_PER_ROTATION_DEGREE + INITIAL_ROTATION_ANGLE;
     }
 
@@ -209,14 +240,12 @@ public class FoldingArm extends Arm {
      * @param direction The direction that the arm should rotate in.
      *                  Positive rotates it up, negative rotates it down, zero stops the motor.
      */
-    public void rotateArm(double direction) {
-        if (ROTATION_MOTOR == null) {
-            return;
-        }
+    public void rotateArm(double direction) throws NullPointerException, IllegalStateException{
+        checkNullRotationMotor();
 
         if (ROTATION_MOTOR.getCurrentPosition() > MAX_ROTATION || ROTATION_MOTOR.getCurrentPosition() < MIN_ROTATION) {
             ROTATION_MOTOR.setPower(0);
-            return;
+            throw new IllegalStateException("Arm rotation reached limits");
         }
 
         ROTATION_MOTOR.setPower(direction * ROTATION_POWER);
@@ -228,13 +257,10 @@ public class FoldingArm extends Arm {
      * @param degrees The position the arm moves to.
      *                The arm's starting position is 0 degrees.
      */
-    public void rotateArmToAngle(double degrees) {
+    public void rotateArmToAngle(double degrees) throws NullPointerException {
+        checkNullRotationMotor();
+        
         double targetDegrees = degrees - INITIAL_ROTATION_ANGLE;
-
-        if (ROTATION_MOTOR == null) {
-            return;
-        }
-
         int targetPosition = (int) Math.round(targetDegrees * TICKS_PER_ROTATION_DEGREE);
         // Keep the target position within acceptable bounds
         targetPosition = Math.min(Math.max(targetPosition, MIN_ROTATION), MAX_ROTATION);
@@ -250,14 +276,23 @@ public class FoldingArm extends Arm {
         ROTATION_MOTOR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public int getFoldingTicks() {
+    public int getFoldingTicks() throws NullPointerException {
+        if (FOLDING_MOTOR == null) {
+            throw new NullPointerException("WARNING: ARM FOLDING MOTOR IS NULL");
+        }
+        
         return FOLDING_MOTOR.getCurrentPosition();
     }
 
     /**
      * Return the folding of the arm in degrees.
+     * 
+     * @return A double representing the folding angle of the arm in degrees.
+     * @throws NullPointerException If {@code FOLDING_MOTOR} is null.
      */
-    public double getFoldingDegrees() {
+    public double getFoldingDegrees() throws NullPointerException {
+        checkNullFoldingMotor();
+        
         return FOLDING_MOTOR.getCurrentPosition() / TICKS_PER_FOLDING_DEGREE + INITIAL_FOLDING_ANGLE;
     }
 
@@ -268,13 +303,11 @@ public class FoldingArm extends Arm {
      *                  Positive values fold the arm, negative values retract it.
      */
     public void foldArm(double direction) throws NullPointerException, IllegalStateException {
-        if (FOLDING_MOTOR == null) {
-            throw new NullPointerException("The folding motor is null.");
-        }
+        checkNullFoldingMotor();
 
         if (FOLDING_MOTOR.getCurrentPosition() > MAX_FOLDING || FOLDING_MOTOR.getCurrentPosition() < MIN_FOLDING) {
             FOLDING_MOTOR.setPower(0);
-            throw new IllegalStateException("Reached limits.");
+            throw new IllegalStateException("Arm folding reached limits.");
         }
 
         FOLDING_MOTOR.setPower(direction * FOLDING_POWER);
@@ -285,14 +318,11 @@ public class FoldingArm extends Arm {
      *
      * @param degrees The position to move the join of the arm in degrees.
      */
-    public void foldArmToAngle(double degrees) {
+    public void foldArmToAngle(double degrees) throws NullPointerException {
+        checkNullFoldingMotor();
+        
         double targetDegrees = degrees - INITIAL_FOLDING_ANGLE;
-
-        if (FOLDING_MOTOR == null) {
-            return;
-        }
-
-        int targetPosition = (int) Math.round(degrees * TICKS_PER_FOLDING_DEGREE);
+        int targetPosition = (int) Math.round(targetDegrees * TICKS_PER_FOLDING_DEGREE);
         // Keep the target position within acceptable bounds
         targetPosition = Math.min(Math.max(targetPosition, MIN_FOLDING), MAX_FOLDING);
         FOLDING_MOTOR.setTargetPosition(targetPosition);
@@ -308,10 +338,8 @@ public class FoldingArm extends Arm {
      *
      * @param targetPosition The position to move the join of the arm in ticks.
      */
-    public void foldArmToPosition(int targetPosition) {
-        if (FOLDING_MOTOR == null) {
-            return;
-        }
+    public void foldArmToPosition(int targetPosition) throws NullPointerException {
+        checkNullFoldingMotor();
 
         // Keep the target position within acceptable bounds
         targetPosition = Math.min(Math.max(targetPosition, MIN_FOLDING), MAX_FOLDING);

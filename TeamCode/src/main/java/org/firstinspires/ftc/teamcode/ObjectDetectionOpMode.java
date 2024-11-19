@@ -58,7 +58,7 @@ public class ObjectDetectionOpMode extends LinearOpMode {
         }
     }
 
-    class SamplePipeline extends OpenCvPipeline {
+    static class SamplePipeline extends OpenCvPipeline {
         @Override
         public Mat processFrame(Mat input) {
             // Convert to HSV color space for easier color detection
@@ -66,8 +66,8 @@ public class ObjectDetectionOpMode extends LinearOpMode {
             Imgproc.cvtColor(input, hsv, Imgproc.COLOR_RGB2HSV);
 
             // Define range of the color you want to detect
-            Scalar lowerBound = new Scalar(50, 100, 100); // Example for green
-            Scalar upperBound = new Scalar(70, 255, 255);
+            // Scalar lowerBound = new Scalar(50, 100, 100); // Example for green
+            // Scalar upperBound = new Scalar(70, 255, 255);
 
             // Create mask to filter out the desired color
             Mat mask = new Mat();

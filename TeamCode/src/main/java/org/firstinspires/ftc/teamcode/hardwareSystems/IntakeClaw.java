@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 
@@ -44,22 +45,31 @@ public class IntakeClaw extends Claw {
         return EJECT_POWER;
     }
 
-    public boolean isIntakeActive() {
+    /**
+     * Get whether the intake servo is currently running.
+     * @return true if the intake servo's power is non-zero,
+     *         false otherwise.
+     * @throws IllegalStateException
+     */
+    public boolean isIntakeActive() throws IllegalStateException {
+        if (INTAKE_SERVO == null) {
+            throw new IllegalStateException("WARNING: THE INTAKE SERVO IS NULL!");
+        }
+
         return INTAKE_SERVO.getPower() != 0;
     }
 
-    public void startIntake() {
+    public void startIntake() throws NullPointerException {
         if (INTAKE_SERVO == null) {
-            return;
+            throw new NullPointerException("WARNING: THE INTAKE SERVO IS NULL!");
         }
 
         INTAKE_SERVO.setPower(INTAKE_POWER);
-        // INTAKE_SERVO.setPosition(1.0 / 8.0);
     }
 
-    public void stopIntake() {
+    public void stopIntake() throws NullPointerException {
         if (INTAKE_SERVO == null) {
-            return;
+            throw new NullPointerException("WARNING: THE INTAKE SERVO IS NULL!");
         }
 
         INTAKE_SERVO.setPower(0);
@@ -68,12 +78,26 @@ public class IntakeClaw extends Claw {
     /**
      * Make the intake spin in reverse and eject the object.
      */
-    public void ejectIntake() {
+    public void ejectIntake() throws NullPointerException {
         if (INTAKE_SERVO == null) {
-            return;
+            throw new NullPointerException("WARNING: THE INTAKE SERVO IS NULL!");
         }
 
         INTAKE_SERVO.setPower(EJECT_POWER);
-        // INTAKE_SERVO.setPosition(0);
+    }
+
+    /**
+     * Get whether the sensor on the claw is pressed or not.
+     * @return true when the sensor is pressed,
+     *         false otherwise.
+     * @throws NullPointerException When `INTAKE_SERVO` is null.
+     */
+    public boolean isSensorPressed() throws NullPointerException {
+        if (INTAKE_SERVO == null) {
+            throw new NullPointerException("WARNING: THE INTAKE SERVO IS NULL!");
+        }
+
+        // `getState()` returns true when the sensor is not pressed.
+        return !INTAKE_SENSOR.getState();
     }
 }

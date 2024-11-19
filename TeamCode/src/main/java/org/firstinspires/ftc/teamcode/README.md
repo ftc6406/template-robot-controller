@@ -3,19 +3,19 @@
 - [`CustomLinearOp`](#customlinearop)
 - [`Auto`](#auto)
 - [`DriverMode`](#drivermode)
-- [`AlllianceColor`](#teamcolor)
+- [`AlllianceColor`](#alliancecolor)
 - [`TeamSide`](#teamside)
 - [hardwareSystems/](#hardwareSystems)
     - [`MotorType`](#motortype)
     - [`Wheels`](#wheels)
     - [`MecanumWheels`](#mecanumwheels)
     - [`Arm`](#arm)
-    - [`FoldingArm`](#FoldingArm)
+    - [`FoldingArm`](#foldingarm)
     - [`Claw`](#claw)
     - [`IntakeClaw`](#intakeclaw)
     - [`Webcam`](#webcam)
 
-# [`CustomLinearOp`](./CustomLinearOp.java)
+# [`CustomLinearOp`](CustomLinearOp.java)
 
 A custom LinearOpMode that is the parent class of [`Auto`](#Auto) and [`DriverMode`](#DriverMode).
 Its `runOpMode()` initializes all the robot's hardware and contains methods for auto-sleep,
@@ -23,7 +23,7 @@ sleeping while motors and continuous servos are running.
 For the hardware initializing methods(e.g. `initWheels()`),
 replace the abstract class return type with the the desired class(e.g. `MecanumWheels`).
 
-# [`Auto`](./Auto.java)
+# [`Auto`](Auto.java)
 
 The Autonomous class, which runs without driver input.
 Child class of [`CustomLinearOp`](#CustomLinearOp).
@@ -33,7 +33,7 @@ The `runOpMode()` method runs automatically without the need to do anything.
 The first line of `runOpMode()` should be `super.runOpMode()` to run the parent class's hardware
 initialization.
 
-# [`DriverMode`](./DriverMode.java)
+# [`DriverMode`](DriverMode.java)
 
 The TeleOp class which runs using driver input.
 Child class of [`CustomLinearOp`](#CustomLinearOp).
@@ -43,21 +43,21 @@ The `runOpMode()` method runs automatically without the need to do anything.
 The first line of `runOpMode()` should be `super.runOpMode()` to run the parent class's hardware
 initialization.
 
+## [`PositionInput`](PositionInput.java)
 
-## [`PositionInput`](./PositionInput.java)
+A TeleOp that writes the [`AllianceColor`](#AllianceColor) and [`TeamSide`](#TeamSide) of the robot
+into
+external storage. It also stores the position of the position file.
 
-A TeleOp that writes the [`AllianceColor`](#AllianceColor) and [`TeamSide`](#TeamSide) of the robot into
-external storage. It also stores the position of the position file. 
-
-# [`AllianceColor`](./AllianceColor.java)
+# [`AllianceColor`](AllianceColor.java)
 
 An enum that states whether the robot is on red or blue side.
 
-# [`TeamSide`](./TeamSide.java)
+# [`TeamSide`](TeamSide.java)
 
 An enum that states whether the robot is on far or near side.
 
-# [hardwareSystems/](./hardwareSystems)
+# [hardwareSystems/](hardwareSystems)
 
 This subdirectory contains helper classes.
 The classes are meant to separate and organize the various systems of the robot(e.g. arms, wheels,
@@ -67,12 +67,12 @@ Some of the classes(e.g. [`Arm`](#Arm) and [`Wheels`](#Wheels)) are abstract and
 used as superclasses.
 Being abstract classes rather than interfaces prevents multiple implementing.
 
-## [`MotorType`](./hardwareSystems/MotorType.java)
+## [`MotorType`](hardwareSystems/MotorType.java)
 
 An enum that stores the type of motor(e.g. Tetrix Torquenado) and its number of ticks per
 revolution.
 
-## [`Wheels`](./hardwareSystems/Wheels.java)
+## [`Wheels`](hardwareSystems/Wheels.java)
 
 A abstract class for the robot's wheels.
 Contains a HashSet of all motors.
@@ -80,13 +80,13 @@ Sets each motor to float when zero power is applied.
 Contains a inner class called `WheelDistances` to store the distances between the wheels,
 which is needed for turning.
 
-## [`MecanumWheels`](./hardwareSystems/MecanumWheels.java)
+## [`MecanumWheels`](hardwareSystems/MecanumWheels.java)
 
-A subclass of the [`Wheels`](#Wheels) class for controlling the driving of a four-mecanum wheel
+A subclass of the [`Wheels`](#Wheels) class for controlling the driving of a four-mechanic wheel
 system.
 Contains an inner class(`MotorSet`) to pass in the motors to the `MecanumWheels` constructor.
 
-## [`Arm`](./hardwareSystems/Arm.java)
+## [`Arm`](hardwareSystems/Arm.java)
 
 An abstract class to control the robot's arm system.
 Contains a HashSet of all motors.
@@ -96,7 +96,7 @@ Sets each motor to brake when zero power is applied.
 > `Arm` does not contain the servos for controlling the claw.
 > For that, look at [`Claw`](#Claw)
 
-## [`FoldingArm`](./hardwareSystems/FoldingArm.java)
+## [`FoldingArm`](hardwareSystems/FoldingArm.java)
 
 A subclass of [`Arm`](#Arm) that controls a rotating arm that can fold in two like an elbow.
 Contains four inner classes(i.e. `MotorSet`, `RotationRange`,
@@ -105,19 +105,19 @@ More specific details can be found in [`Arm`](#Arm).
 The current system is admittedly clunky.
 If it becomes cumbersome, please do change it.
 
-## [`Claw`](./hardwareSystems/Claw.java)
+## [`Claw`](hardwareSystems/Claw.java)
 
 An abstract class to control the robot's claw.
 Has properties for servos to rotate in the X, Y, and Z-axes.
 If any of the servos are not needed, set them to null.
 The class methods check for null servo values.
 
-## [`IntakeClaw`](./hardwareSystems/IntakeClaw.java)
+## [`IntakeClaw`](hardwareSystems/IntakeClaw.java)
 
 A subclass of [`Claw`](#Claw) that controls a claw with a intake servo.
 Each method checks for a null intake servo.
 
-## [`Webcam`](./hardwareSystems/Webcam.java)
+## [`Webcam`](hardwareSystems/Webcam.java)
 
 A class for vision and color detection.
 Currently still in progress. 

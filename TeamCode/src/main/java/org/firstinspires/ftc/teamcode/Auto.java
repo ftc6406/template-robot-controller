@@ -10,21 +10,24 @@ import java.util.List;
 
 @Autonomous(name = "Auto")
 public class Auto extends CustomLinearOp {
-
-    private static final double TICKS_PER_DEGREE = 175;
-
     /**
      * Raise the arm 28.5 inches and ejects the sample.
      */
     public void raiseArmAndEject() {
         // Set target degrees to reach the height of 28.5 inches
-        double targetDegrees = 170; // Replace with actual degrees needed to reach 28.5 inches
+        double targetDegrees = 170.0; // Replace with actual degrees needed to reach 28.5 inches
 
         // Move the arm to the calculated target position
         ARM.rotateArmToAngle(targetDegrees);
+        autoSleep(ARM.getRotationMotor());
 
         // Eject the object using the claw
-        CLAW.ejectIntake();
+        try {
+            CLAW.ejectIntake();
+
+        } catch (IllegalStateException e) {
+            telemetry.addLine("Failed to eject intake");
+        }
     }
 
     public void pickUpSample() {
@@ -34,6 +37,10 @@ public class Auto extends CustomLinearOp {
         CLAW.stopIntake();
     }
 
+    /**
+     * When on the near side(i.e. next to bucket),
+     * drive to the bucket.
+     */
     public void nearDriveToBucket() {
         int targetTagId = (ALLIANCE_COLOR == AllianceColor.RED) ? 16 : 13;
 
@@ -72,7 +79,7 @@ public class Auto extends CustomLinearOp {
             // Turn to face yellow pixels
             WHEELS.turn(-45);
 
-            // Drive to pixel and pick it up
+            // Drive to right pixel and pick it up
             double[] contourPosition = WEBCAM.getContourPosition();
             if (contourPosition.length != 0) {
                 WHEELS.driveDistance(contourPosition[1]);
@@ -94,8 +101,11 @@ public class Auto extends CustomLinearOp {
             raiseArmAndEject();
 
             // Park
+            ARM.rotateArmToAngle(45);
             WHEELS.turn(-45);
+            autoSleep();
             WHEELS.driveDistance(18, 12);
+
 
         } else {
             // Park

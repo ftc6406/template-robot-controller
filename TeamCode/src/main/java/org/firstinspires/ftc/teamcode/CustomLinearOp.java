@@ -2,7 +2,11 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.*;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareDevice;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.hardwareSystems.FoldingArm;
@@ -15,6 +19,7 @@ import org.firstinspires.ftc.teamcode.hardwareSystems.Wheels;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 
@@ -223,7 +228,7 @@ public class CustomLinearOp extends LinearOpMode {
      */
     public HashSet<CRServo> getAllCrServos() {
         HashSet<CRServo> crServos = new HashSet<>();
-        // hardware.crservo stores all the CRServos as name-device pairs.
+        // `hardwareMap.crservo` stores all the CRServos as name-device pairs.
         for (Map.Entry<String, CRServo> hardwareDevice : hardwareMap.crservo.entrySet()) {
             crServos.add(hardwareDevice.getValue());
         }
@@ -259,6 +264,10 @@ public class CustomLinearOp extends LinearOpMode {
      */
     public void autoSleep() {
         autoSleep(getAllDcMotors(), getAllCrServos());
+    }
+
+    public void autoSleep(DcMotor motor) {
+        autoSleep(new HashSet<>(Collections.singleton(motor)), new HashSet<>());
     }
 
     /**

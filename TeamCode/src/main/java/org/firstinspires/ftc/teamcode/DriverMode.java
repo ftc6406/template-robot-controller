@@ -54,10 +54,10 @@ public class DriverMode extends CustomLinearOp {
              * Left rotates it leftward, right rotates it rightward.
              */
             ARM.rotateArm(gamepad2.right_stick_y);
-            telemetry.addData("Rotation", ARM.ROTATION_MOTOR.getPower());
+            telemetry.addData("Rotation power", ARM.getRotationMotor().getPower());
             try {
                 ARM.foldArm(gamepad2.left_stick_x);
-                telemetry.addData("Folding", ARM.FOLDING_MOTOR.getPower());
+                telemetry.addData("Folding power", ARM.getFoldingMotor().getPower());
 
             } catch (Exception e) {
                 telemetry.addData("Folding motor", e.getMessage());

@@ -61,7 +61,7 @@ public class PositionInput extends OpMode {
                 throw new IOException("/FTC/ directory couldn't be created.");
             }
 
-            File file = file = new File(POSITION_FILE);
+            File file = new File(POSITION_FILE);
             if (!file.createNewFile()) {
                 throw new IOException("position.txt could not be created.");
             }
