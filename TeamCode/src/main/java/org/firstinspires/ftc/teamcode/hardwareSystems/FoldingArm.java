@@ -117,7 +117,7 @@ public class FoldingArm extends Arm {
     /**
      * The motor power that the arm uses when rotating.
      */
-    private static final double ROTATION_POWER = 0.67;
+    private static final double ROTATION_POWER = 1;
     /**
      * The minimum rotation of the arm in ticks.
      */
@@ -181,6 +181,7 @@ public class FoldingArm extends Arm {
         this.TICKS_PER_ROTATION_DEGREE = rotationRange.TICKS_PER_DEGREE;
 
         this.FOLDING_MOTOR = motorSet.FOLDING_MOTOR;
+        this.FOLDING_MOTOR.setDirection(DcMotorSimple.Direction.REVERSE);
         this.MIN_FOLDING = foldingRange.MIN_FOLDING;
         this.MAX_FOLDING = foldingRange.MAX_FOLDING;
         this.INITIAL_FOLDING_ANGLE = foldingRange.INITIAL_ANGLE;

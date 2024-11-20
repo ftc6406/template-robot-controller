@@ -64,69 +64,85 @@ public class Auto extends CustomLinearOp {
         super.runOpMode();
         telemetry.update();
 
-        /*
-         * Hard coded robot movement for autonomous
-         */
-        if (TEAM_SIDE == TeamSide.NEAR) {
-            nearDriveToBucket();
+        ARM.rotateArmToAngle(0);
 
-            // Turn to face the bucket
-            WHEELS.turn(45);
-            // Drop pixel
-            raiseArmAndEject();
+        while (opModeIsActive()) {
+            telemetry.addData("frontLeftWheel", WHEELS.FRONT_LEFT_MOTOR.getPower());
+            telemetry.addData("frontRightWheel", WHEELS.FRONT_RIGHT_MOTOR.getPower());
+            telemetry.addData("backLeftWheel", WHEELS.BACK_LEFT_MOTOR.getPower());
+            telemetry.addData("backRightWheel", WHEELS.BACK_RIGHT_MOTOR.getPower());
 
-            // Turn to face yellow pixels
-            WHEELS.turn(-45);
-
-            // Drive to right pixel and pick it up
-            double[] contourPosition = WEBCAM.getContourPosition();
-            if (contourPosition.length != 0) {
-                WHEELS.driveDistance(contourPosition[1]);
-
-            } else {
-                WHEELS.driveDistance(36, 12);
-            }
-            autoSleep(WHEELS.getMotors(), new HashSet<>());
-            pickUpSample();
-
-            // Drive back and dump it in bucket
-            if (contourPosition.length != 0) {
-                WHEELS.driveDistance(-contourPosition[1]);
-
-            } else {
-                WHEELS.driveDistance(-36, 12);
-            }
-            WHEELS.turn(45);
-            raiseArmAndEject();
-
-            // Park
-            ARM.rotateArmToAngle(45);
-            WHEELS.turn(-45);
-            autoSleep();
-            WHEELS.driveDistance(18, 12);
-
-            double targetDegrees = 90.0;
-
-            // Move the arm to the calculated target position
-            ARM.rotateArmToAngle(targetDegrees);
-            autoSleep(ARM.getRotationMotor());
-
-            // Eject the object using the claw
-            try {
-                CLAW.ejectIntake();
-
-            } catch (IllegalStateException e) {
-                telemetry.addLine("Failed to eject intake");
-            }
-
-        } else {
-            // Park
-            WHEELS.driveDistance(20);
+            WHEELS.driveDistance(24);
+            sleep(2000);
+            WHEELS.driveDistance(0, 24);
+            sleep(2000);
+            WHEELS.driveDistance(-24, -24);
+            telemetry.update();
         }
 
-        // When the Autonomous is stopped, lower the arm to prevent damage.
-        if (isStopRequested()) {
-            ARM.rotateArmToAngle(0);
-        }
+//        /*
+//         * Hard coded robot movement for autonomous
+//         */
+//        if (TEAM_SIDE == TeamSide.NEAR) {
+//            nearDriveToBucket();
+//
+//            // Turn to face the bucket
+//            WHEELS.turn(45);
+//            // Drop pixel
+//            raiseArmAndEject();
+//
+//            // Turn to face yellow pixels
+//            WHEELS.turn(-45);
+//
+//            // Drive to right pixel and pick it up
+//            double[] contourPosition = WEBCAM.getContourPosition();
+//            if (contourPosition.length != 0) {
+//                WHEELS.driveDistance(contourPosition[1]);
+//
+//            } else {
+//                WHEELS.driveDistance(36, 12);
+//            }
+//            autoSleep(WHEELS.getMotors(), new HashSet<>());
+//            pickUpSample();
+//
+//            // Drive back and dump it in bucket
+//            if (contourPosition.length != 0) {
+//                WHEELS.driveDistance(-contourPosition[1]);
+//
+//            } else {
+//                WHEELS.driveDistance(-36, 12);
+//            }
+//            WHEELS.turn(45);
+//            raiseArmAndEject();
+//
+//            // Park
+//            ARM.rotateArmToAngle(45);
+//            WHEELS.turn(-45);
+//            autoSleep();
+//            WHEELS.driveDistance(18, 12);
+//
+//            double targetDegrees = 90.0;
+//
+//            // Move the arm to the calculated target position
+//            ARM.rotateArmToAngle(targetDegrees);
+//            autoSleep(ARM.getRotationMotor());
+//
+//            // Eject the object using the claw
+//            try {
+//                CLAW.ejectIntake();
+//
+//            } catch (IllegalStateException e) {
+//                telemetry.addLine("Failed to eject intake");
+//            }
+//
+//        } else {
+//            // Park
+//            WHEELS.driveDistance(0, 20);
+//        }
+//
+//        // When the Autonomous is stopped, lower the arm to prevent damage.
+//        if (isStopRequested()) {
+//            ARM.rotateArmToAngle(0);
+//        }
     }
 }

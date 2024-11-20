@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name = "DriverMode")
 public class DriverMode extends CustomLinearOp {
+    private static final double JOYSTICK_SENSITIVITY = 1.0;
+
     private static int cameraMonitorViewId;
 
     /**
