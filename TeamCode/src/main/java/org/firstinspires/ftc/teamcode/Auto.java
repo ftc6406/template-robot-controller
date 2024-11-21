@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.hardwareSystems.MecanumWheels;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import java.util.HashSet;
@@ -78,6 +79,19 @@ public class Auto extends CustomLinearOp {
             sleep(2000);
             WHEELS.driveDistance(-24, -24);
             telemetry.update();
+        }
+
+        public void strafeRight () {
+
+        }
+
+        // Actual hard coded movement for robot autonomous
+        if (TEAM_SIDE == TeamSide.FAR) {
+            ARM.rotateArmToAngle(45);
+            ARM.foldArmToAngle(75);
+            // Temp movement for strafe right
+            WHEELS.driveDistance(0, 24);
+            WHEELS.driveDistance(72,0);
         }
 
 //        /*

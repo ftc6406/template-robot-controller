@@ -15,6 +15,9 @@ public class MecanumWheels extends Wheels {
     public final DcMotor BACK_LEFT_MOTOR;
     public final DcMotor BACK_RIGHT_MOTOR;
 
+    public void BACK_LEFT_MOTOR(int i) {
+    }
+
     /**
      * Passed into the `MecanumWheels` constructor.
      * Contains all four motors.
