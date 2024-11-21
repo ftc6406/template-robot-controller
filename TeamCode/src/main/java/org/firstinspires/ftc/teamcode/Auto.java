@@ -80,65 +80,74 @@ public class Auto extends CustomLinearOp {
             telemetry.update();
         }
 
-        /*
-         * Hard coded robot movement for autonomous
-         */
-        if (TEAM_SIDE == TeamSide.NEAR) {
-            nearDriveToBucket();
-
-            // Turn to face the bucket
-            WHEELS.turn(45);
-            // Drop pixel
-            raiseArmAndEject();
-
-            // Turn to face yellow pixels
-            WHEELS.turn(-45);
-
-            // Drive to right pixel and pick it up
-            double[] contourPosition = WEBCAM.getContourPosition();
-            if (contourPosition.length != 0) {
-                WHEELS.driveDistance(contourPosition[1]);
-
-            } else {
-                WHEELS.driveDistance(36, 12);
-            }
-            autoSleep(WHEELS.getMotors(), new HashSet<>());
-            pickUpSample();
-
-            // Drive back and dump it in bucket
-            if (contourPosition.length != 0) {
-                WHEELS.driveDistance(-contourPosition[1]);
-
-            } else {
-                WHEELS.driveDistance(-36, 12);
-            }
-            WHEELS.turn(45);
-            raiseArmAndEject();
-
-            // Park
+        // Actual hard coded movement for robot autonomous
+        if (TEAM_SIDE == TeamSide.FAR) {
             ARM.rotateArmToAngle(45);
-            WHEELS.turn(-45);
-            autoSleep();
-            WHEELS.driveDistance(18, 12);
-
-            double targetDegrees = 90.0;
-
-            // Move the arm to the calculated target position
-            ARM.rotateArmToAngle(targetDegrees);
-            autoSleep(ARM.getRotationMotor());
-
-            // Eject the object using the claw
-            try {
-                CLAW.ejectIntake();
-
-            } catch (IllegalStateException e) {
-                telemetry.addLine("Failed to eject intake");
-            }
-
-        } else {
-            // Park
-            WHEELS.driveDistance(0, 20);
+            ARM.foldArmToAngle(75);
+            // Temp movement for strafe right
+            WHEELS.driveDistance(0, 24);
+            WHEELS.driveDistance(72,0);
         }
+
+//        /*
+//         * Hard coded robot movement for autonomous
+//         */
+//        if (TEAM_SIDE == TeamSide.NEAR) {
+//            nearDriveToBucket();
+//
+//            // Turn to face the bucket
+//            WHEELS.turn(45);
+//            // Drop pixel
+//            raiseArmAndEject();
+//
+//            // Turn to face yellow pixels
+//            WHEELS.turn(-45);
+//
+//            // Drive to right pixel and pick it up
+//            double[] contourPosition = WEBCAM.getContourPosition();
+//            if (contourPosition.length != 0) {
+//                WHEELS.driveDistance(contourPosition[1]);
+//
+//            } else {
+//                WHEELS.driveDistance(36, 12);
+//            }
+//            autoSleep(WHEELS.getMotors(), new HashSet<>());
+//            pickUpSample();
+//
+//            // Drive back and dump it in bucket
+//            if (contourPosition.length != 0) {
+//                WHEELS.driveDistance(-contourPosition[1]);
+//
+//            } else {
+//                WHEELS.driveDistance(-36, 12);
+//            }
+//            WHEELS.turn(45);
+//            raiseArmAndEject();
+//
+//            // Park
+//            ARM.rotateArmToAngle(45);
+//            WHEELS.turn(-45);
+//            autoSleep();
+//            WHEELS.driveDistance(18, 12);
+//
+//            double targetDegrees = 90.0;
+//
+//            // Move the arm to the calculated target position
+//            ARM.rotateArmToAngle(targetDegrees);
+//            autoSleep(ARM.getRotationMotor());
+//
+//            // Eject the object using the claw
+//            try {
+//                CLAW.ejectIntake();
+//
+//            } catch (IllegalStateException e) {
+//                telemetry.addLine("Failed to eject intake");
+//            }
+//
+//        } else {
+//            // Park
+//            WHEELS.driveDistance(0, 20);
+//        }
 //
 //        // When the Autonomous is stopped, lower the arm to prevent damage.
 //        if (isStopRequested()) {
