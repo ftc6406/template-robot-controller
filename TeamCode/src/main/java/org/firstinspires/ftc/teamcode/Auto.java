@@ -81,10 +81,6 @@ public class Auto extends CustomLinearOp {
             telemetry.update();
         }
 
-        public void strafeRight () {
-
-        }
-
         // Actual hard coded movement for robot autonomous
         if (TEAM_SIDE == TeamSide.FAR) {
             ARM.rotateArmToAngle(45);
