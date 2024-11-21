@@ -83,9 +83,7 @@ public class DriverMode extends CustomLinearOp {
                 // Spin claw 90 degrees
                 CLAW.rotateXAxisServoToPosition(90.0);
 
-            }
-
-            if(gamepad2.left_bumper) {
+            }else if(gamepad2.left_bumper) {
                 double setPosition = 90.0;
                 ARM.rotateArmToAngle(setPosition);
                 CLAW.getIntakeServo().setPower(-0.5);
