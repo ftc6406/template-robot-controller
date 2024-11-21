@@ -69,15 +69,26 @@ public class DriverMode extends CustomLinearOp {
             } else if (gamepad2.dpad_right) {
                 CLAW.rotateXAxisServo(1.0);
 
-            } else if (gamepad2.dpad_up) {
+            }
+
+            // Bumper Controls
+            // Pressing the right bumper raises the arm and turns the claw
+            // Pressing the left bumper lowers the arm to set position
+            //  and rotates the servo back and the intak runs inwards
+            if (gamepad2.right_bumper) {
                 double targetDegrees = -90.0;
 
                 // Move the arm to the calculated target position
                 ARM.rotateArmToAngle(targetDegrees);
                 // Spin claw 90 degrees
                 CLAW.rotateXAxisServoToPosition(90.0);
-            }
 
+            } else if(gamepad2.left_bumper) {
+                double setPosition = 90;
+                ARM.rotateArmToAngle(setPosition);
+                double intakePower = CLAW.getIntakePower(;;int i;)
+            }
+             */
             /*
              * Pressing A picks up samples.
              * Pressing B stops the intake.
