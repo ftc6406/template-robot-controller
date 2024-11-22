@@ -28,13 +28,13 @@ public class DriverMode extends CustomLinearOp {
              */
             double strafe = (gamepad1.left_trigger > 0) ? -gamepad1.left_trigger : gamepad1.right_trigger;
             WHEELS.drive(
-                    gamepad1.right_stick_y,
                     strafe,
+                    gamepad1.right_stick_y,
                     gamepad1.left_stick_x
             );
-            telemetry.addData("right stick y", gamepad1.right_stick_y);
+            telemetry.addData("Gamepad 1, right stick y", gamepad1.right_stick_y);
             telemetry.addData("Strafe", strafe);
-            telemetry.addData("left stick x", gamepad1.left_stick_x);
+            telemetry.addData("Gamepad 1, left stick x", gamepad1.left_stick_x);
 
             telemetry.addData("frontLeftWheel", WHEELS.FRONT_LEFT_MOTOR.getPower());
             telemetry.addData("frontRightWheel", WHEELS.FRONT_RIGHT_MOTOR.getPower());
@@ -68,7 +68,6 @@ public class DriverMode extends CustomLinearOp {
 
             } else if (gamepad2.dpad_right) {
                 CLAW.rotateXAxisServo(1.0);
-
             }
 
             // Bumper Controls
@@ -85,6 +84,7 @@ public class DriverMode extends CustomLinearOp {
 
                     telemetry.addData("Arm Target", targetDegrees);
                     telemetry.addData("Claw Target", 90.0);
+
                 } catch (Exception e) {
                     telemetry.addLine("Error in right bumper logic: " + e.getMessage());
                 }
