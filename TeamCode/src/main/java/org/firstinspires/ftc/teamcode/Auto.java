@@ -61,10 +61,10 @@ public class Auto extends CustomLinearOp {
         telemetry.update();
 
         // Step 1: Lift arm 45 degrees
-        double targetDegrees = -45; // Replace with actual degrees needed
+        double targetDegrees = 45; // Replace with actual degrees needed
 
         ARM.rotateArmToAngle(targetDegrees); // Move the arm to the calculated target position
-        sleep(500);
+        sleep(1500);
 
         // Step 2: Extend Arm
         ARM.foldArmToAngle(75); // Adjust this value as needed
@@ -79,7 +79,7 @@ public class Auto extends CustomLinearOp {
         sleep(500);
 
         // Step 5: Lift arm 45 degrees again
-        ARM.rotateArmToAngle(45);
+        ARM.rotateArmToAngle(ARM.getRotationDegrees() + 45);
         sleep(500);
 
         // Step 6: Reverse the claw intake to score
@@ -91,7 +91,7 @@ public class Auto extends CustomLinearOp {
         sleep(500);
 
         // Step 8: Bring arm down 90 degrees
-        ARM.rotateArmToAngle(-90);
+        ARM.rotateArmToAngle(ARM.getRotationDegrees() - 90);
         sleep(500);
 
         // Step 9: Strafe right 65 inches
@@ -107,7 +107,7 @@ public class Auto extends CustomLinearOp {
         sleep(500);
 
         // Step 12: Lift arm 35 degrees
-        ARM.rotateArmToAngle(35);
+        ARM.rotateArmToAngle( ARM.getRotationDegrees() + 35);
         sleep(500);
 
         telemetry.addLine("Finished Near Basket Action");
@@ -120,10 +120,10 @@ public class Auto extends CustomLinearOp {
 
         // Similar to near basket actions but fewer steps
         // Step 1: Lift arm 45 degrees
-        double targetDegrees = -45; // Replace with actual degrees needed
+        double targetDegrees = 45; // Replace with actual degrees needed
 
         ARM.rotateArmToAngle(targetDegrees); // Move the arm to the calculated target position
-        sleep(500);
+        sleep(1500);
 
         // Step 2: Extend Arm
         ARM.foldArmToAngle(75); // Adjust this value as needed
@@ -147,9 +147,6 @@ public class Auto extends CustomLinearOp {
     @Override
     public void runOpMode() {
         super.runOpMode();
-
-        ARM.rotateArmToAngle(0);
-        sleep(500);
 
         if (TEAM_SIDE == TeamSide.NEAR) {
             performNearBasketActions();
