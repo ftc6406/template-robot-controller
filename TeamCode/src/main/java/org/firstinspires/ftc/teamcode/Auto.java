@@ -56,23 +56,6 @@ public class Auto extends CustomLinearOp {
         }
     }
 
-    /**
-     * Automatically runs after pressing the "Init" button on the Control Hub
-     */
-    @Override
-    public void runOpMode() {
-        super.runOpMode();
-
-        ARM.rotateArmToAngle(0);
-        sleep(500);
-
-        if (TEAM_SIDE == TeamSide.NEAR) {
-            performNearBasketActions();
-        } else {
-            performFarBasketActions();
-        }
-    }
-
     private void performNearBasketActions() {
         telemetry.addLine("Starting Near Basket Action");
         telemetry.update();
@@ -156,5 +139,22 @@ public class Auto extends CustomLinearOp {
 
         telemetry.addLine("Finished Far Basket Actions");
         telemetry.update();
+    }
+
+    /**
+     * Automatically runs after pressing the "Init" button on the Control Hub
+     */
+    @Override
+    public void runOpMode() {
+        super.runOpMode();
+
+        ARM.rotateArmToAngle(0);
+        sleep(500);
+
+        if (TEAM_SIDE == TeamSide.NEAR) {
+            performNearBasketActions();
+        } else {
+            performFarBasketActions();
+        }
     }
 }
