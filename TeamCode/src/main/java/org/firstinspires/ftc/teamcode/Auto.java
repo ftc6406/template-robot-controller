@@ -49,7 +49,7 @@ public class Auto extends CustomLinearOp {
         for (AprilTagDetection detection : currentDetections) {
             if (detection.id == targetTagId) {
                 // Drive to the AprilTag
-                double forwardDistance = detection.ftcPose.y + WEBCAM.getPoseAdjust()[1] - 12 ;
+                double forwardDistance = detection.ftcPose.y + WEBCAM.getPoseAdjust()[1] - 12;
                 double sidewaysDistance = detection.ftcPose.x + WEBCAM.getPoseAdjust()[0] - 12;
                 WHEELS.driveDistance(sidewaysDistance, forwardDistance);
             }
@@ -72,12 +72,13 @@ public class Auto extends CustomLinearOp {
             performFarBasketActions();
         }
     }
+
     private void performNearBasketActions() {
         telemetry.addLine("Starting Near Basket Action");
         telemetry.update();
 
         // Step 1: Lift arm 45 degrees
-        double targetDegrees = 45; // Replace with actual degrees needed
+        double targetDegrees = -45; // Replace with actual degrees needed
 
         ARM.rotateArmToAngle(targetDegrees); // Move the arm to the calculated target position
         sleep(500);
@@ -91,7 +92,7 @@ public class Auto extends CustomLinearOp {
         sleep(500);
 
         // Step 4: Strafe left 72 inches
-        WHEELS.driveDistance(-72,0); // Negative X for strafing left
+        WHEELS.driveDistance(-72, 0); // Negative X for strafing left
         sleep(500);
 
         // Step 5: Lift arm 45 degrees again
@@ -115,7 +116,7 @@ public class Auto extends CustomLinearOp {
         sleep(500);
 
         // Step 10: Drive Forward 72 inches
-        WHEELS.driveDistance(0,72); // Positive Y for forward
+        WHEELS.driveDistance(0, 72); // Positive Y for forward
         sleep(500);
 
         // Step 11: Turn right 90 degrees
@@ -136,7 +137,7 @@ public class Auto extends CustomLinearOp {
 
         // Similar to near basket actions but fewer steps
         // Step 1: Lift arm 45 degrees
-        double targetDegrees = 45; // Replace with actual degrees needed
+        double targetDegrees = -45; // Replace with actual degrees needed
 
         ARM.rotateArmToAngle(targetDegrees); // Move the arm to the calculated target position
         sleep(500);
@@ -150,7 +151,7 @@ public class Auto extends CustomLinearOp {
         sleep(500);
 
         // Step 4: Strafe left 72 inches
-        WHEELS.driveDistance(-72,0); // Negative X for strafing left
+        WHEELS.driveDistance(-72, 0); // Negative X for strafing left
         sleep(500);
 
         telemetry.addLine("Finished Far Basket Actions");
