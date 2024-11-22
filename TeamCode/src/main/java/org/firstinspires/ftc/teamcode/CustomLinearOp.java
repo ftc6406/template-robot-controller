@@ -90,6 +90,7 @@ public class CustomLinearOp extends LinearOpMode {
                 WEBCAM.setTargetColor(Webcam.Color.BLUE);
                 break;
         }
+        telemetry.addData("Starting position", ALLIANCE_COLOR.name() + ", " + TEAM_SIDE.name());
 
         waitForStart();
     }

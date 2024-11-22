@@ -73,19 +73,19 @@ public class PositionInput extends OpMode {
         String positionString = null;
         if (gamepad1.y || gamepad2.y) {
             // Orange button
-            positionString = AllianceColor.RED.name() + "," + TeamSide.NEAR.name();
+            positionString = AllianceColor.RED.name() + ", " + TeamSide.NEAR.name();
 
         } else if (gamepad1.b || gamepad2.b) {
             // Red button
-            positionString = AllianceColor.RED.name() + "," + TeamSide.FAR.name();
+            positionString = AllianceColor.RED.name() + ", " + TeamSide.FAR.name();
 
         } else if (gamepad1.a || gamepad2.a) {
             // Green button
-            positionString = AllianceColor.BLUE.name() + "," + TeamSide.NEAR.name();
+            positionString = AllianceColor.BLUE.name() + ", " + TeamSide.NEAR.name();
 
         } else if (gamepad1.x || gamepad2.x) {
             // Blue button
-            positionString = AllianceColor.BLUE.name() + "," + TeamSide.FAR.name();
+            positionString = AllianceColor.BLUE.name() + ", " + TeamSide.FAR.name();
         }
 
         // Do nothing if the driver didn't press any buttons.
