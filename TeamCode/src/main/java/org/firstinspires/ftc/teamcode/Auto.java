@@ -48,7 +48,7 @@ public class Auto extends CustomLinearOp {
         List<AprilTagDetection> currentDetections = WEBCAM.getAprilTag().getDetections();
         for (AprilTagDetection detection : currentDetections) {
             if (detection.id == targetTagId) {
-                double forwardDistance = detection.ftcPose.y + WEBCAM.getPoseAdjust()[1] - 12 ;
+                double forwardDistance = detection.ftcPose.y + WEBCAM.getPoseAdjust()[1] - 12;
                 double sidewaysDistance = detection.ftcPose.x + WEBCAM.getPoseAdjust()[0] - 12;
                 WHEELS.driveDistance(sidewaysDistance, forwardDistance);
             }
@@ -66,78 +66,16 @@ public class Auto extends CustomLinearOp {
         ARM.rotateArmToAngle(0);
         sleep(500);
 
-
-//        /*
-//         * Hard coded robot movement for autonomous
-//         */
-//        if (TEAM_SIDE == TeamSide.NEAR) {
-//            nearDriveToBucket();
-//
-//            // Turn to face the bucket
-//            WHEELS.turn(45);
-//            // Drop pixel
-//            raiseArmAndEject();
-//
-//            // Turn to face yellow pixels
-//            WHEELS.turn(-45);
-//
-//            // Drive to right pixel and pick it up
-//            double[] contourPosition = WEBCAM.getContourPosition();
-//            if (contourPosition.length != 0) {
-//                WHEELS.driveDistance(contourPosition[1]);
-//
-//            } else {
-//                WHEELS.driveDistance(36, 12);
-//            }
-//            autoSleep(WHEELS.getMotors(), new HashSet<>());
-//            pickUpSample();
-//
-//            // Drive back and dump it in bucket
-//            if (contourPosition.length != 0) {
-//                WHEELS.driveDistance(-contourPosition[1]);
-//
-//            } else {
-//                WHEELS.driveDistance(-36, 12);
-//            }
-//            WHEELS.turn(45);
-//            raiseArmAndEject();
-//
-//            // Park
-//            ARM.rotateArmToAngle(45);
-//            WHEELS.turn(-45);
-//            autoSleep();
-//            WHEELS.driveDistance(18, 12);
-//
-//            double targetDegrees = 90.0;
-//
-//            // Move the arm to the calculated target position
-//            ARM.rotateArmToAngle(targetDegrees);
-//            autoSleep(ARM.getRotationMotor());
-//
-//            // Eject the object using the claw
-//            try {
-//                CLAW.ejectIntake();
-//
-//            } catch (IllegalStateException e) {
-//                telemetry.addLine("Failed to eject intake");
-//            }
-//
-//        } else {
-//            // Park
-//            WHEELS.driveDistance(0, 20);
-//        }
-//
-//        // When the Autonomous is stopped, lower the arm to prevent damage.
-//        if (isStopRequested()) {
-//            ARM.rotateArmToAngle(0);
-//        }
+        performFarBasketActions();
+        performNearBasketActions();
     }
+
     private void performNearBasketActions() {
         telemetry.addLine("Starting Near Basket Action");
         telemetry.update();
 
         // Step 1: Lift arm 45 degrees
-        double targetDegrees = 45; // Replace with actual degrees needed
+        double targetDegrees = -45; // Replace with actual degrees needed
 
         ARM.rotateArmToAngle(targetDegrees); // Move the arm to the calculated target position
         sleep(500);
@@ -151,7 +89,7 @@ public class Auto extends CustomLinearOp {
         sleep(500);
 
         // Step 4: Strafe left 72 inches
-        WHEELS.driveDistance(-72,0); // Negative X for strafing left
+        WHEELS.driveDistance(-72, 0); // Negative X for strafing left
         sleep(500);
 
         // Step 5: Lift arm 45 degrees again
@@ -175,7 +113,7 @@ public class Auto extends CustomLinearOp {
         sleep(500);
 
         // Step 10: Drive Forward 72 inches
-        WHEELS.driveDistance(0,72); // Positive Y for forward
+        WHEELS.driveDistance(0, 72); // Positive Y for forward
         sleep(500);
 
         // Step 11: Turn right 90 degrees
@@ -196,7 +134,7 @@ public class Auto extends CustomLinearOp {
 
         // Similar to near basket actions but fewer steps
         // Step 1: Lift arm 45 degrees
-        double targetDegrees = 45; // Replace with actual degrees needed
+        double targetDegrees = -45; // Replace with actual degrees needed
 
         ARM.rotateArmToAngle(targetDegrees); // Move the arm to the calculated target position
         sleep(500);
@@ -210,7 +148,7 @@ public class Auto extends CustomLinearOp {
         sleep(500);
 
         // Step 4: Strafe left 72 inches
-        WHEELS.driveDistance(-72,0); // Negative X for strafing left
+        WHEELS.driveDistance(-72, 0); // Negative X for strafing left
         sleep(500);
 
         telemetry.addLine("Finished Far Basket Actions");
