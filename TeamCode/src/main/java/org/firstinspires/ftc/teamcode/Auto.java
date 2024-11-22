@@ -48,7 +48,7 @@ public class Auto extends CustomLinearOp {
         List<AprilTagDetection> currentDetections = WEBCAM.getAprilTag().getDetections();
         for (AprilTagDetection detection : currentDetections) {
             if (detection.id == targetTagId) {
-                double forwardDistance = detection.ftcPose.y + WEBCAM.getPoseAdjust()[1] - 12;
+                double forwardDistance = detection.ftcPose.y + WEBCAM.getPoseAdjust()[1] - 12 ;
                 double sidewaysDistance = detection.ftcPose.x + WEBCAM.getPoseAdjust()[0] - 12;
                 WHEELS.driveDistance(sidewaysDistance, forwardDistance);
             }
@@ -64,60 +64,156 @@ public class Auto extends CustomLinearOp {
         super.runOpMode();
 
         ARM.rotateArmToAngle(0);
-        sleep(1000);
+        sleep(500);
 
-        // Actual hard coded movement for robot autonomous
-        if (TEAM_SIDE == TeamSide.FAR) {
-            ARM.rotateArmToAngle(45);
-            sleep(500);
-            ARM.foldArmToAngle(75);
-            // Temp movement for strafe right
-            WHEELS.driveDistance(0, 24);
-        }
-        /*
-         * (Theoretical) hard coded robot movement for near autonomous
-         */
-        else {
-            // Turn to face the bucket
-            WHEELS.turn(45);
-            // Drop pixel
-            raiseArmAndEject();
 
-            // Turn to face yellow pixels
-            WHEELS.turn(-45);
+//        /*
+//         * Hard coded robot movement for autonomous
+//         */
+//        if (TEAM_SIDE == TeamSide.NEAR) {
+//            nearDriveToBucket();
+//
+//            // Turn to face the bucket
+//            WHEELS.turn(45);
+//            // Drop pixel
+//            raiseArmAndEject();
+//
+//            // Turn to face yellow pixels
+//            WHEELS.turn(-45);
+//
+//            // Drive to right pixel and pick it up
+//            double[] contourPosition = WEBCAM.getContourPosition();
+//            if (contourPosition.length != 0) {
+//                WHEELS.driveDistance(contourPosition[1]);
+//
+//            } else {
+//                WHEELS.driveDistance(36, 12);
+//            }
+//            autoSleep(WHEELS.getMotors(), new HashSet<>());
+//            pickUpSample();
+//
+//            // Drive back and dump it in bucket
+//            if (contourPosition.length != 0) {
+//                WHEELS.driveDistance(-contourPosition[1]);
+//
+//            } else {
+//                WHEELS.driveDistance(-36, 12);
+//            }
+//            WHEELS.turn(45);
+//            raiseArmAndEject();
+//
+//            // Park
+//            ARM.rotateArmToAngle(45);
+//            WHEELS.turn(-45);
+//            autoSleep();
+//            WHEELS.driveDistance(18, 12);
+//
+//            double targetDegrees = 90.0;
+//
+//            // Move the arm to the calculated target position
+//            ARM.rotateArmToAngle(targetDegrees);
+//            autoSleep(ARM.getRotationMotor());
+//
+//            // Eject the object using the claw
+//            try {
+//                CLAW.ejectIntake();
+//
+//            } catch (IllegalStateException e) {
+//                telemetry.addLine("Failed to eject intake");
+//            }
+//
+//        } else {
+//            // Park
+//            WHEELS.driveDistance(0, 20);
+//        }
+//
+//        // When the Autonomous is stopped, lower the arm to prevent damage.
+//        if (isStopRequested()) {
+//            ARM.rotateArmToAngle(0);
+//        }
+    }
+    private void performNearBasketActions() {
+        telemetry.addLine("Starting Near Basket Action");
+        telemetry.update();
 
-            // Drive to right pixel and pick it up
-            double[] contourPosition = WEBCAM.getContourPosition();
-            if (contourPosition.length != 0) {
-                WHEELS.driveDistance(contourPosition[1]);
+        // Step 1: Lift arm 45 degrees
+        double targetDegrees = 45; // Replace with actual degrees needed
 
-            } else {
-                WHEELS.driveDistance(36, 12);
-            }
-            autoSleep(WHEELS.getMotors());
-            pickUpSample();
+        ARM.rotateArmToAngle(targetDegrees); // Move the arm to the calculated target position
+        sleep(500);
 
-            // Drive back and dump it in bucket
-            if (contourPosition.length != 0) {
-                WHEELS.driveDistance(-contourPosition[1]);
+        // Step 2: Extend Arm
+        ARM.foldArmToAngle(75); // Adjust this value as needed
+        sleep(500);
 
-            } else {
-                WHEELS.driveDistance(-36, 12);
-            }
-            WHEELS.turn(45);
-            raiseArmAndEject();
+        // Step 3: Rotate Claw
+        CLAW.startIntake();
+        sleep(500);
 
-            // Park
-            ARM.rotateArmToAngle(45);
-            WHEELS.turn(-45);
-            autoSleep();
-            WHEELS.driveDistance(18, 12);
+        // Step 4: Strafe left 72 inches
+        WHEELS.driveDistance(-72,0); // Negative X for strafing left
+        sleep(500);
 
-            double targetDegrees = 90.0;
+        // Step 5: Lift arm 45 degrees again
+        ARM.rotateArmToAngle(45);
+        sleep(500);
 
-            // Move the arm to the calculated target position
-            ARM.rotateArmToAngle(targetDegrees);
-            autoSleep(ARM.getRotationMotor());
-        }
+        // Step 6: Reverse the claw intake to score
+        CLAW.ejectIntake();
+        sleep(500);
+
+        // Step 7: Rotate servo back
+        CLAW.stopIntake(); // Not too sure if this is what I need to do but this resets servo
+        sleep(500);
+
+        // Step 8: Bring arm down 90 degrees
+        ARM.rotateArmToAngle(-90);
+        sleep(500);
+
+        // Step 9: Strafe right 65 inches
+        WHEELS.driveDistance(65, 0); // Postive X for strafing right
+        sleep(500);
+
+        // Step 10: Drive Forward 72 inches
+        WHEELS.driveDistance(0,72); // Positive Y for forward
+        sleep(500);
+
+        // Step 11: Turn right 90 degrees
+        WHEELS.turn(90);
+        sleep(500);
+
+        // Step 12: Lift arm 35 degrees
+        ARM.rotateArmToAngle(35;
+        sleep(500);
+
+        telemetry.addLine("Finished Near Basket Action");
+        telemetry.update();
+    }
+
+    private void performFarBasketActions() {
+        telemetry.addLine("Starting Far Basket Action");
+        telemetry.update();
+
+        // Similar to near basket actions but fewer steps
+        // Step 1: Lift arm 45 degrees
+        double targetDegrees = 45; // Replace with actual degrees needed
+
+        ARM.rotateArmToAngle(targetDegrees); // Move the arm to the calculated target position
+        sleep(500);
+
+        // Step 2: Extend Arm
+        ARM.foldArmToAngle(75); // Adjust this value as needed
+        sleep(500);
+
+        // Step 3: Rotate Claw
+        CLAW.startIntake();
+        sleep(500);
+
+        // Step 4: Strafe left 72 inches
+        WHEELS.driveDistance(-72,0); // Negative X for strafing left
+        sleep(500);
+
+        telemetry.addLine("Finished Far Basket Actions");
+        telemetry.update();
     }
 }

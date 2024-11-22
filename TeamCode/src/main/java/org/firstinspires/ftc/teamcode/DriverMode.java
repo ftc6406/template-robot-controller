@@ -72,21 +72,39 @@ public class DriverMode extends CustomLinearOp {
             }
 
             // Bumper Controls
-            // Pressing the right bumper raises the arm and turns the claw
-            // Pressing the left bumper lowers the arm to set position
-            //  and rotates the servo back and the intake runs inwards
             if (gamepad2.right_bumper) {
-                double targetDegrees = -90.0;
+                telemetry.addLine("Right Bumper Pressed: Raising Arm and Rotating Claw");
 
-                // Move the arm to the calculated target position
-                ARM.rotateArmToAngle(targetDegrees);
-                // Spin claw 90 degrees
-                CLAW.rotateXAxisServoToPosition(90.0);
+                try {
+                    // Raise the arm to -90 degrees (adjust as needed)
+                    double targetDegrees = -90.0;
+                    ARM.rotateArmToAngle(targetDegrees);
 
-            }else if(gamepad2.left_bumper) {
-                double setPosition = 90.0;
-                ARM.rotateArmToAngle(setPosition);
-                CLAW.getIntakeServo().setPower(-0.5);
+                    // Rotate the claw to 90 degrees
+                    CLAW.rotateXAxisServoToPosition(90.0);
+
+                    telemetry.addData("Arm Target", targetDegrees);
+                    telemetry.addData("Claw Target", 90.0);
+                } catch (Exception e) {
+                    telemetry.addLine("Error in right bumper logic: " + e.getMessage());
+                }
+
+            } else if (gamepad2.left_bumper) {
+                telemetry.addLine("Left Bumper Pressed: Lowering Arm, Rotating Servo Back, Running Intake");
+
+                try {
+                    // Lower the arm to 90 degrees (adjust as needed)
+                    double setPosition = 90.0;
+                    ARM.rotateArmToAngle(setPosition);
+
+                    // Run the intake servo backward
+                    CLAW.getIntakeServo().setPower(-0.5);
+
+                    telemetry.addData("Arm Target", setPosition);
+                    telemetry.addLine("Intake Power: Reverse (-0.5)");
+                } catch (Exception e) {
+                    telemetry.addLine("Error in left bumper logic: " + e.getMessage());
+                }
             }
 
             /*
