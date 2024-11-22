@@ -19,6 +19,7 @@ import org.firstinspires.ftc.teamcode.hardwareSystems.Wheels;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
@@ -260,31 +261,25 @@ public class CustomLinearOp extends LinearOpMode {
     }
 
     /**
-     * Sleeps the robot while any motors or CR servos are running.
+     * Sleeps the robot while any motors are running.
      */
     public void autoSleep() {
-        autoSleep(getAllDcMotors(), getAllCrServos());
+        autoSleep(getAllDcMotors());
     }
 
-    public void autoSleep(DcMotor motor) {
-        autoSleep(new HashSet<>(Collections.singleton(motor)), new HashSet<>());
+    public void autoSleep(DcMotor ...motors) {
+        autoSleep(new HashSet<>(Arrays.asList(motors)));
     }
 
     /**
-     * Sleeps the robot while the given motors and CRServos are running.
+     * Sleeps the robot while the given motors are running.
      *
      * @param motors   The motors that are running.
-     * @param crServos The CR servos that are running.
      */
-    public void autoSleep(HashSet<DcMotor> motors, HashSet<CRServo> crServos) {
+    public void autoSleep(HashSet<DcMotor> motors) {
         // Sleep while any of the motors are still running.
         while (motors.stream().anyMatch(DcMotor::isBusy)) {
-            idle();
-        }
-
-        // Sleep while any of the CR servos are still running.
-        while (crServos.stream().anyMatch(crServo -> crServo.getPower() != 0)) {
-            idle();
+            sleep(1);
         }
     }
 }

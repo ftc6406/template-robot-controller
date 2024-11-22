@@ -48,7 +48,7 @@ public class Auto extends CustomLinearOp {
         List<AprilTagDetection> currentDetections = WEBCAM.getAprilTag().getDetections();
         for (AprilTagDetection detection : currentDetections) {
             if (detection.id == targetTagId) {
-                double forwardDistance = detection.ftcPose.y + WEBCAM.getPoseAdjust()[1] - 12 ;
+                double forwardDistance = detection.ftcPose.y + WEBCAM.getPoseAdjust()[1] - 12;
                 double sidewaysDistance = detection.ftcPose.x + WEBCAM.getPoseAdjust()[0] - 12;
                 WHEELS.driveDistance(sidewaysDistance, forwardDistance);
             }
@@ -62,96 +62,62 @@ public class Auto extends CustomLinearOp {
     @Override
     public void runOpMode() {
         super.runOpMode();
-        telemetry.update();
 
         ARM.rotateArmToAngle(0);
-
-        while (opModeIsActive()) {
-            telemetry.addData("frontLeftWheel", WHEELS.FRONT_LEFT_MOTOR.getPower());
-            telemetry.addData("frontRightWheel", WHEELS.FRONT_RIGHT_MOTOR.getPower());
-            telemetry.addData("backLeftWheel", WHEELS.BACK_LEFT_MOTOR.getPower());
-            telemetry.addData("backRightWheel", WHEELS.BACK_RIGHT_MOTOR.getPower());
-
-            WHEELS.driveDistance(24);
-            autoSleep();
-            WHEELS.driveDistance(0, 24);
-            autoSleep();
-            WHEELS.driveDistance(-24, -24);
-            telemetry.update();
-        }
+        sleep(1000);
 
         // Actual hard coded movement for robot autonomous
         if (TEAM_SIDE == TeamSide.FAR) {
             ARM.rotateArmToAngle(45);
+            sleep(500);
             ARM.foldArmToAngle(75);
             // Temp movement for strafe right
             WHEELS.driveDistance(0, 24);
-            WHEELS.driveDistance(72,0);
         }
+        /*
+         * (Theoretical) hard coded robot movement for near autonomous
+         */
+        else {
+            // Turn to face the bucket
+            WHEELS.turn(45);
+            // Drop pixel
+            raiseArmAndEject();
 
-//        /*
-//         * Hard coded robot movement for autonomous
-//         */
-//        if (TEAM_SIDE == TeamSide.NEAR) {
-//            nearDriveToBucket();
-//
-//            // Turn to face the bucket
-//            WHEELS.turn(45);
-//            // Drop pixel
-//            raiseArmAndEject();
-//
-//            // Turn to face yellow pixels
-//            WHEELS.turn(-45);
-//
-//            // Drive to right pixel and pick it up
-//            double[] contourPosition = WEBCAM.getContourPosition();
-//            if (contourPosition.length != 0) {
-//                WHEELS.driveDistance(contourPosition[1]);
-//
-//            } else {
-//                WHEELS.driveDistance(36, 12);
-//            }
-//            autoSleep(WHEELS.getMotors(), new HashSet<>());
-//            pickUpSample();
-//
-//            // Drive back and dump it in bucket
-//            if (contourPosition.length != 0) {
-//                WHEELS.driveDistance(-contourPosition[1]);
-//
-//            } else {
-//                WHEELS.driveDistance(-36, 12);
-//            }
-//            WHEELS.turn(45);
-//            raiseArmAndEject();
-//
-//            // Park
-//            ARM.rotateArmToAngle(45);
-//            WHEELS.turn(-45);
-//            autoSleep();
-//            WHEELS.driveDistance(18, 12);
-//
-//            double targetDegrees = 90.0;
-//
-//            // Move the arm to the calculated target position
-//            ARM.rotateArmToAngle(targetDegrees);
-//            autoSleep(ARM.getRotationMotor());
-//
-//            // Eject the object using the claw
-//            try {
-//                CLAW.ejectIntake();
-//
-//            } catch (IllegalStateException e) {
-//                telemetry.addLine("Failed to eject intake");
-//            }
-//
-//        } else {
-//            // Park
-//            WHEELS.driveDistance(0, 20);
-//        }
-//
-//        // When the Autonomous is stopped, lower the arm to prevent damage.
-//        if (isStopRequested()) {
-//            ARM.rotateArmToAngle(0);
-//        }
+            // Turn to face yellow pixels
+            WHEELS.turn(-45);
+
+            // Drive to right pixel and pick it up
+            double[] contourPosition = WEBCAM.getContourPosition();
+            if (contourPosition.length != 0) {
+                WHEELS.driveDistance(contourPosition[1]);
+
+            } else {
+                WHEELS.driveDistance(36, 12);
+            }
+            autoSleep(WHEELS.getMotors());
+            pickUpSample();
+
+            // Drive back and dump it in bucket
+            if (contourPosition.length != 0) {
+                WHEELS.driveDistance(-contourPosition[1]);
+
+            } else {
+                WHEELS.driveDistance(-36, 12);
+            }
+            WHEELS.turn(45);
+            raiseArmAndEject();
+
+            // Park
+            ARM.rotateArmToAngle(45);
+            WHEELS.turn(-45);
+            autoSleep();
+            WHEELS.driveDistance(18, 12);
+
+            double targetDegrees = 90.0;
+
+            // Move the arm to the calculated target position
+            ARM.rotateArmToAngle(targetDegrees);
+            autoSleep(ARM.getRotationMotor());
+        }
     }
 }
