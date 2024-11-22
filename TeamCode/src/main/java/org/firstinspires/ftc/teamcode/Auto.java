@@ -66,6 +66,8 @@ public class Auto extends CustomLinearOp {
 
         ARM.rotateArmToAngle(0);
 
+
+
         while (opModeIsActive()) {
             telemetry.addData("frontLeftWheel", WHEELS.FRONT_LEFT_MOTOR.getPower());
             telemetry.addData("frontRightWheel", WHEELS.FRONT_RIGHT_MOTOR.getPower());
@@ -78,15 +80,6 @@ public class Auto extends CustomLinearOp {
             autoSleep();
             WHEELS.driveDistance(-24, -24);
             telemetry.update();
-        }
-
-        // Actual hard coded movement for robot autonomous
-        if (TEAM_SIDE == TeamSide.FAR) {
-            ARM.rotateArmToAngle(45);
-            ARM.foldArmToAngle(75);
-            // Temp movement for strafe right
-            WHEELS.driveDistance(0, 24);
-            WHEELS.driveDistance(72,0);
         }
 
 //        /*
@@ -153,5 +146,89 @@ public class Auto extends CustomLinearOp {
 //        if (isStopRequested()) {
 //            ARM.rotateArmToAngle(0);
 //        }
+    }
+    private void performNearBasketActions() {
+        telemetry.addLine("Starting Near Basket Action");
+        telemetry.update();
+
+        // Step 1: Lift arm 45 degrees
+        double targetDegrees = 45; // Replace with actual degrees needed
+
+        ARM.rotateArmToAngle(targetDegrees); // Move the arm to the calculated target position
+        sleep(500);
+
+        // Step 2: Extend Arm
+        ARM.foldArmToAngle(75); // Adjust this value as needed
+        sleep(500);
+
+        // Step 3: Rotate Claw
+        CLAW.startIntake();
+        sleep(500);
+
+        // Step 4: Strafe left 72 inches
+        WHEELS.driveDistance(-72,0); // Negative X for strafing left
+        sleep(500);
+
+        // Step 5: Lift arm 45 degrees again
+        ARM.rotateArmToAngle(45);
+        sleep(500);
+
+        // Step 6: Reverse the claw intake to score
+        CLAW.ejectIntake();
+        sleep(500);
+
+        // Step 7: Rotate servo back
+        CLAW.stopIntake(); // Not too sure if this is what I need to do but this resets servo
+        sleep(500);
+
+        // Step 8: Bring arm down 90 degrees
+        ARM.rotateArmToAngle(-90);
+        sleep(500);
+
+        // Step 9: Strafe right 65 inches
+        WHEELS.driveDistance(65, 0); // Postive X for strafing right
+        sleep(500);
+
+        // Step 10: Drive Forward 72 inches
+        WHEELS.driveDistance(0,72); // Positive Y for forward
+        sleep(500);
+
+        // Step 11: Turn right 90 degrees
+        WHEELS.turn(90);
+        sleep(500);
+
+        // Step 12: Lift arm 35 degrees
+        ARM.rotateArmToAngle(35;
+        sleep(500);
+
+        telemetry.addLine("Finished Near Basket Action");
+        telemetry.update();
+    }
+
+    private void performFarBasketActions() {
+        telemetry.addLine("Starting Far Basket Action");
+        telemetry.update();
+
+        // Similar to near basket actions but fewer steps
+        // Step 1: Lift arm 45 degrees
+        double targetDegrees = 45; // Replace with actual degrees needed
+
+        ARM.rotateArmToAngle(targetDegrees); // Move the arm to the calculated target position
+        sleep(500);
+
+        // Step 2: Extend Arm
+        ARM.foldArmToAngle(75); // Adjust this value as needed
+        sleep(500);
+
+        // Step 3: Rotate Claw
+        CLAW.startIntake();
+        sleep(500);
+
+        // Step 4: Strafe left 72 inches
+        WHEELS.driveDistance(-72,0); // Negative X for strafing left
+        sleep(500);
+
+        telemetry.addLine("Finished Far Basket Actions");
+        telemetry.update();
     }
 }
