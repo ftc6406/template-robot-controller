@@ -98,7 +98,7 @@ public class Auto extends CustomLinearOp {
         // sleep(500);
 
         // Step 10: Drive forward 50 inches
-        WHEELS.driveDistance(0, 50); // Positive Y for forward
+        WHEELS.driveDistance(50); // Positive Y for forward
         sleep(500);
 
         // Step 11: Turn right 90 degrees
@@ -134,9 +134,8 @@ public class Auto extends CustomLinearOp {
         // CLAW.startIntake();
         // sleep(500);
 
-        // Step 4: Strafe right 72 inches
-        WHEELS.driveDistance(48, 0); // Negative X for strafing left
-        sleep(500);
+        // Step 4: Strafe right 48 inches
+        WHEELS.driveDistance(48, 0); // Positive X for strafing right        sleep(500);
 
         telemetry.addLine("Finished Far Basket Actions");
         telemetry.update();
