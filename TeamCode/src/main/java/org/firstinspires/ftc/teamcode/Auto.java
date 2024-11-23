@@ -74,7 +74,7 @@ public class Auto extends CustomLinearOp {
         // sleep(500);
 
         // Step 4: Strafe left 24 inches
-        WHEELS.driveDistance(-12, 0); // Negative X for strafing left
+        WHEELS.driveDistance(-36, 0); // Negative X for strafing left
         sleep(2000);
 
         // Step 5: Lift arm 45 degrees again
@@ -98,8 +98,8 @@ public class Auto extends CustomLinearOp {
         // sleep(500);
 
         // Step 10: Drive forward 50 inches
-        WHEELS.driveDistance(75); // Positive Y for forward
-        sleep(5000);
+        WHEELS.driveDistance(72); // Positive Y for forward
+        sleep(6000);
 
         // Step 11: Turn right 90 degrees
         // WHEELS.turn(90);

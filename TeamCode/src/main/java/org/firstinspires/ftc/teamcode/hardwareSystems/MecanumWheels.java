@@ -15,44 +15,6 @@ public class MecanumWheels extends Wheels {
     public final DcMotor BACK_LEFT_MOTOR;
     public final DcMotor BACK_RIGHT_MOTOR;
 
-    public void BACK_LEFT_MOTOR(int i) {
-    }
-
-    /**
-     * Passed into the `MecanumWheels` constructor.
-     * Contains all four motors.
-     */
-    public static class MotorSet {
-        public final HashSet<DcMotor> MOTORS;
-        /* The DcMotors powering the wheels */
-        private final DcMotor FRONT_LEFT_MOTOR;
-        private final DcMotor FRONT_RIGHT_MOTOR;
-        private final DcMotor BACK_LEFT_MOTOR;
-        private final DcMotor BACK_RIGHT_MOTOR;
-
-        public MotorSet(DcMotor frontLeftMotor, DcMotor frontRightMotor, DcMotor backLeftMotor, DcMotor backRightMotor) {
-            MOTORS = new HashSet<>();
-            MOTORS.add(frontLeftMotor);
-            MOTORS.add(frontRightMotor);
-            MOTORS.add(backLeftMotor);
-            MOTORS.add(backRightMotor);
-
-            FRONT_LEFT_MOTOR = frontLeftMotor;
-            FRONT_RIGHT_MOTOR = frontRightMotor;
-            BACK_LEFT_MOTOR = backLeftMotor;
-            BACK_RIGHT_MOTOR = backRightMotor;
-        }
-
-        public MotorSet() {
-            MOTORS = new HashSet<>();
-
-            FRONT_LEFT_MOTOR = null;
-            FRONT_RIGHT_MOTOR = null;
-            BACK_LEFT_MOTOR = null;
-            BACK_RIGHT_MOTOR = null;
-        }
-    }
-
     public MecanumWheels(MotorSet motorSet, WheelDistances wheelDistances, double ticksPerInch) {
         super(motorSet.MOTORS, wheelDistances, ticksPerInch);
 
@@ -70,6 +32,9 @@ public class MecanumWheels extends Wheels {
         FRONT_RIGHT_MOTOR.setDirection(DcMotorSimple.Direction.REVERSE);
         BACK_LEFT_MOTOR.setDirection(DcMotorSimple.Direction.REVERSE);
         BACK_RIGHT_MOTOR.setDirection(DcMotorSimple.Direction.REVERSE);
+    }
+
+    public void BACK_LEFT_MOTOR(int i) {
     }
 
     /**
@@ -138,10 +103,10 @@ public class MecanumWheels extends Wheels {
         // Scale the motor motor power based on trigonometry
         double xPower = MOTOR_POWER * (sidewaysDistance / totalDistance);
         double yPower = MOTOR_POWER * (forwardDistance / totalDistance);
-        double frontLeftPower  =  xPower + yPower;
+        double frontLeftPower = xPower + yPower;
         double frontRightPower = -xPower - yPower;
-        double backLeftPower   = -xPower + yPower;
-        double backRightPower  =  xPower - yPower;
+        double backLeftPower = -xPower + yPower;
+        double backRightPower = xPower - yPower;
 
         // Scale the motor powers to be within +/- 1.0
         List<Double> powers = Arrays.asList(
@@ -157,16 +122,15 @@ public class MecanumWheels extends Wheels {
             backLeftPower /= max;
             backRightPower /= max;
         }
-
         FRONT_LEFT_MOTOR.setPower(frontLeftPower);
         FRONT_RIGHT_MOTOR.setPower(frontRightPower);
         BACK_LEFT_MOTOR.setPower(backLeftPower);
         BACK_RIGHT_MOTOR.setPower(backRightPower);
 
-        FRONT_LEFT_MOTOR.setTargetPosition((int) (sidewaysDistance + forwardDistance));
-        FRONT_RIGHT_MOTOR.setTargetPosition((int) (-sidewaysDistance - forwardDistance));
-        BACK_LEFT_MOTOR.setTargetPosition((int) (-sidewaysDistance + forwardDistance));
-        BACK_RIGHT_MOTOR.setTargetPosition((int) (sidewaysDistance - forwardDistance));
+        FRONT_LEFT_MOTOR.setTargetPosition((int) ((sidewaysDistance + forwardDistance) / TICKS_PER_INCH));
+        FRONT_RIGHT_MOTOR.setTargetPosition((int) ((-sidewaysDistance - forwardDistance) / TICKS_PER_INCH));
+        BACK_LEFT_MOTOR.setTargetPosition((int) ((-sidewaysDistance + forwardDistance) / TICKS_PER_INCH));
+        BACK_RIGHT_MOTOR.setTargetPosition((int) ((sidewaysDistance - forwardDistance) / TICKS_PER_INCH));
 
         for (DcMotor motor : MOTORS) {
             motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -200,6 +164,41 @@ public class MecanumWheels extends Wheels {
 
         for (DcMotor motor : MOTORS) {
             motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+    }
+
+    /**
+     * Passed into the `MecanumWheels` constructor.
+     * Contains all four motors.
+     */
+    public static class MotorSet {
+        public final HashSet<DcMotor> MOTORS;
+        /* The DcMotors powering the wheels */
+        private final DcMotor FRONT_LEFT_MOTOR;
+        private final DcMotor FRONT_RIGHT_MOTOR;
+        private final DcMotor BACK_LEFT_MOTOR;
+        private final DcMotor BACK_RIGHT_MOTOR;
+
+        public MotorSet(DcMotor frontLeftMotor, DcMotor frontRightMotor, DcMotor backLeftMotor, DcMotor backRightMotor) {
+            MOTORS = new HashSet<>();
+            MOTORS.add(frontLeftMotor);
+            MOTORS.add(frontRightMotor);
+            MOTORS.add(backLeftMotor);
+            MOTORS.add(backRightMotor);
+
+            FRONT_LEFT_MOTOR = frontLeftMotor;
+            FRONT_RIGHT_MOTOR = frontRightMotor;
+            BACK_LEFT_MOTOR = backLeftMotor;
+            BACK_RIGHT_MOTOR = backRightMotor;
+        }
+
+        public MotorSet() {
+            MOTORS = new HashSet<>();
+
+            FRONT_LEFT_MOTOR = null;
+            FRONT_RIGHT_MOTOR = null;
+            BACK_LEFT_MOTOR = null;
+            BACK_RIGHT_MOTOR = null;
         }
     }
 }
