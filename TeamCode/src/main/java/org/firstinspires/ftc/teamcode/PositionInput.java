@@ -12,16 +12,19 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 
+/**
+ * Run to set the robot's alliance color and side before running autonomous.
+ */
 @TeleOp(name = "PositionInput")
 public class PositionInput extends OpMode {
+    /**
+     * The directory that all the files are saved to.
+     */
     private static final String DIRECTORY = Environment.getExternalStorageDirectory().getAbsolutePath() + "/FTC/";
 
-    /*
-     * The file that saves the position file.
-     */
     /**
-     * File name of the storage file,
-     * which is inside the directory specified by `SEASON_DIRECTORY`
+     * Name of the position file,
+     * which is inside the directory specified by `DIRECTORY`.
      */
     private static final String POSITION_FILE = DIRECTORY + "position.txt";
 

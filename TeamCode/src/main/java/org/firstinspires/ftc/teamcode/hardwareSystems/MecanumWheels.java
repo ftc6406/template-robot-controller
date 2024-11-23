@@ -9,11 +9,22 @@ import java.util.HashSet;
 import java.util.List;
 
 public class MecanumWheels extends Wheels {
-    /* The DcMotors powering the wheels */
-    public final DcMotor FRONT_LEFT_MOTOR;
-    public final DcMotor FRONT_RIGHT_MOTOR;
-    public final DcMotor BACK_LEFT_MOTOR;
-    public final DcMotor BACK_RIGHT_MOTOR;
+    /**
+     * The motor powering the front left wheel.
+     */
+    private final DcMotor FRONT_LEFT_MOTOR;
+    /**
+     * The motor powering the front right wheel.
+     */
+    private final DcMotor FRONT_RIGHT_MOTOR;
+    /**
+     * The motor powering the back left wheel.
+     */
+    private final DcMotor BACK_LEFT_MOTOR;
+    /**
+     * The motor powering the back right wheel.
+     */
+    private final DcMotor BACK_RIGHT_MOTOR;
 
     public MecanumWheels(MotorSet motorSet, WheelDistances wheelDistances, double ticksPerInch) {
         super(motorSet.MOTORS, wheelDistances, ticksPerInch);
@@ -34,7 +45,20 @@ public class MecanumWheels extends Wheels {
         BACK_RIGHT_MOTOR.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
-    public void BACK_LEFT_MOTOR(int i) {
+    public DcMotor getFrontLeftMotor() {
+        return FRONT_LEFT_MOTOR;
+    }
+
+    public DcMotor getFrontRightMotor() {
+        return FRONT_RIGHT_MOTOR;
+    }
+
+    public DcMotor getBackLeftMotor() {
+        return BACK_LEFT_MOTOR;
+    }
+
+    public DcMotor getBackRightMotor() {
+        return BACK_RIGHT_MOTOR;
     }
 
     /**
@@ -58,12 +82,7 @@ public class MecanumWheels extends Wheels {
         double backRightPower = -theta + x - y;
 
         // Scale the motor powers to be within +/- 1.0
-        List<Double> powers = Arrays.asList(
-                frontLeftPower,
-                frontRightPower,
-                backLeftPower,
-                backRightPower
-        );
+        List<Double> powers = Arrays.asList(frontLeftPower, frontRightPower, backLeftPower, backRightPower);
         double max = Collections.max(powers);
         if (max > 1.0) {
             frontLeftPower /= max;
@@ -83,11 +102,7 @@ public class MecanumWheels extends Wheels {
      */
     @Override
     public void driveDistance(double distance) {
-        for (DcMotor motor : MOTORS) {
-            motor.setTargetPosition((int) Math.round(distance * TICKS_PER_INCH));
-            motor.setPower(MOTOR_POWER);
-            motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        }
+        driveDistance(0, distance);
     }
 
     /**
@@ -109,12 +124,7 @@ public class MecanumWheels extends Wheels {
         double backRightPower = xPower - yPower;
 
         // Scale the motor powers to be within +/- 1.0
-        List<Double> powers = Arrays.asList(
-                frontLeftPower,
-                frontRightPower,
-                backLeftPower,
-                backRightPower
-        );
+        List<Double> powers = Arrays.asList(frontLeftPower, frontRightPower, backLeftPower, backRightPower);
         double max = Collections.max(powers);
         if (max > 1.0) {
             frontLeftPower /= max;
@@ -127,10 +137,15 @@ public class MecanumWheels extends Wheels {
         BACK_LEFT_MOTOR.setPower(backLeftPower);
         BACK_RIGHT_MOTOR.setPower(backRightPower);
 
-        FRONT_LEFT_MOTOR.setTargetPosition((int) ((sidewaysDistance + forwardDistance) / TICKS_PER_INCH));
-        FRONT_RIGHT_MOTOR.setTargetPosition((int) ((-sidewaysDistance - forwardDistance) / TICKS_PER_INCH));
-        BACK_LEFT_MOTOR.setTargetPosition((int) ((-sidewaysDistance + forwardDistance) / TICKS_PER_INCH));
-        BACK_RIGHT_MOTOR.setTargetPosition((int) ((sidewaysDistance - forwardDistance) / TICKS_PER_INCH));
+        int frontLeftTickPosition = FRONT_LEFT_MOTOR.getCurrentPosition() + (int) ((sidewaysDistance + forwardDistance) * TICKS_PER_INCH);
+        int frontRightTickPosition = FRONT_RIGHT_MOTOR.getCurrentPosition() + (int) ((-sidewaysDistance - forwardDistance) * TICKS_PER_INCH);
+        int backLeftTickPosition = BACK_LEFT_MOTOR.getCurrentPosition() + (int) ((-sidewaysDistance + forwardDistance) * TICKS_PER_INCH);
+        int backRightTickPosition = BACK_RIGHT_MOTOR.getCurrentPosition() + (int) ((sidewaysDistance - forwardDistance) * TICKS_PER_INCH);
+
+        FRONT_LEFT_MOTOR.setTargetPosition(frontLeftTickPosition);
+        FRONT_RIGHT_MOTOR.setTargetPosition(frontRightTickPosition);
+        BACK_LEFT_MOTOR.setTargetPosition(backLeftTickPosition);
+        BACK_RIGHT_MOTOR.setTargetPosition(backRightTickPosition);
 
         for (DcMotor motor : MOTORS) {
             motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);

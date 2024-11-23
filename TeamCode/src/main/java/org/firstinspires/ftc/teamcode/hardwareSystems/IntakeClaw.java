@@ -4,19 +4,26 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 
 public class IntakeClaw extends Claw {
-    // The servo that spins the intake.
-    private final CRServo INTAKE_SERVO;
-    // The touch sensor that touches whether there is a piece in the intake.
-    private final DigitalChannel INTAKE_SENSOR;
-
+    /**
+     * How much power the intake spins with when intaking.
+     */
     private static final double INTAKE_POWER = 0.5;
+    /**
+     * How much power the intake spines with when ejecting.
+     */
     private static final double EJECT_POWER = -1.0;
-    public double getIntakePower;
+    /**
+     * The servo that spins the intake.
+     */
+    private final CRServo INTAKE_SERVO;
+    /**
+     * The touch sensor that touches whether there is a piece in the intake.
+     */
+    private final DigitalChannel INTAKE_SENSOR;
 
     public IntakeClaw(Servo xAxisServo, Servo yAxisServo, Servo zAxisServo, CRServo intakeServo) {
         this(xAxisServo, yAxisServo, zAxisServo, intakeServo, null);
@@ -56,8 +63,9 @@ public class IntakeClaw extends Claw {
 
     /**
      * Get whether the intake servo is currently running.
+     *
      * @return true if the intake servo's power is non-zero,
-     *         false otherwise.
+     * false otherwise.
      * @throws IllegalStateException
      */
     public boolean isIntakeActive() throws IllegalStateException {
@@ -89,8 +97,9 @@ public class IntakeClaw extends Claw {
 
     /**
      * Get whether the sensor on the claw is pressed or not.
+     *
      * @return true when the sensor is pressed,
-     *         false otherwise.
+     * false otherwise.
      * @throws NullPointerException When `INTAKE_SERVO` is null.
      */
     public boolean isSensorPressed() throws NullPointerException {

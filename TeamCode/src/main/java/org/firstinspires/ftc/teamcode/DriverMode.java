@@ -36,10 +36,10 @@ public class DriverMode extends CustomLinearOp {
             telemetry.addData("Strafe", strafe);
             telemetry.addData("Gamepad 1, left stick x", gamepad1.left_stick_x);
 
-            telemetry.addData("frontLeftWheel", WHEELS.FRONT_LEFT_MOTOR.getPower());
-            telemetry.addData("frontRightWheel", WHEELS.FRONT_RIGHT_MOTOR.getPower());
-            telemetry.addData("backLeftWheel", WHEELS.BACK_LEFT_MOTOR.getPower());
-            telemetry.addData("backRightWheel", WHEELS.BACK_RIGHT_MOTOR.getPower());
+            telemetry.addData("frontLeftWheel", WHEELS.getFrontLeftMotor().getPower());
+            telemetry.addData("frontRightWheel", WHEELS.getFrontRightMotor().getPower());
+            telemetry.addData("backLeftWheel", WHEELS.getBackLeftMotor().getPower());
+            telemetry.addData("backRightWheel", WHEELS.getBackRightMotor().getPower());
 
             /* Webcam controls */
             // Save CPU resources; can resume streaming when needed.

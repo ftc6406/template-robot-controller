@@ -5,16 +5,23 @@ import com.qualcomm.robotcore.hardware.Servo;
 import java.util.HashSet;
 
 public abstract class Claw {
-    private final HashSet<Servo> SERVOS;
-
-    // The servo that rotates the claw about the X-axis
-    private final Servo X_AXIS_SERVO;
-    // The servo that rotates the claw about the Y-axis
-    private final Servo Y_AXIS_SERVO;
-    // The servo that rotates the claw about the Z-axis
-    private final Servo Z_AXIS_SERVO;
-    // How much to gradually move the servo.
+    /**
+     * How much to gradually move the servo.
+     */
     private final static double SERVO_INCREMENT = 0.1;
+    private final HashSet<Servo> SERVOS;
+    /**
+     * The servo that rotates the claw about the X-axis
+     */
+    private final Servo X_AXIS_SERVO;
+    /**
+     * The servo that rotates the claw about the Y-axis
+     */
+    private final Servo Y_AXIS_SERVO;
+    /**
+     * The servo that rotates the claw about the Z-axis
+     */
+    private final Servo Z_AXIS_SERVO;
 
     public Claw(Servo xAxisServo, Servo yAxisServo, Servo zAxisServo) {
         SERVOS = new HashSet<>();
@@ -52,8 +59,7 @@ public abstract class Claw {
             throw new NullPointerException("WARNING: CLAW X-AXIS SERVO IS NULL!");
         }
 
-        double targetPosition = X_AXIS_SERVO.getPosition()
-                + Math.signum(direction) * SERVO_INCREMENT;
+        double targetPosition = X_AXIS_SERVO.getPosition() + Math.signum(direction) * SERVO_INCREMENT;
 
         X_AXIS_SERVO.setPosition(targetPosition);
     }
@@ -74,8 +80,7 @@ public abstract class Claw {
             throw new NullPointerException("WARNING: CLAW Y-AXIS SERVO IS NULL!");
         }
 
-        double targetPosition = Y_AXIS_SERVO.getPosition()
-                + Math.signum(direction) * SERVO_INCREMENT;
+        double targetPosition = Y_AXIS_SERVO.getPosition() + Math.signum(direction) * SERVO_INCREMENT;
         Y_AXIS_SERVO.setPosition(targetPosition);
     }
 
@@ -90,8 +95,7 @@ public abstract class Claw {
             return;
         }
 
-        double targetPosition = Z_AXIS_SERVO.getPosition()
-                + Math.signum(direction) * SERVO_INCREMENT;
+        double targetPosition = Z_AXIS_SERVO.getPosition() + Math.signum(direction) * SERVO_INCREMENT;
         Z_AXIS_SERVO.setPosition(targetPosition);
     }
 }

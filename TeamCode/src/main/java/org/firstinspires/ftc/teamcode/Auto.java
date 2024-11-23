@@ -97,7 +97,7 @@ public class Auto extends CustomLinearOp {
         // WHEELS.driveDistance(65, 0); // Postive X for strafing right
         // sleep(500);
 
-        // Step 10: Drive forward 50 inches
+        // Step 10: Drive forward 72.0 inches
         WHEELS.driveDistance(72); // Positive Y for forward
         sleep(6000);
 
@@ -105,7 +105,8 @@ public class Auto extends CustomLinearOp {
         // WHEELS.turn(90);
         // sleep(500);
 
-        WHEELS.driveDistance(10.0, 0.0);
+        // Strafe right 12.0 inches
+        WHEELS.driveDistance(12.0, 0.0);
         sleep(2500);
 
         // Step 12: Lift arm 35 degrees
@@ -152,6 +153,9 @@ public class Auto extends CustomLinearOp {
     @Override
     public void runOpMode() {
         super.runOpMode();
+
+        telemetry.addData("Number of AprilTags", WEBCAM.getAprilTagDetections().size());
+        telemetry.update();
 
         if (TEAM_SIDE == TeamSide.NEAR) {
             performNearBasketActions();

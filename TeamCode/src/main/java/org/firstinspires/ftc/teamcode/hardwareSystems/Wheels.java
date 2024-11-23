@@ -1,57 +1,32 @@
 package org.firstinspires.ftc.teamcode.hardwareSystems;
 
-import java.util.HashSet;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-public abstract class Wheels {
-    protected final HashSet<DcMotor> MOTORS;
+import java.util.HashSet;
 
-    /*
+public abstract class Wheels {
+    /**
+     * A modifier for much power the wheels run with (0.0 - 1.0)
+     */
+    protected final static double MOTOR_POWER = 1.0;
+    /**
+     * A HashSet of all the motors included by the wheel system.
+     */
+    protected final HashSet<DcMotor> MOTORS;
+    /**
      * The distance between the left and right wheels,
      * measured in inches from their centers.
      */
     protected final double LATERAL_DISTANCE;
-
-    /*
+    /**
      * The distance between the front and back wheels,
      * measured in inches from their centers.
      */
     protected final double LONGITUDINAL_DISTANCE;
-
-    // A modifier for much power the wheels run with (0.0 - 1.0)
-    protected final static double MOTOR_POWER = 1.0;
-    protected final double TICKS_PER_INCH;
-
     /**
-     * Contains the distances between wheels.
-     * Necessary for calculating rotation.
+     * The number of ticks needed to move the robot by 1 inch.
      */
-    public static class WheelDistances {
-        /*
-         * The distance between the left and right wheels,
-         * measured in inches from their centers.
-         */
-        protected final double LATERAL_DISTANCE;
-        /*
-         * The distance between the front and back wheels,
-         * measured in inches from their centers.
-         */
-        protected final double LONGITUDINAL_DISTANCE;
-
-        /**
-         * Define the wheel's distances.
-         *
-         * @param lateralDistance      The distance between the left and right wheels,
-         *                             measured in inches from their centers.
-         * @param longitudinalDistance The distance between the front and back wheels,
-         *                             measured in inches from their centers.
-         */
-        public WheelDistances(double lateralDistance, double longitudinalDistance) {
-            LONGITUDINAL_DISTANCE = longitudinalDistance;
-            LATERAL_DISTANCE = lateralDistance;
-        }
-    }
+    protected final double TICKS_PER_INCH;
 
     /**
      * Instantiate a {@code Wheels} object.
@@ -144,4 +119,34 @@ public abstract class Wheels {
      *                Positive is clockwise, negative is counterclockwise.
      */
     public abstract void turn(double degrees);
+
+    /**
+     * Contains the distances between wheels.
+     * Necessary for calculating rotation.
+     */
+    public static class WheelDistances {
+        /*
+         * The distance between the left and right wheels,
+         * measured in inches from their centers.
+         */
+        protected final double LATERAL_DISTANCE;
+        /*
+         * The distance between the front and back wheels,
+         * measured in inches from their centers.
+         */
+        protected final double LONGITUDINAL_DISTANCE;
+
+        /**
+         * Define the wheel's distances.
+         *
+         * @param lateralDistance      The distance between the left and right wheels,
+         *                             measured in inches from their centers.
+         * @param longitudinalDistance The distance between the front and back wheels,
+         *                             measured in inches from their centers.
+         */
+        public WheelDistances(double lateralDistance, double longitudinalDistance) {
+            LONGITUDINAL_DISTANCE = longitudinalDistance;
+            LATERAL_DISTANCE = lateralDistance;
+        }
+    }
 }
