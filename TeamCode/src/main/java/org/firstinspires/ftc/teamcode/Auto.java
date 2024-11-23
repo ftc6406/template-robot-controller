@@ -118,23 +118,8 @@ public class Auto extends CustomLinearOp {
         telemetry.addLine("Starting Far Basket Action");
         telemetry.update();
 
-        // Similar to near basket actions but fewer steps
-        // Step 1: Lift arm 45 degrees
-        double targetDegrees = -45; // Replace with actual degrees needed
-
-        // ARM.rotateArmToAngle(targetDegrees); // Move the arm to the calculated target position
-        // sleep(1500);
-
-        // Step 2: Extend Arm
-        // ARM.foldArmToAngle(75); // Adjust this value as needed
-        // sleep(500);
-
-        // Step 3: Rotate Claw
-        // CLAW.startIntake();
-        // sleep(500);
-
-        // Step 4: Strafe left 72 inches
-        WHEELS.driveDistance(-72, 0); // Negative X for strafing left
+        // Strafe left 48 inches
+        WHEELS.driveDistance(-48, 0); // Negative X for strafing left
         sleep(500);
 
         telemetry.addLine("Finished Far Basket Actions");
