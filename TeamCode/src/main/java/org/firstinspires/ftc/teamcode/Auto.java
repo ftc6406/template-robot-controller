@@ -98,15 +98,15 @@ public class Auto extends CustomLinearOp {
         // sleep(500);
 
         // Step 10: Drive forward 72.0 inches
-        WHEELS.driveDistance(72); // Positive Y for forward
-        sleep(6000);
+        WHEELS.driveDistance(52); // Positive Y for forward
+        sleep(5000);
 
         // Step 11: Turn right 90 degrees
         // WHEELS.turn(90);
         // sleep(500);
 
         // Strafe right 12.0 inches
-        WHEELS.driveDistance(12.0, 0.0);
+        WHEELS.driveDistance(6.0, 0.0);
         sleep(2500);
 
         // Step 12: Lift arm 35 degrees
