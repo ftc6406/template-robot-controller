@@ -135,10 +135,6 @@ public class Auto extends CustomLinearOp {
         // Step 3: Rotate Claw
         // CLAW.startIntake();
         // sleep(500);
-
-        WHEELS.driveDistance(2);
-        sleep(2000);
-
         // Step 4: Strafe right 48 inches
         WHEELS.driveDistance(48, 0); // Positive X for strafing right
         sleep(20000);
