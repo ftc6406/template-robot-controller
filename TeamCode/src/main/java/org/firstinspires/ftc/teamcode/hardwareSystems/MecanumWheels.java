@@ -138,11 +138,15 @@ public class MecanumWheels extends Wheels {
         // Scale the motor motor power based on trigonometry
         double xPower = MOTOR_POWER * (sidewaysDistance / totalDistance);
         double yPower = MOTOR_POWER * (forwardDistance / totalDistance);
-
         drive(xPower, yPower);
 
+        FRONT_LEFT_MOTOR.setTargetPosition((int) (sidewaysDistance + forwardDistance));
+        FRONT_RIGHT_MOTOR.setTargetPosition((int) (-sidewaysDistance - forwardDistance));
+        BACK_LEFT_MOTOR.setTargetPosition((int) (-sidewaysDistance + forwardDistance));
+        BACK_RIGHT_MOTOR.setTargetPosition((int) (sidewaysDistance - forwardDistance));
+
         for (DcMotor motor : MOTORS) {
-            motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
     }
 
