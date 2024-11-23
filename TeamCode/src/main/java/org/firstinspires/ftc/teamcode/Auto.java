@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
-import java.util.HashSet;
 import java.util.List;
 
 @Autonomous(name = "Auto")
@@ -74,8 +73,8 @@ public class Auto extends CustomLinearOp {
         // CLAW.startIntake();
         // sleep(500);
 
-        // Step 4: Strafe left 72 inches
-        WHEELS.driveDistance(-72, 0); // Negative X for strafing left
+        // Step 4: Strafe left 24 inches
+        WHEELS.driveDistance(-24, 0); // Negative X for strafing left
         sleep(500);
 
         // Step 5: Lift arm 45 degrees again
@@ -95,16 +94,18 @@ public class Auto extends CustomLinearOp {
         // sleep(500);
 
         // Step 9: Strafe right 65 inches
-        WHEELS.driveDistance(65, 0); // Postive X for strafing right
-        sleep(500);
+        // WHEELS.driveDistance(65, 0); // Postive X for strafing right
+        // sleep(500);
 
-        // Step 10: Drive Forward 72 inches
-        WHEELS.driveDistance(0, 72); // Positive Y for forward
+        // Step 10: Drive forward 50 inches
+        WHEELS.driveDistance(0, 50); // Positive Y for forward
         sleep(500);
 
         // Step 11: Turn right 90 degrees
-        WHEELS.turn(90);
-        sleep(500);
+        // WHEELS.turn(90);
+        // sleep(500);
+
+        WHEELS.driveDistance(10.0, 0.0);
 
         // Step 12: Lift arm 35 degrees
         // ARM.rotateArmToAngle( ARM.getRotationDegrees() - 35);
@@ -133,8 +134,8 @@ public class Auto extends CustomLinearOp {
         // CLAW.startIntake();
         // sleep(500);
 
-        // Step 4: Strafe left 72 inches
-        WHEELS.driveDistance(-72, 0); // Negative X for strafing left
+        // Step 4: Strafe right 72 inches
+        WHEELS.driveDistance(48, 0); // Negative X for strafing left
         sleep(500);
 
         telemetry.addLine("Finished Far Basket Actions");
