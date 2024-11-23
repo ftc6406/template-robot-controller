@@ -75,7 +75,7 @@ public class Auto extends CustomLinearOp {
 
         // Step 4: Strafe left 24 inches
         WHEELS.driveDistance(-24, 0); // Negative X for strafing left
-        sleep(500);
+        sleep(5000);
 
         // Step 5: Lift arm 45 degrees again
         // ARM.rotateArmToAngle(ARM.getRotationDegrees() - 45);
@@ -99,13 +99,14 @@ public class Auto extends CustomLinearOp {
 
         // Step 10: Drive forward 50 inches
         WHEELS.driveDistance(50); // Positive Y for forward
-        sleep(500);
+        sleep(10000);
 
         // Step 11: Turn right 90 degrees
         // WHEELS.turn(90);
         // sleep(500);
 
         WHEELS.driveDistance(10.0, 0.0);
+        sleep(5000);
 
         // Step 12: Lift arm 35 degrees
         // ARM.rotateArmToAngle( ARM.getRotationDegrees() - 35);
@@ -134,8 +135,12 @@ public class Auto extends CustomLinearOp {
         // CLAW.startIntake();
         // sleep(500);
 
+        WHEELS.driveDistance(2);
+        sleep(2000);
+
         // Step 4: Strafe right 48 inches
-        WHEELS.driveDistance(48, 0); // Positive X for strafing right        sleep(500);
+        WHEELS.driveDistance(48, 0); // Positive X for strafing right
+        sleep(20000);
 
         telemetry.addLine("Finished Far Basket Actions");
         telemetry.update();
