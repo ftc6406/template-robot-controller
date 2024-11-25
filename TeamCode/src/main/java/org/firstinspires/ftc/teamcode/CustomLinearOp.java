@@ -23,7 +23,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 
-@TeleOp(name = "Test")
 public class CustomLinearOp extends LinearOpMode {
     /**
      * Whether the robot will automatically sleep after each command.

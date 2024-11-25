@@ -163,13 +163,13 @@ public class MecanumWheels extends Wheels {
 
         // How far the wheels have to move.
         double arcLength = (degrees / 360.0) * circumference;
-        int ticks = (int) Math.round(arcLength * TICKS_PER_INCH);
+        int ticks = (int) Math.round(arcLength * TICKS_PER_INCH) * 2;
 
         // Left wheels
-        FRONT_LEFT_MOTOR.setTargetPosition(FRONT_LEFT_MOTOR.getCurrentPosition() + ticks);
-        FRONT_LEFT_MOTOR.setPower(MOTOR_POWER);
-        BACK_LEFT_MOTOR.setTargetPosition(BACK_LEFT_MOTOR.getCurrentPosition() + ticks);
-        BACK_LEFT_MOTOR.setPower(MOTOR_POWER);
+        FRONT_LEFT_MOTOR.setTargetPosition(FRONT_LEFT_MOTOR.getCurrentPosition() - ticks);
+        FRONT_LEFT_MOTOR.setPower(-MOTOR_POWER);
+        BACK_LEFT_MOTOR.setTargetPosition(BACK_LEFT_MOTOR.getCurrentPosition() - ticks);
+        BACK_LEFT_MOTOR.setPower(-MOTOR_POWER);
 
         // Right wheels
         FRONT_RIGHT_MOTOR.setTargetPosition(FRONT_RIGHT_MOTOR.getCurrentPosition() - ticks);
