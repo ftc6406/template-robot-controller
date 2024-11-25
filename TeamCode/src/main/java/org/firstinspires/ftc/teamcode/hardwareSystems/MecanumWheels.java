@@ -101,8 +101,8 @@ public class MecanumWheels extends Wheels {
      * {@inheritDoc}
      */
     @Override
-    public void driveDistance(double distance) {
-        driveDistance(0, distance);
+    public void driveDistance(double forwardDistance) {
+        driveDistance(0, forwardDistance);
     }
 
     /**

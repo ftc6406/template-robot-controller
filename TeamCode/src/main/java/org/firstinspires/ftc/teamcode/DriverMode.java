@@ -54,10 +54,10 @@ public class DriverMode extends CustomLinearOp {
             /*
              * The right joystick on gamepad2 controls the arm rotation and folding.
              */
-            ARM.rotateArm(gamepad2.right_stick_y);
+            ARM.rotate(gamepad2.right_stick_y);
             telemetry.addData("Rotation power", ARM.getRotationMotor().getPower());
 
-            ARM.foldArm(gamepad2.left_stick_x);
+            ARM.fold(gamepad2.left_stick_x);
             telemetry.addData("Folding power", ARM.getFoldingMotor().getPower());
 
             /*
@@ -77,7 +77,7 @@ public class DriverMode extends CustomLinearOp {
                 try {
                     // Raise the arm to -90 degrees (adjust as needed)
                     double targetDegrees = -90.0;
-                    ARM.rotateArmToAngle(targetDegrees);
+                    ARM.rotateToAngle(targetDegrees);
 
                     // Rotate the claw to 90 degrees
                     CLAW.rotateXAxisServoToPosition(90.0);
@@ -95,7 +95,7 @@ public class DriverMode extends CustomLinearOp {
                 try {
                     // Lower the arm to 90 degrees (adjust as needed)
                     double setPosition = 90.0;
-                    ARM.rotateArmToAngle(setPosition);
+                    ARM.rotateToAngle(setPosition);
 
                     // Run the intake servo backward
                     CLAW.getIntakeServo().setPower(-0.5);
@@ -114,20 +114,16 @@ public class DriverMode extends CustomLinearOp {
              */
             if (gamepad2.a) {
                 telemetry.addLine("Start intake");
-//                CLAW.startIntake();
-                CLAW.getIntakeServo().setPower(1.0);
+                CLAW.startIntake();
 
             } else if (gamepad2.b) {
                 telemetry.addLine("Stop intake");
-//                CLAW.stopIntake();
-                CLAW.getIntakeServo().setPower(0.0);
+                CLAW.stopIntake();
 
 
             } else if (gamepad2.y) {
                 telemetry.addLine("Eject");
-//                CLAW.ejectIntake();
-                CLAW.getIntakeServo().setPower(-0.5);
-
+                CLAW.ejectIntake();
             }
 
         } catch (Exception e) {
@@ -148,7 +144,6 @@ public class DriverMode extends CustomLinearOp {
 
         while (opModeIsActive()) {
             runLoop();
-            telemetry.update();
         }
     }
 }
