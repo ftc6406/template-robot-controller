@@ -97,8 +97,8 @@ public class CustomLinearOp extends LinearOpMode {
         double ticksPerInch = MotorType.TETRIX_TORQUENADO.getTicksPerRotation() * gearRatio / wheelCircumference;
         // Approximately measured from CAD
         Wheels.WheelDistances wheelDistances = new Wheels.WheelDistances(
-                10.0,
-                14.25
+                8.5,
+                14.5
         );
 
         return new MecanumWheels(motorSet, wheelDistances, ticksPerInch);
