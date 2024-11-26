@@ -118,24 +118,7 @@ public class MecanumWheels extends Wheels {
         // Scale the motor motor power based on trigonometry
         double xPower = MOTOR_POWER * (sidewaysDistance / totalDistance);
         double yPower = MOTOR_POWER * (forwardDistance / totalDistance);
-        double frontLeftPower = xPower + yPower;
-        double frontRightPower = -xPower - yPower;
-        double backLeftPower = -xPower + yPower;
-        double backRightPower = xPower - yPower;
-
-        // Scale the motor powers to be within +/- 1.0
-        List<Double> powers = Arrays.asList(frontLeftPower, frontRightPower, backLeftPower, backRightPower);
-        double max = Collections.max(powers);
-        if (max > 1.0) {
-            frontLeftPower /= max;
-            frontRightPower /= max;
-            backLeftPower /= max;
-            backRightPower /= max;
-        }
-        FRONT_LEFT_MOTOR.setPower(frontLeftPower);
-        FRONT_RIGHT_MOTOR.setPower(frontRightPower);
-        BACK_LEFT_MOTOR.setPower(backLeftPower);
-        BACK_RIGHT_MOTOR.setPower(backRightPower);
+        drive(xPower, yPower, 0);
 
         int frontLeftTickPosition = FRONT_LEFT_MOTOR.getCurrentPosition() + (int) ((sidewaysDistance - forwardDistance) * TICKS_PER_INCH);
         int frontRightTickPosition = FRONT_RIGHT_MOTOR.getCurrentPosition() + (int) ((-sidewaysDistance + forwardDistance) * TICKS_PER_INCH);
