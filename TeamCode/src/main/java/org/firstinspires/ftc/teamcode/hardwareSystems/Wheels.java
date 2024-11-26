@@ -102,13 +102,13 @@ public abstract class Wheels {
     /**
      * Drive the wheels.
      *
-     * @param yPower Forward power.
+     * @param forwardPower Forward power.
      *               Positive is forward, negative is backward.
      * @param turn   Rotation power.
      *               Positive is clockwise, negative is counterclockwise.
      */
-    public void drive(double yPower, double turn) {
-        drive(0, yPower, turn);
+    public void drive(double forwardPower, double turn) {
+        drive(0, forwardPower, turn);
     }
 
     /**
