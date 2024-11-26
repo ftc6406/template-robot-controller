@@ -121,9 +121,9 @@ public class MecanumWheels extends Wheels {
         drive(xPower, yPower, 0);
 
         int frontLeftTickPosition = FRONT_LEFT_MOTOR.getCurrentPosition() + (int) ((sidewaysDistance - forwardDistance) * TICKS_PER_INCH);
-        int frontRightTickPosition = FRONT_RIGHT_MOTOR.getCurrentPosition() + (int) ((-sidewaysDistance + forwardDistance) * TICKS_PER_INCH);
+        int frontRightTickPosition = FRONT_RIGHT_MOTOR.getCurrentPosition() - (int) ((-sidewaysDistance + forwardDistance) * TICKS_PER_INCH);
         int backLeftTickPosition = BACK_LEFT_MOTOR.getCurrentPosition() + (int) ((-sidewaysDistance - forwardDistance) * TICKS_PER_INCH);
-        int backRightTickPosition = BACK_RIGHT_MOTOR.getCurrentPosition() + (int) ((sidewaysDistance + forwardDistance) * TICKS_PER_INCH);
+        int backRightTickPosition = BACK_RIGHT_MOTOR.getCurrentPosition() - (int) ((sidewaysDistance + forwardDistance) * TICKS_PER_INCH);
 
         FRONT_LEFT_MOTOR.setTargetPosition(frontLeftTickPosition);
         FRONT_RIGHT_MOTOR.setTargetPosition(frontRightTickPosition);
@@ -155,10 +155,10 @@ public class MecanumWheels extends Wheels {
         BACK_LEFT_MOTOR.setPower(-MOTOR_POWER);
 
         // Right wheels
-        FRONT_RIGHT_MOTOR.setTargetPosition(FRONT_RIGHT_MOTOR.getCurrentPosition() - ticks);
-        FRONT_RIGHT_MOTOR.setPower(-MOTOR_POWER);
-        BACK_RIGHT_MOTOR.setTargetPosition(BACK_RIGHT_MOTOR.getCurrentPosition() - ticks);
-        BACK_RIGHT_MOTOR.setPower(-MOTOR_POWER);
+        FRONT_RIGHT_MOTOR.setTargetPosition(FRONT_RIGHT_MOTOR.getCurrentPosition() + ticks);
+        FRONT_RIGHT_MOTOR.setPower(MOTOR_POWER);
+        BACK_RIGHT_MOTOR.setTargetPosition(BACK_RIGHT_MOTOR.getCurrentPosition() + ticks);
+        BACK_RIGHT_MOTOR.setPower(MOTOR_POWER);
 
         for (DcMotor motor : MOTORS) {
             motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
