@@ -9,7 +9,7 @@ public abstract class Claw {
     /**
      * How much to gradually move the servo.
      */
-    private double SERVO_INCREMENT;
+    private double servoIncrement;
     /**
      * The servo that rotates the claw about the X-axis(roll).
      */
@@ -37,7 +37,7 @@ public abstract class Claw {
         PITCH_SERVO = pitchServo;
         YAW_SERVO = yawServo;
 
-        SERVO_INCREMENT = servoIncrement;
+        this.servoIncrement = servoIncrement;
     }
 
     /**
@@ -50,55 +50,67 @@ public abstract class Claw {
     }
 
     public double getServoIncrement() {
-        return SERVO_INCREMENT;
+        return servoIncrement;
     }
 
     public void setServoIncrement(double servoIncrement) {
-        this.SERVO_INCREMENT = servoIncrement;
+        this.servoIncrement = servoIncrement;
     }
 
     /**
-     * Rotate the X-axis(roll) servo in a certain direction by `SERVO_INCREMENT`.
+     * Rotate the X-axis(roll) servo in a certain direction by `servoIncrement`.
      *
      * @param direction The direction to rotate the servo in.
      *                  Positive values rotate it clockwise, negative values rotate it counterclockwise.
      */
     public void rotateRollServo(double direction) {
-        double targetPosition = ROLL_SERVO.getPosition() + Math.signum(direction) * SERVO_INCREMENT;
+        double targetPosition = ROLL_SERVO.getPosition() + Math.signum(direction) * servoIncrement;
         ROLL_SERVO.setPosition(targetPosition);
     }
 
-    public void rotateRollServoToPosition(double position) {
-        ROLL_SERVO.setPosition(position);
+    /**
+     * Rotate the roll servo to a position specified in degrees.
+     * @param degrees The target angle of the roll servo in degrees.
+     */
+    public void rotateRollServoToAngle(double degrees) {
+        ROLL_SERVO.setPosition(degrees / 360.0);
     }
 
     /**
-     * Rotate the Y-axis(pitch) servo in a certain direction by `SERVO_INCREMENT`.
+     * Rotate the Y-axis(pitch) servo in a certain direction by `servoIncrement`.
      *
      * @param direction The direction to rotate the servo in.
      *                  Positive values rotate it clockwise, negative values rotate it counterclockwise.
      */
     public void rotatePitchAxisServo(double direction) {
-        double targetPosition = PITCH_SERVO.getPosition() + Math.signum(direction) * SERVO_INCREMENT;
+        double targetPosition = PITCH_SERVO.getPosition() + Math.signum(direction) * servoIncrement;
         PITCH_SERVO.setPosition(targetPosition);
     }
 
-    public void rotatePitchServoToPosition(double position) {
-        PITCH_SERVO.setPosition(position);
+    /**
+     * Rotate the pitch servo to a position specified in degrees.
+     * @param degrees The target angle of the pitch servo in degrees.
+     */
+    public void rotatePitchServoToAngle(double degrees) {
+        PITCH_SERVO.setPosition(degrees / 360.0);
     }
 
     /**
-     * Rotate the Z-axis(yaw) servo in a certain direction by `SERVO_INCREMENT`.
+     * Rotate the Z-axis(yaw) servo in a certain direction by `servoIncrement`.
      *
      * @param direction The direction to rotate the servo in.
      *                  Positive values rotate it clockwise, negative values rotate it counterclockwise.
      */
     public void rotateYawServo(double direction) {
-        double targetPosition = YAW_SERVO.getPosition() + Math.signum(direction) * SERVO_INCREMENT;
+        double targetPosition = YAW_SERVO.getPosition() + Math.signum(direction) * servoIncrement;
         YAW_SERVO.setPosition(targetPosition);
     }
 
-    public void rotateYawServoToPosition(double position) {
-        YAW_SERVO.setPosition(position);
+    /**
+     * Rotate the yaw servo to a position specified in degrees.
+     * @param degrees The target angle of the yaw servo in degrees.
+     */
+    public void rotateYawServoToAngle(double degrees) {
+        YAW_SERVO.setPosition(degrees / 360.0);
     }
 }

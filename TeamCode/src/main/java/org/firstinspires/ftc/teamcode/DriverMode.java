@@ -12,10 +12,7 @@ public class DriverMode extends CustomLinearOp {
      * Run the loop once.
      */
     private void runLoop() {
-        telemetry.addData("folding ticks", ARM.getFoldingTicks());
-        telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
-        telemetry.addData("contourPosition", WEBCAM.getContourPosition());
-        telemetry.addData("numContours", WEBCAM.getPipeLine().getNumContours());
+        telemetry.addData("Arm rotation degrees", ARM.getRotationDegrees());
 
         /* Gamepad 1 (Wheel and Webcam Controls) */
 
@@ -62,12 +59,14 @@ public class DriverMode extends CustomLinearOp {
         /*
          * D-pad controls the claw's X-axis rotation.
          */
+        /*
         if (gamepad2.dpad_left) {
             CLAW.rotateRollServo(-1.0);
 
         } else if (gamepad2.dpad_right) {
             CLAW.rotateRollServo(1.0);
         }
+        */
 
         // Bumper Controls
         if (gamepad2.right_bumper) {
@@ -78,14 +77,14 @@ public class DriverMode extends CustomLinearOp {
                 double targetDegrees = -90.0;
                 ARM.rotateToAngle(targetDegrees);
 
-                // Rotate the claw to 90 degrees
-                CLAW.rotateRollServoToPosition(90.0);
+                // Rotate the claw to 180 degrees
+                // CLAW.rotateRollServoToAngle(180);
 
                 telemetry.addData("Arm Target", targetDegrees);
                 telemetry.addData("Claw Target", 90.0);
 
             } catch (Exception e) {
-                telemetry.addLine("Error in right bumper logic: " + e.getMessage());
+                telemetry.addData("Error in right bumper logic", e.getMessage());
             }
 
         } else if (gamepad2.left_bumper) {
@@ -96,13 +95,17 @@ public class DriverMode extends CustomLinearOp {
                 double setPosition = 90.0;
                 ARM.rotateToAngle(setPosition);
 
-                // Run the intake servo backward
-                CLAW.getIntakeServo().setPower(-0.5);
+                // Rotate the claw to 0 degrees
+                // CLAW.rotateRollServoToAngle(0);
+
+                // Run the intake servo
+                CLAW.ejectIntake();
 
                 telemetry.addData("Arm Target", setPosition);
-                telemetry.addLine("Intake Power: Reverse (-0.5)");
+                telemetry.addLine("Eject intake");
+
             } catch (Exception e) {
-                telemetry.addLine("Error in left bumper logic: " + e.getMessage());
+                telemetry.addData("Error in left bumper logic", e.getMessage());
             }
         }
 
