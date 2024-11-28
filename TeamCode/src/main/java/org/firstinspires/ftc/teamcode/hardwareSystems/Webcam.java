@@ -54,6 +54,7 @@ public class Webcam {
     private final AprilTagProcessor APRIL_TAG;
     private final PredominantColorProcessor COLOR_PROCESSOR;
     private final OpenCvCamera OPEN_CV_CAMERA;
+    private final Color targetColor;
     private ColorBlobLocatorProcessor colorLocator = new ColorBlobLocatorProcessor.Builder()
             .setTargetColorRange(ColorRange.BLUE)         // use a predefined color match
             .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)    // exclude blobs inside blobs
@@ -79,11 +80,29 @@ public class Webcam {
     public Webcam(WebcamName webcamName, int[] resolution, double[] poseAdjust, int cameraMonitorViewId) {
         APRIL_TAG = new AprilTagProcessor.Builder().build();
 
-        COLOR_PROCESSOR = new PredominantColorProcessor.Builder().setRoi(ImageRegion.asUnityCenterCoordinates(-0.5, 0.5, 0.5, -0.5)).setSwatches(PredominantColorProcessor.Swatch.RED, PredominantColorProcessor.Swatch.BLUE, PredominantColorProcessor.Swatch.YELLOW, PredominantColorProcessor.Swatch.BLACK, PredominantColorProcessor.Swatch.WHITE).build();
+        COLOR_PROCESSOR = new PredominantColorProcessor.Builder()
+                .setRoi(ImageRegion.asUnityCenterCoordinates(-0.5, 0.5, 0.5, -0.5))
+                .setSwatches(
+                        PredominantColorProcessor.Swatch.RED,
+                        PredominantColorProcessor.Swatch.BLUE,
+                        PredominantColorProcessor.Swatch.YELLOW,
+                        PredominantColorProcessor.Swatch.BLACK,
+                        PredominantColorProcessor.Swatch.WHITE)
+                .build();
 
-        VISION_PORTAL = new VisionPortal.Builder().addProcessor(COLOR_PROCESSOR).addProcessor(APRIL_TAG).setCamera(webcamName).setCameraResolution(new Size(resolution[0], resolution[1])).build();
+        targetColor = null;
+        colorLocator = null;
 
-        OPEN_CV_CAMERA = (cameraMonitorViewId == -1) ? OpenCvCameraFactory.getInstance().createWebcam(webcamName) : OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
+        VISION_PORTAL = new VisionPortal.Builder()
+                .addProcessor(COLOR_PROCESSOR)
+                .addProcessor(APRIL_TAG)
+                .setCamera(webcamName)
+                .setCameraResolution(new Size(resolution[0], resolution[1]))
+                .build();
+
+        OPEN_CV_CAMERA = (cameraMonitorViewId == -1)
+                ? OpenCvCameraFactory.getInstance().createWebcam(webcamName)
+                : OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
 
         this.poseAdjust = poseAdjust;
 
