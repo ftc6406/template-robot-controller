@@ -182,7 +182,8 @@ public class CustomLinearOp extends LinearOpMode {
                         12,
                         -2,
                         12
-                }
+                },
+                cameraMonitorViewId
         );
     }
 
