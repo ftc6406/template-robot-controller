@@ -6,11 +6,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.hardwareSystems.FoldingArm;
-import org.firstinspires.ftc.teamcode.hardwareSystems.OneCrIntakeClaw;
 import org.firstinspires.ftc.teamcode.hardwareSystems.TwoCrIntakeClaw;
 import org.firstinspires.ftc.teamcode.hardwareSystems.MecanumWheels;
 import org.firstinspires.ftc.teamcode.hardwareSystems.MotorType;
@@ -34,7 +32,7 @@ public class CustomLinearOp extends LinearOpMode {
 
     protected MecanumWheels WHEELS;
     protected FoldingArm ARM;
-    protected OneCrIntakeClaw CLAW;
+    protected TwoCrIntakeClaw CLAW;
     protected Webcam WEBCAM;
 
     /**
@@ -152,7 +150,7 @@ public class CustomLinearOp extends LinearOpMode {
      * Initiate all hardware needed for the claw.
      * <strong>When starting a new season, change the return type from `Claw` to the desired return type.</strong>
      */
-    public OneCrIntakeClaw initClaw() {
+    public TwoCrIntakeClaw initClaw() {
         // Prevent multiple instantiation.
         if (CLAW != null) {
             return null;
@@ -162,11 +160,10 @@ public class CustomLinearOp extends LinearOpMode {
          * Define claw hardware here.
          * e.g. hardwareMap.get(Servo.class, "exampleServo");
          */
-        return new OneCrIntakeClaw(
-                hardwareMap.get(Servo.class, "clawXServo"),
-                null,
-                null,
-                hardwareMap.get(CRServo.class, "intakeServo")
+        return new TwoCrIntakeClaw(
+                hardwareMap.get(CRServo.class, "leftIntakeServo"),
+                hardwareMap.get(CRServo.class, "rightIntakeServo"),
+                hardwareMap.get(DigitalChannel.class, "intakeSensor")
         );
     }
 
