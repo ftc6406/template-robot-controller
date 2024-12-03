@@ -30,6 +30,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.opencv.ColorBlobLocatorProcessor;
 import org.firstinspires.ftc.vision.opencv.ColorRange;
 import org.firstinspires.ftc.vision.opencv.ImageRegion;
+import org.firstinspires.ftc.vision.opencv.PredominantColorProcessor;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -43,7 +44,6 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Webcam {
@@ -52,9 +52,9 @@ public class Webcam {
      */
     private final VisionPortal VISION_PORTAL;
     private final AprilTagProcessor APRIL_TAG;
+    private final PredominantColorProcessor COLOR_PROCESSOR;
     private final OpenCvCamera OPEN_CV_CAMERA;
-    private final PipeLine pipeLine;
-    private ColorRange targetColor;
+    private final Color targetColor;
     private ColorBlobLocatorProcessor colorLocator = new ColorBlobLocatorProcessor.Builder()
             .setTargetColorRange(ColorRange.BLUE)         // use a predefined color match
             .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)    // exclude blobs inside blobs
@@ -62,10 +62,12 @@ public class Webcam {
             .setDrawContours(true)                        // Show contours on the Stream Preview
             .setBlurSize(5)                               // Smooth the transitions between different colors in image
             .build();
+
     /**
      * A 3D vector to adjust for the camera's positioning on the robot.
      */
     private double[] poseAdjust;
+    private PipeLine pipeLine;
 
     public Webcam(WebcamName webcamName, int[] resolution) {
         this(webcamName, resolution, new double[]{0, 0, 0}, -1);
@@ -78,17 +80,21 @@ public class Webcam {
     public Webcam(WebcamName webcamName, int[] resolution, double[] poseAdjust, int cameraMonitorViewId) {
         APRIL_TAG = new AprilTagProcessor.Builder().build();
 
-        targetColor = null;
-        colorLocator = new ColorBlobLocatorProcessor.Builder()
-                .setTargetColorRange(targetColor) // Enums are reference types, so it will update with targetColor
-                .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)    // Exclude blobs inside blobs
-                .setRoi(ImageRegion.asUnityCenterCoordinates(-0.5, 0.5, 0.5, -0.5))  // Search bottom of camera view
-                .setDrawContours(true)                        // Show contours on the Stream Preview
-                .setBlurSize(5)                               // Smooth the transitions between different colors in image
+        COLOR_PROCESSOR = new PredominantColorProcessor.Builder()
+                .setRoi(ImageRegion.asUnityCenterCoordinates(-0.5, 0.5, 0.5, -0.5))
+                .setSwatches(
+                        PredominantColorProcessor.Swatch.RED,
+                        PredominantColorProcessor.Swatch.BLUE,
+                        PredominantColorProcessor.Swatch.YELLOW,
+                        PredominantColorProcessor.Swatch.BLACK,
+                        PredominantColorProcessor.Swatch.WHITE)
                 .build();
 
+        targetColor = null;
+        colorLocator = null;
+
         VISION_PORTAL = new VisionPortal.Builder()
-                .addProcessor(colorLocator)
+                .addProcessor(COLOR_PROCESSOR)
                 .addProcessor(APRIL_TAG)
                 .setCamera(webcamName)
                 .setCameraResolution(new Size(resolution[0], resolution[1]))
@@ -137,6 +143,14 @@ public class Webcam {
         return APRIL_TAG.getDetections();
     }
 
+    public PredominantColorProcessor getColorProcessor() {
+        return COLOR_PROCESSOR;
+    }
+
+    public PredominantColorProcessor.Result getColorResult() {
+        return COLOR_PROCESSOR.getAnalysis();
+    }
+
     public OpenCvCamera getOpenCvCamera() {
         return OPEN_CV_CAMERA;
     }
@@ -145,39 +159,12 @@ public class Webcam {
         return pipeLine;
     }
 
-    public ColorRange getTargetColor() {
-        return targetColor;
+    public Color getTargetColor() {
+        return pipeLine.targetColor;
     }
 
-    public void setTargetColor(ColorRange targetColor) {
-        this.targetColor = targetColor;
-    }
-
-    public List<ColorBlobLocatorProcessor.Blob> getBlobs() {
-        List<ColorBlobLocatorProcessor.Blob> blobs = colorLocator.getBlobs();
-        // Filter out excessively small blobs
-        ColorBlobLocatorProcessor.Util.filterByArea(50, 20000, blobs);
-
-        return blobs;
-    }
-
-    public ColorBlobLocatorProcessor.Blob getLargestBlob() {
-        List<ColorBlobLocatorProcessor.Blob> blobs = getBlobs();
-
-        ColorBlobLocatorProcessor.Blob largetsBlob = Collections.max(
-            getBlobs(),
-            (blob1, blob2) -> {
-                if (blob1.getContourArea() > blob2.getContourArea()) {
-                    return 1;
-                } else if (blob2.getContourArea() > blob1.getContourArea()) {
-                    return -1;
-                } else {
-                    return 0;
-                }
-            }
-        );
-
-        return largetsBlob;
+    public void setTargetColor(Color targetColor) {
+        pipeLine.targetColor = targetColor;
     }
 
     /**
@@ -243,17 +230,17 @@ public class Webcam {
     public static class PipeLine extends OpenCvPipeline {
         private final Mat erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new org.opencv.core.Size(12, 12));
         private final Mat dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new org.opencv.core.Size(12, 12));
-        // Convert to HSV color space for easier color detection
-        private final Mat hsv = new Mat();
-        private final Mat mask = new Mat();
-        private final Mat yellowMask = new Mat();
-        private final Mat redMask = new Mat();
-        private final Mat magentaMask = new Mat();
-        private final Mat allianceColorMask = new Mat();
-        private final Mat hierarchy = new Mat();
         private Color targetColor;
         private int numContours = 0;
         private double[] contourPosition;
+        // Convert to HSV color space for easier color detection
+        private Mat hsv = new Mat();
+        private Mat mask = new Mat();
+        private Mat yellowMask = new Mat();
+        private Mat redMask = new Mat();
+        private Mat magentaMask = new Mat();
+        private Mat allianceColorMask = new Mat();
+        private Mat hierarchy = new Mat();
 
         @Override
         public Mat processFrame(Mat input) {
@@ -282,7 +269,11 @@ public class Webcam {
             List<MatOfPoint> contours = new ArrayList<>();
             Imgproc.findContours(mask, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
 
-            // drawContours(input, contours);
+            // Draw contours on the original image
+            for (MatOfPoint contour : contours) {
+                Rect rect = Imgproc.boundingRect(contour);
+                Imgproc.rectangle(input, rect, new Scalar(0, 255, 0), 2); // Green rectangles around objects
+            }
 
             // If any contours were found.
             if (!contours.isEmpty()) {
@@ -291,20 +282,6 @@ public class Webcam {
             }
 
             return input;
-        }
-
-
-        /**
-         * Draw contours on the original image
-         *
-         * @param input    The image input into this `PipeLine`.
-         * @param contours The contours detected in the image.
-         */
-        public void drawContours(Mat input, List<MatOfPoint> contours) {
-            for (MatOfPoint contour : contours) {
-                Rect rect = Imgproc.boundingRect(contour);
-                Imgproc.rectangle(input, rect, new Scalar(0, 255, 0), 2); // Green rectangles around objects
-            }
         }
 
         public int getNumContours() {

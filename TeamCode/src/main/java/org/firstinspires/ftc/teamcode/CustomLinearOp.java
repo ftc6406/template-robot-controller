@@ -9,12 +9,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.hardwareSystems.FoldingArm;
+import org.firstinspires.ftc.teamcode.hardwareSystems.TwoCrIntakeClaw;
 import org.firstinspires.ftc.teamcode.hardwareSystems.MecanumWheels;
 import org.firstinspires.ftc.teamcode.hardwareSystems.MotorType;
-import org.firstinspires.ftc.teamcode.hardwareSystems.TwoCrIntakeClaw;
 import org.firstinspires.ftc.teamcode.hardwareSystems.Webcam;
 import org.firstinspires.ftc.teamcode.hardwareSystems.Wheels;
-import org.firstinspires.ftc.vision.opencv.ColorRange;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -281,14 +280,14 @@ public class CustomLinearOp extends LinearOpMode {
         }
 
         // Set the camera color.
-        if (TEAM_SIDE == TeamSide.NEAR) {
-            WEBCAM.setTargetColor(ColorRange.YELLOW);
+        switch (ALLIANCE_COLOR) {
+            case RED:
+                WEBCAM.setTargetColor(Webcam.Color.RED);
+                break;
 
-        } else if (ALLIANCE_COLOR == AllianceColor.RED && TEAM_SIDE == TeamSide.FAR) {
-            WEBCAM.setTargetColor(ColorRange.RED);
-
-        } else if (ALLIANCE_COLOR == AllianceColor.BLUE && TEAM_SIDE == TeamSide.FAR) {
-            WEBCAM.setTargetColor(ColorRange.BLUE);
+            case BLUE:
+                WEBCAM.setTargetColor(Webcam.Color.BLUE);
+                break;
         }
         telemetry.addData("Starting position", ALLIANCE_COLOR.name() + ", " + TEAM_SIDE.name());
 
