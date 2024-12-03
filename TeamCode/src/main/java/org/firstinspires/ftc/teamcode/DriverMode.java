@@ -28,9 +28,6 @@ public class DriverMode extends CustomLinearOp {
                 gamepad1.right_stick_y,
                 gamepad1.left_stick_x
         );
-        telemetry.addData("Gamepad 1, right stick y", gamepad1.right_stick_y);
-        telemetry.addData("Strafe", strafe);
-        telemetry.addData("Gamepad 1, left stick x", gamepad1.left_stick_x);
 
         telemetry.addData("frontLeftWheel", WHEELS.getFrontLeftMotor().getPower());
         telemetry.addData("frontRightWheel", WHEELS.getFrontRightMotor().getPower());
@@ -51,9 +48,11 @@ public class DriverMode extends CustomLinearOp {
          * The right joystick on gamepad2 controls the arm rotation and folding.
          */
         ARM.rotate(gamepad2.right_stick_y);
+        telemetry.addData("Rotation position", ARM.getRotationTicks() + ", " + ARM.getRotationDegrees());
         telemetry.addData("Rotation power", ARM.getRotationMotor().getPower());
 
         ARM.fold(gamepad2.left_stick_x);
+        telemetry.addData("Folding position", ARM.getFoldingTicks() + ", " + ARM.getFoldingDegrees());
         telemetry.addData("Folding power", ARM.getFoldingMotor().getPower());
 
         /*
