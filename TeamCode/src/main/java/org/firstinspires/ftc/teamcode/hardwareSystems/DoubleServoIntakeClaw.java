@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import java.util.HashSet;
 
-public class TwoCrIntakeClaw extends Claw {
+public class DoubleServoIntakeClaw extends Claw {
     /**
      * How much power the intake spins with when intaking.
      */
@@ -27,19 +27,19 @@ public class TwoCrIntakeClaw extends Claw {
      */
     private final DigitalChannel INTAKE_SENSOR;
 
-    public TwoCrIntakeClaw(CRServo leftIntakeServo, CRServo rightIntakeServo) {
+    public DoubleServoIntakeClaw(CRServo leftIntakeServo, CRServo rightIntakeServo) {
         this(null, null, null, leftIntakeServo, rightIntakeServo, null);
     }
 
-    public TwoCrIntakeClaw(CRServo leftIntakeServo, CRServo rightIntakeServo, DigitalChannel intakeSensor) {
+    public DoubleServoIntakeClaw(CRServo leftIntakeServo, CRServo rightIntakeServo, DigitalChannel intakeSensor) {
         this(null, null, null, leftIntakeServo, rightIntakeServo, intakeSensor);
     }
 
-    public TwoCrIntakeClaw(Servo xAxisServo, Servo yAxisServo, Servo zAxisServo, CRServo leftIntakeServo, CRServo rightIntakeServo) {
+    public DoubleServoIntakeClaw(Servo xAxisServo, Servo yAxisServo, Servo zAxisServo, CRServo leftIntakeServo, CRServo rightIntakeServo) {
         this(xAxisServo, yAxisServo, zAxisServo, leftIntakeServo, rightIntakeServo, null);
     }
 
-    public TwoCrIntakeClaw(Servo xAxisServo, Servo yAxisServo, Servo zAxisServo, CRServo leftIntakeServo, CRServo rightIntakeServo, DigitalChannel intakeSensor) {
+    public DoubleServoIntakeClaw(Servo xAxisServo, Servo yAxisServo, Servo zAxisServo, CRServo leftIntakeServo, CRServo rightIntakeServo, DigitalChannel intakeSensor) {
         super(xAxisServo, yAxisServo, zAxisServo);
 
         LEFT_INTAKE_SERVO = leftIntakeServo;
