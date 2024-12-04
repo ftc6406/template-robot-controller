@@ -127,7 +127,6 @@ public class CustomLinearOp extends LinearOpMode {
         FoldingArm.RotationRange rotationRange = new FoldingArm.RotationRange(
                 Integer.MIN_VALUE,
                 Integer.MAX_VALUE, // 1080
-                -40,
                 MotorType.TETRIX_TORQUENADO.getTicksPerRotation()
                         / 360.0
                         * rotationGearRatio
@@ -137,7 +136,6 @@ public class CustomLinearOp extends LinearOpMode {
         FoldingArm.FoldingRange foldingRange = new FoldingArm.FoldingRange(
                 Integer.MIN_VALUE,
                 Integer.MAX_VALUE,
-                160,
                 MotorType.TETRIX_TORQUENADO.getTicksPerRotation()
                         / 360.0
                         * foldingGearRatio
