@@ -12,6 +12,8 @@ public class DriverMode extends CustomLinearOp {
      * Run the loop once.
      */
     private void runLoop() {
+        telemetry.addData("Arm rotation degrees", ARM.getRotationDegrees());
+
         /* Gamepad 1 (Wheel and Webcam Controls) */
 
         /* Wheel Controls */
