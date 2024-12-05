@@ -78,11 +78,11 @@ public class Auto extends CustomLinearOp {
 
         // Rotate wheels 20 degrees left
         WHEELS.turn(-20);
-        sleep(1500);
+        autoSleep();
 
         // lift arm yet again 75 degrees
         ARM.rotateToAngle(ARM.getRotationDegrees() + 75); // Move the arm to the calculated target position
-        sleep(1500);
+        autoSleep();
 
         // Reverse the claw intake to score
         CLAW.ejectIntake();
