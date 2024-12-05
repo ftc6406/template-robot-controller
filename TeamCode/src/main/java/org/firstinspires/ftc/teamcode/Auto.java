@@ -62,54 +62,54 @@ public class Auto extends CustomLinearOp {
         // Step 1: Lift arm 45 degrees
         double targetDegrees = -145; // Replace with actual degrees needed
 
-        // ARM.rotateArmToAngle(targetDegrees); // Move the arm to the calculated target position
-        // sleep(1500);
+        ARM.rotateArmToAngle(targetDegrees); // Move the arm to the calculated target position
+        sleep(1500);
 
         // Step 2: Extend Arm
-        // ARM.foldArmToAngle(75); // Adjust this value as needed
-        // sleep(500);
+        ARM.foldArmToAngle(75); // Adjust this value as needed
+        sleep(500);
 
         // Step 3: Rotate Claw
-        // CLAW.startIntake();
-        // sleep(500);
+        CLAW.startIntake();
+        sleep(500);
 
         // Step 4: Strafe left 24 inches
         WHEELS.driveDistance(-24, 0); // Negative X for strafing left
         sleep(500);
 
         // Step 5: Lift arm 45 degrees again
-        // ARM.rotateArmToAngle(ARM.getRotationDegrees() - 45);
-        // sleep(500);
+        ARM.rotateArmToAngle(ARM.getRotationDegrees() - 45);
+        sleep(500);
 
         // Step 6: Reverse the claw intake to score
-        // CLAW.ejectIntake();
-        // sleep(500);
+        CLAW.ejectIntake();
+        sleep(500);
 
         // Step 7: Rotate servo back
-        // CLAW.stopIntake(); // Not too sure if this is what I need to do but this resets servo
-        // sleep(500);
+        CLAW.stopIntake(); // Not too sure if this is what I need to do but this resets servo
+        sleep(500);
 
         // Step 8: Bring arm down 90 degrees
-        // ARM.rotateArmToAngle(ARM.getRotationDegrees() + 90);
-        // sleep(500);
+        ARM.rotateArmToAngle(ARM.getRotationDegrees() + 90);
+        sleep(500);
 
         // Step 9: Strafe right 65 inches
-        // WHEELS.driveDistance(65, 0); // Postive X for strafing right
-        // sleep(500);
+        WHEELS.driveDistance(65, 0); // Postive X for strafing right
+        sleep(500);
 
         // Step 10: Drive forward 50 inches
         WHEELS.driveDistance(50); // Positive Y for forward
         sleep(500);
 
         // Step 11: Turn right 90 degrees
-        // WHEELS.turn(90);
-        // sleep(500);
+        WHEELS.turn(90);
+        sleep(500);
 
         WHEELS.driveDistance(10.0, 0.0);
 
         // Step 12: Lift arm 35 degrees
-        // ARM.rotateArmToAngle( ARM.getRotationDegrees() - 35);
-        // sleep(500);
+        ARM.rotateArmToAngle( ARM.getRotationDegrees() - 35);
+        sleep(500);
 
         telemetry.addLine("Finished Near Basket Action");
         telemetry.update();
@@ -123,16 +123,16 @@ public class Auto extends CustomLinearOp {
         // Step 1: Lift arm 45 degrees
         double targetDegrees = -45; // Replace with actual degrees needed
 
-        // ARM.rotateArmToAngle(targetDegrees); // Move the arm to the calculated target position
-        // sleep(1500);
+        ARM.rotateArmToAngle(targetDegrees); // Move the arm to the calculated target position
+        sleep(1500);
 
         // Step 2: Extend Arm
-        // ARM.foldArmToAngle(75); // Adjust this value as needed
-        // sleep(500);
+        ARM.foldArmToAngle(75); // Adjust this value as needed
+        sleep(500);
 
         // Step 3: Rotate Claw
-        // CLAW.startIntake();
-        // sleep(500);
+        CLAW.startIntake();
+        sleep(500);
 
         // Step 4: Strafe right 48 inches
         WHEELS.driveDistance(48, 0); // Positive X for strafing right        sleep(500);
