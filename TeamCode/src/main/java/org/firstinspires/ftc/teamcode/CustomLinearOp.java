@@ -180,8 +180,7 @@ public class CustomLinearOp extends LinearOpMode {
                         12,
                         -2,
                         12
-                },
-                cameraMonitorViewId
+                }
         );
     }
 
@@ -248,12 +247,14 @@ public class CustomLinearOp extends LinearOpMode {
          * Get camera ID to stream.
          * Currently not working.
          */
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName()
-        );
-        telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
-        telemetry.update();
-        WEBCAM = initWebcam(cameraMonitorViewId);
+        /*
+            int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                    "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName()
+            );
+            telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
+            telemetry.update();
+            WEBCAM = initWebcam(cameraMonitorViewId);
+        */
 
         // Try to read the start position
         try (BufferedReader reader = new BufferedReader(new FileReader(PositionInput.getPositionFile()))) {
