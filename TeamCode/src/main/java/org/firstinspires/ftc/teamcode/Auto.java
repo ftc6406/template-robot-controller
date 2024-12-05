@@ -80,8 +80,8 @@ public class Auto extends CustomLinearOp {
         WHEELS.turn(-20);
         autoSleep();
 
-        // lift arm yet again 75 degrees
-        ARM.rotateToAngle(ARM.getRotationDegrees() + 75); // Move the arm to the calculated target position
+        // lift arm yet again 45 degrees
+        ARM.rotateToAngle(ARM.getRotationDegrees() + 45); // Move the arm to the calculated target position
         autoSleep();
 
         // Reverse the claw intake to score
@@ -136,7 +136,7 @@ public class Auto extends CustomLinearOp {
         // Step 1: Lift arm 45 degrees
         double targetDegrees = 45; // Replace with actual degrees needed
 
-        ARM.rotateToAngle(ARM.getRotationDegrees() + targetDegrees); // Move the arm to the calculated target position
+        ARM.rotateToAngle(targetDegrees); // Move the arm to the calculated target position
         autoSleep();
 
         // Step 2: Extend Arm
@@ -147,8 +147,8 @@ public class Auto extends CustomLinearOp {
         CLAW.startIntake();
         autoSleep();
 
-        // Step 4: Strafe left 72 inches
-        WHEELS.driveDistance(-72, 0); // Positive X for strafing right
+        // Step 4: Strafe right 72 inches
+        WHEELS.driveDistance(72, 0); // Positive X for strafing right
         autoSleep();
 
         telemetry.addLine("Finished Far Basket Actions");
