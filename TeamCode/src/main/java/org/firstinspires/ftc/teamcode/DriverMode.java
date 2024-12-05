@@ -72,8 +72,8 @@ public class DriverMode extends CustomLinearOp {
             telemetry.addLine("Right Bumper Pressed: Raising Arm and Rotating Claw");
 
             try {
-                // Raise the arm to -90 degrees (adjust as needed)
-                double targetDegrees = -90.0;
+                // Raise the arm to 90 degrees (adjust as needed)
+                double targetDegrees = 90.0;
                 ARM.rotateToAngle(targetDegrees);
 
                 // Rotate the claw to 180 degrees
@@ -90,8 +90,8 @@ public class DriverMode extends CustomLinearOp {
             telemetry.addLine("Left Bumper Pressed: Lowering Arm, Rotating Servo Back, Running Intake");
 
             try {
-                // Lower the arm to 90 degrees (adjust as needed)
-                double setPosition = 90.0;
+                // Lower the arm to 15 degrees (adjust as needed)
+                double setPosition = 15;
                 ARM.rotateToAngle(setPosition);
 
                 // Rotate the claw to 0 degrees
