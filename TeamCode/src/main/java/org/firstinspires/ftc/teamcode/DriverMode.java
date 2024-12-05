@@ -34,11 +34,13 @@ public class DriverMode extends CustomLinearOp {
 
         /* Webcam controls */
         // Save CPU resources; can resume streaming when needed.
+        /*
         if (gamepad1.dpad_down) {
             WEBCAM.getVisionPortal().stopStreaming();
         } else if (gamepad1.dpad_up) {
             WEBCAM.getVisionPortal().resumeStreaming();
         }
+         */
 
         /* Gamepad 2 (Arm and Claw Controls) */
 
@@ -132,10 +134,12 @@ public class DriverMode extends CustomLinearOp {
     public void runOpMode() {
         super.runOpMode();
 
+        /*
         cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName()
         );
         WEBCAM.getVisionPortal().stopStreaming();
+         */
 
         while (opModeIsActive()) {
             try {
