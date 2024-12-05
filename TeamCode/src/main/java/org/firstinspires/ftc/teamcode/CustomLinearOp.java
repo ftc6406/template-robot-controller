@@ -160,8 +160,7 @@ public class CustomLinearOp extends LinearOpMode {
          */
         return new DoubleServoIntakeClaw(
                 hardwareMap.get(CRServo.class, "leftIntakeServo"),
-                hardwareMap.get(CRServo.class, "rightIntakeServo"),
-                hardwareMap.get(DigitalChannel.class, "intakeSensor")
+                hardwareMap.get(CRServo.class, "rightIntakeServo")
         );
     }
 
