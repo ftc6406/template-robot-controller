@@ -59,57 +59,70 @@ public class Auto extends CustomLinearOp {
         telemetry.addLine("Starting Near Basket Action");
         telemetry.update();
 
-        // Step 1: Lift arm 45 degrees
-        double targetDegrees = -145; // Replace with actual degrees needed
+        // Step 1: Move forward 10 inches
+        WHEELS.driveDistance(0, 10);
+        autoSleep();
+
+        // Step 2:Strafe left 48 inches
+        WHEELS.driveDistance(48, 0);
+
+        // Lift arm 45 degrees
+        double targetDegrees = 45; // Replace with actual degrees needed
 
         ARM.rotateToAngle(ARM.getRotationDegrees() + targetDegrees); // Move the arm to the calculated target position
-        autoSleep();
+        sleep(1500);
 
-        // Step 2: Extend Arm
+        // Extend Arm
         ARM.foldToAngle(75); // Adjust this value as needed
+        sleep(1500);
+
+        // Rotate wheels 20 degrees left
+        WHEELS.turn(-20);
         autoSleep();
 
-        // Step 3: Rotate Claw
-        CLAW.startIntake();
+        // lift arm yet again 75 degrees
+        ARM.rotateToAngle(ARM.getRotationDegrees() + 75); // Move the arm to the calculated target position
         autoSleep();
 
-        // Step 4: Strafe left 72 inches
-        WHEELS.driveDistance(-72, 0); // Negative X for strafing left
-        autoSleep();
-
-        // Step 5: Lift arm 45 degrees again
-        ARM.rotateToAngle(ARM.getRotationDegrees() - 45);
-        autoSleep();
-
-        // Step 6: Reverse the claw intake to score
+        // Reverse the claw intake to score
         CLAW.ejectIntake();
         autoSleep();
 
-        // Step 7: Rotate servo back
-        CLAW.stopIntake(); // Not too sure if this is what I need to do but this resets servo
-        autoSleep();
+        // Step 3: Strafe left 72 inches
+        //WHEELS.driveDistance(-72, 0); // Negative X for strafing left
+        //autoSleep();
 
-        // Step 8: Bring arm down 90 degrees
-        ARM.rotateToAngle(ARM.getRotationDegrees() + 90);
-        autoSleep();
+        // Step 4: Lift arm 45 degrees again
+        //ARM.rotateToAngle(ARM.getRotationDegrees() + 45);
+        //autoSleep();
 
-        // Step 9: Strafe right 65 inches
-        WHEELS.driveDistance(65, 0); // Postive X for strafing right
-        autoSleep();
+        // Step 5: Reverse the claw intake to score
+        //CLAW.ejectIntake();
+        //autoSleep();
 
-        // Step 10: Drive forward 72 inches
-        WHEELS.driveDistance(72); // Positive Y for forward
-        autoSleep();
+        // Step 6: Rotate servo back
+        //CLAW.stopIntake(); // Not too sure if this is what I need to do but this resets servo
+        //autoSleep();
 
-        // Step 11: Turn right 90 degrees
-        WHEELS.turn(90);
-        autoSleep();
+        // Step 7: Bring arm down 90 degrees
+        //ARM.rotateToAngle(ARM.getRotationDegrees() - 90);
+        //autoSleep();
 
-        WHEELS.driveDistance(10.0, 0.0);
+        // Step 8: Strafe right 65 inches
+        //WHEELS.driveDistance(65, 0); // Postive X for strafing right
+        //autoSleep();
 
-        // Step 12: Lift arm 35 degrees
-        ARM.rotateToAngle( ARM.getRotationDegrees() - 35);
-        autoSleep();
+        // Step 9: Drive forward 72 inches
+        //WHEELS.driveDistance(72); // Positive Y for forward
+        //autoSleep();
+
+        // Step 10: Turn right 90 degrees
+        //WHEELS.turn(90);
+        //autoSleep();
+
+        // Step 11: Lift arm 35 degrees
+        //ARM.rotateToAngle( ARM.getRotationDegrees() + 35);
+        //autoSleep();
 
         telemetry.addLine("Finished Near Basket Action");
         telemetry.update();
@@ -121,9 +134,9 @@ public class Auto extends CustomLinearOp {
 
         // Similar to near basket actions but fewer steps
         // Step 1: Lift arm 45 degrees
-        double targetDegrees = -145; // Replace with actual degrees needed
+        double targetDegrees = 45; // Replace with actual degrees needed
 
-        ARM.rotateToAngle(ARM.getRotationDegrees() - targetDegrees); // Move the arm to the calculated target position
+        ARM.rotateToAngle(ARM.getRotationDegrees() + targetDegrees); // Move the arm to the calculated target position
         autoSleep();
 
         // Step 2: Extend Arm
