@@ -62,11 +62,11 @@ public class Auto extends CustomLinearOp {
         // Step 1: Lift arm 45 degrees
         double targetDegrees = -145; // Replace with actual degrees needed
 
-        ARM.rotateArmToAngle(targetDegrees); // Move the arm to the calculated target position
+        ARM.rotateToAngle(targetDegrees); // Move the arm to the calculated target position
         sleep(1500);
 
         // Step 2: Extend Arm
-        ARM.foldArmToAngle(75); // Adjust this value as needed
+        ARM.foldToAngle(75); // Adjust this value as needed
         sleep(500);
 
         // Step 3: Rotate Claw
@@ -81,7 +81,7 @@ public class Auto extends CustomLinearOp {
         WHEELS.driveDistance(52); // Positive Y for forward
         autoSleep();
         // Step 5: Lift arm 45 degrees again
-        ARM.rotateArmToAngle(ARM.getRotationDegrees() - 45);
+        ARM.rotateToAngle(ARM.getRotationDegrees() - 45);
         sleep(500);
 
         // Strafe right 6.0 inches
@@ -96,7 +96,7 @@ public class Auto extends CustomLinearOp {
         sleep(500);
 
         // Step 8: Bring arm down 90 degrees
-        ARM.rotateArmToAngle(ARM.getRotationDegrees() + 90);
+        ARM.rotateToAngle(ARM.getRotationDegrees() + 90);
         sleep(500);
 
         // Step 9: Strafe right 65 inches
@@ -114,7 +114,7 @@ public class Auto extends CustomLinearOp {
         WHEELS.driveDistance(10.0, 0.0);
 
         // Step 12: Lift arm 35 degrees
-        ARM.rotateArmToAngle( ARM.getRotationDegrees() - 35);
+        ARM.rotateToAngle( ARM.getRotationDegrees() - 35);
         sleep(500);
 
         telemetry.addLine("Finished Near Basket Action");
@@ -132,11 +132,11 @@ public class Auto extends CustomLinearOp {
         // Step 1: Lift arm 45 degrees
         double targetDegrees = -45; // Replace with actual degrees needed
 
-        ARM.rotateArmToAngle(targetDegrees); // Move the arm to the calculated target position
+        ARM.rotateToAngle(targetDegrees); // Move the arm to the calculated target position
         sleep(1500);
 
         // Step 2: Extend Arm
-        ARM.foldArmToAngle(75); // Adjust this value as needed
+        ARM.foldToAngle(75); // Adjust this value as needed
         sleep(500);
 
         // Step 3: Rotate Claw
