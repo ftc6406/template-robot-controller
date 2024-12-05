@@ -133,7 +133,7 @@ public class Auto extends CustomLinearOp {
         double targetDegrees = -45; // Replace with actual degrees needed
 
         ARM.rotateToAngle(targetDegrees); // Move the arm to the calculated target position
-        sleep(1500);
+        autoSleep();
 
         // Step 2: Extend Arm
         ARM.foldToAngle(75); // Adjust this value as needed
