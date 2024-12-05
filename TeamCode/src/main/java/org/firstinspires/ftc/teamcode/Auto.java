@@ -74,6 +74,10 @@ public class Auto extends CustomLinearOp {
 
         // Extend Arm
         ARM.foldToAngle(75); // Adjust this value as needed
+        sleep(1500);
+
+        // Rotate wheels 20 degrees left
+        WHEELS.turn(-20);
         autoSleep();
 
         // Step 3: Strafe left 72 inches
@@ -81,7 +85,7 @@ public class Auto extends CustomLinearOp {
         autoSleep();
 
         // Step 4: Lift arm 45 degrees again
-        ARM.rotateToAngle(ARM.getRotationDegrees() - 45);
+        ARM.rotateToAngle(ARM.getRotationDegrees() + 45);
         autoSleep();
 
         // Step 5: Reverse the claw intake to score
@@ -93,7 +97,7 @@ public class Auto extends CustomLinearOp {
         autoSleep();
 
         // Step 7: Bring arm down 90 degrees
-        ARM.rotateToAngle(ARM.getRotationDegrees() + 90);
+        ARM.rotateToAngle(ARM.getRotationDegrees() - 90);
         autoSleep();
 
         // Step 8: Strafe right 65 inches
@@ -108,10 +112,8 @@ public class Auto extends CustomLinearOp {
         WHEELS.turn(90);
         autoSleep();
 
-        WHEELS.driveDistance(10.0, 0.0);
-
         // Step 11: Lift arm 35 degrees
-        ARM.rotateToAngle( ARM.getRotationDegrees() - 35);
+        ARM.rotateToAngle( ARM.getRotationDegrees() + 35);
         autoSleep();
 
         telemetry.addLine("Finished Near Basket Action");
@@ -124,9 +126,9 @@ public class Auto extends CustomLinearOp {
 
         // Similar to near basket actions but fewer steps
         // Step 1: Lift arm 45 degrees
-        double targetDegrees = -145; // Replace with actual degrees needed
+        double targetDegrees = 45; // Replace with actual degrees needed
 
-        ARM.rotateToAngle(ARM.getRotationDegrees() - targetDegrees); // Move the arm to the calculated target position
+        ARM.rotateToAngle(ARM.getRotationDegrees() + targetDegrees); // Move the arm to the calculated target position
         autoSleep();
 
         // Step 2: Extend Arm
