@@ -12,16 +12,19 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 
+/**
+ * Run to set the robot's alliance color and side before running autonomous.
+ */
 @TeleOp(name = "PositionInput")
 public class PositionInput extends OpMode {
+    /**
+     * The directory that all the files are saved to.
+     */
     private static final String DIRECTORY = Environment.getExternalStorageDirectory().getAbsolutePath() + "/FTC/";
 
-    /*
-     * The file that saves the position file.
-     */
     /**
-     * File name of the storage file,
-     * which is inside the directory specified by `SEASON_DIRECTORY`
+     * Name of the position file,
+     * which is inside the directory specified by `DIRECTORY`.
      */
     private static final String POSITION_FILE = DIRECTORY + "position.txt";
 
@@ -73,19 +76,19 @@ public class PositionInput extends OpMode {
         String positionString = null;
         if (gamepad1.y || gamepad2.y) {
             // Orange button
-            positionString = AllianceColor.RED.name() + ", " + TeamSide.NEAR.name();
+            positionString = AllianceColor.RED.name() + "," + TeamSide.NEAR.name();
 
         } else if (gamepad1.b || gamepad2.b) {
             // Red button
-            positionString = AllianceColor.RED.name() + ", " + TeamSide.FAR.name();
+            positionString = AllianceColor.RED.name() + "," + TeamSide.FAR.name();
 
         } else if (gamepad1.a || gamepad2.a) {
             // Green button
-            positionString = AllianceColor.BLUE.name() + ", " + TeamSide.NEAR.name();
+            positionString = AllianceColor.BLUE.name() + "," + TeamSide.NEAR.name();
 
         } else if (gamepad1.x || gamepad2.x) {
             // Blue button
-            positionString = AllianceColor.BLUE.name() + ", " + TeamSide.FAR.name();
+            positionString = AllianceColor.BLUE.name() + "," + TeamSide.FAR.name();
         }
 
         // Do nothing if the driver didn't press any buttons.

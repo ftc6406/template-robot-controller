@@ -6,25 +6,38 @@ import java.util.HashSet;
 
 public abstract class Claw {
     private final HashSet<Servo> SERVOS;
+    /**
+     * How much to gradually move the servo.
+     */
+    private double servoIncrement;
+    /**
+     * The servo that rotates the claw about the X-axis(roll).
+     */
+    private final Servo ROLL_SERVO;
+    /**
+     * The servo that rotates the claw about the Y-axis(pitch).
+     */
+    private final Servo PITCH_SERVO;
+    /**
+     * The servo that rotates the claw about the Z-axis(yaw).
+     */
+    private final Servo YAW_SERVO;
 
-    // The servo that rotates the claw about the X-axis
-    private final Servo X_AXIS_SERVO;
-    // The servo that rotates the claw about the Y-axis
-    private final Servo Y_AXIS_SERVO;
-    // The servo that rotates the claw about the Z-axis
-    private final Servo Z_AXIS_SERVO;
-    // How much to gradually move the servo.
-    private final static double SERVO_INCREMENT = 0.1;
+    public Claw(Servo rollServo, Servo pitchServo, Servo yawServo) {
+        this(rollServo, pitchServo, yawServo, 0.1);
+    }
 
-    public Claw(Servo xAxisServo, Servo yAxisServo, Servo zAxisServo) {
+    public Claw(Servo rollServo, Servo pitchServo, Servo yawServo, double servoIncrement) {
         SERVOS = new HashSet<>();
-        SERVOS.add(xAxisServo);
-        SERVOS.add(yAxisServo);
-        SERVOS.add(zAxisServo);
+        SERVOS.add(rollServo);
+        SERVOS.add(pitchServo);
+        SERVOS.add(yawServo);
 
-        X_AXIS_SERVO = xAxisServo;
-        Y_AXIS_SERVO = yAxisServo;
-        Z_AXIS_SERVO = zAxisServo;
+        ROLL_SERVO = rollServo;
+        PITCH_SERVO = pitchServo;
+        YAW_SERVO = yawServo;
+
+        this.servoIncrement = servoIncrement;
     }
 
     /**
@@ -37,61 +50,67 @@ public abstract class Claw {
     }
 
     public double getServoIncrement() {
-        return SERVO_INCREMENT;
+        return servoIncrement;
+    }
+
+    public void setServoIncrement(double servoIncrement) {
+        this.servoIncrement = servoIncrement;
     }
 
     /**
-     * Rotate the X rotation servo.
-     *
-     * @param direction The direction to rotate the servo in.
-     *                  Positive values rotate it clockwise, negative values rotate it counterclockwise.
-     * @throws NullPointerException If {@code X_AXIS_SERVO} is null;
-     */
-    public void rotateXAxisServo(double direction) throws NullPointerException {
-        if (X_AXIS_SERVO == null) {
-            throw new NullPointerException("WARNING: CLAW X-AXIS SERVO IS NULL!");
-        }
-
-        double targetPosition = X_AXIS_SERVO.getPosition()
-                + Math.signum(direction) * SERVO_INCREMENT;
-
-        X_AXIS_SERVO.setPosition(targetPosition);
-    }
-
-    public void rotateXAxisServoToPosition(double position) {
-        X_AXIS_SERVO.setPosition(position);
-    }
-
-    /**
-     * Rotate the Y rotation servo.
-     *
-     * @param direction The direction to rotate the servo in.
-     *                  Positive values rotate it clockwise, negative values rotate it counterclockwise.
-     *                  2
-     */
-    public void rotateYAxisServo(double direction) throws NullPointerException {
-        if (Y_AXIS_SERVO == null) {
-            throw new NullPointerException("WARNING: CLAW Y-AXIS SERVO IS NULL!");
-        }
-
-        double targetPosition = Y_AXIS_SERVO.getPosition()
-                + Math.signum(direction) * SERVO_INCREMENT;
-        Y_AXIS_SERVO.setPosition(targetPosition);
-    }
-
-    /**
-     * Rotate the Z rotation servo.
+     * Rotate the X-axis(roll) servo in a certain direction by `servoIncrement`.
      *
      * @param direction The direction to rotate the servo in.
      *                  Positive values rotate it clockwise, negative values rotate it counterclockwise.
      */
-    public void rotateZAxisServo(double direction) {
-        if (Z_AXIS_SERVO == null) {
-            return;
-        }
+    public void rotateRollServo(double direction) {
+        double targetPosition = ROLL_SERVO.getPosition() + Math.signum(direction) * servoIncrement;
+        ROLL_SERVO.setPosition(targetPosition);
+    }
 
-        double targetPosition = Z_AXIS_SERVO.getPosition()
-                + Math.signum(direction) * SERVO_INCREMENT;
-        Z_AXIS_SERVO.setPosition(targetPosition);
+    /**
+     * Rotate the roll servo to a position specified in degrees.
+     * @param degrees The target angle of the roll servo in degrees.
+     */
+    public void rotateRollServoToAngle(double degrees) {
+        ROLL_SERVO.setPosition(degrees / 360.0);
+    }
+
+    /**
+     * Rotate the Y-axis(pitch) servo in a certain direction by `servoIncrement`.
+     *
+     * @param direction The direction to rotate the servo in.
+     *                  Positive values rotate it clockwise, negative values rotate it counterclockwise.
+     */
+    public void rotatePitchAxisServo(double direction) {
+        double targetPosition = PITCH_SERVO.getPosition() + Math.signum(direction) * servoIncrement;
+        PITCH_SERVO.setPosition(targetPosition);
+    }
+
+    /**
+     * Rotate the pitch servo to a position specified in degrees.
+     * @param degrees The target angle of the pitch servo in degrees.
+     */
+    public void rotatePitchServoToAngle(double degrees) {
+        PITCH_SERVO.setPosition(degrees / 360.0);
+    }
+
+    /**
+     * Rotate the Z-axis(yaw) servo in a certain direction by `servoIncrement`.
+     *
+     * @param direction The direction to rotate the servo in.
+     *                  Positive values rotate it clockwise, negative values rotate it counterclockwise.
+     */
+    public void rotateYawServo(double direction) {
+        double targetPosition = YAW_SERVO.getPosition() + Math.signum(direction) * servoIncrement;
+        YAW_SERVO.setPosition(targetPosition);
+    }
+
+    /**
+     * Rotate the yaw servo to a position specified in degrees.
+     * @param degrees The target angle of the yaw servo in degrees.
+     */
+    public void rotateYawServoToAngle(double degrees) {
+        YAW_SERVO.setPosition(degrees / 360.0);
     }
 }

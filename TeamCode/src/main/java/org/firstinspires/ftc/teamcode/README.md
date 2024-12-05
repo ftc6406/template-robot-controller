@@ -12,7 +12,7 @@
     - [`Arm`](#arm)
     - [`FoldingArm`](#foldingarm)
     - [`Claw`](#claw)
-    - [`IntakeClaw`](#intakeclaw)
+    - [`TwoCrIntakeClaw`](#twocrintakeclaw)
     - [`Webcam`](#webcam)
 
 # [`CustomLinearOp`](CustomLinearOp.java)
@@ -42,6 +42,7 @@ a TeleOp program with the name of "DriverMode."
 The `runOpMode()` method runs automatically without the need to do anything.
 The first line of `runOpMode()` should be `super.runOpMode()` to run the parent class's hardware
 initialization.
+The `runOpMode()` runs the code in a try-catch to detect errors. 
 
 ## [`PositionInput`](PositionInput.java)
 
@@ -112,10 +113,10 @@ Has properties for servos to rotate in the X, Y, and Z-axes.
 If any of the servos are not needed, set them to null.
 The class methods check for null servo values.
 
-## [`IntakeClaw`](hardwareSystems/IntakeClaw.java)
+## [`TwoCrIntakeClaw`](hardwareSystems/TwoCrIntakeClaw.java)
 
 A subclass of [`Claw`](#Claw) that controls a claw with a intake servo.
-Each method checks for a null intake servo.
+The intake has two continuous rotation servos.
 
 ## [`Webcam`](hardwareSystems/Webcam.java)
 

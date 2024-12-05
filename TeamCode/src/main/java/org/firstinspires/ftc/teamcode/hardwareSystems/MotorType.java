@@ -3,6 +3,9 @@ package org.firstinspires.ftc.teamcode.hardwareSystems;
 public enum MotorType {
     TETRIX_TORQUENADO(1440);
 
+    /**
+     * The number of ticks it takes for a full rotation.
+     */
     private final int TICKS_PER_ROTATION;
 
     MotorType(int ticksPerRotation) {

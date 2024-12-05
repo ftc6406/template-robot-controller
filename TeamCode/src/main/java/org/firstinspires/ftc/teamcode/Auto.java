@@ -17,8 +17,8 @@ public class Auto extends CustomLinearOp {
         double targetDegrees = 170.0; // Replace with actual degrees needed to reach 28.5 inches
 
         // Move the arm to the calculated target position
-        // ARM.rotateArmToAngle(targetDegrees);
-        // autoSleep(ARM.getRotationMotor());
+        ARM.rotateToAngle(targetDegrees);
+        autoSleep(ARM.getRotationMotor());
 
         // Eject the object using the claw
         try {
@@ -30,10 +30,10 @@ public class Auto extends CustomLinearOp {
     }
 
     public void pickUpSample() {
-        // ARM.rotateArmToAngle(0);
-        // CLAW.startIntake();
-        // sleep(100);
-        // CLAW.stopIntake();
+        ARM.rotateToAngle(0);
+        CLAW.startIntake();
+        sleep(100);
+        CLAW.stopIntake();
     }
 
     /**
@@ -77,10 +77,16 @@ public class Auto extends CustomLinearOp {
         WHEELS.driveDistance(-24, 0); // Negative X for strafing left
         sleep(500);
 
+        // Drive forward 52.0 inches
+        WHEELS.driveDistance(52); // Positive Y for forward
+        autoSleep();
         // Step 5: Lift arm 45 degrees again
         ARM.rotateArmToAngle(ARM.getRotationDegrees() - 45);
         sleep(500);
 
+        // Strafe right 6.0 inches
+        WHEELS.driveDistance(6.0, 0.0);
+        autoSleep();
         // Step 6: Reverse the claw intake to score
         CLAW.ejectIntake();
         sleep(500);
@@ -119,6 +125,9 @@ public class Auto extends CustomLinearOp {
         telemetry.addLine("Starting Far Basket Action");
         telemetry.update();
 
+        // Strafe right 48.0 inches
+        WHEELS.driveDistance(48.0, 0); // Positive X for strafing right
+        autoSleep();
         // Similar to near basket actions but fewer steps
         // Step 1: Lift arm 45 degrees
         double targetDegrees = -45; // Replace with actual degrees needed
@@ -147,6 +156,9 @@ public class Auto extends CustomLinearOp {
     @Override
     public void runOpMode() {
         super.runOpMode();
+
+        telemetry.addData("Number of AprilTags", WEBCAM.getAprilTagDetections().size());
+        telemetry.update();
 
         if (TEAM_SIDE == TeamSide.NEAR) {
             performNearBasketActions();

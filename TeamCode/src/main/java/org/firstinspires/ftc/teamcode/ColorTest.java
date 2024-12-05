@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.hardwareSystems.Webcam;
 import org.firstinspires.ftc.vision.opencv.PredominantColorProcessor;
 
-@TeleOp(name = "ColorTest")
+@TeleOp(name = "ColorTest", group = "Test")
 public class ColorTest extends OpMode {
     private Webcam webcam;
 
