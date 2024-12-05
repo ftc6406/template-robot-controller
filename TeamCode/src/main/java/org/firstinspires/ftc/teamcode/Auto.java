@@ -59,55 +59,58 @@ public class Auto extends CustomLinearOp {
         telemetry.addLine("Starting Near Basket Action");
         telemetry.update();
 
-        // Step 1: Lift arm 45 degrees
-        double targetDegrees = -145; // Replace with actual degrees needed
-
-        ARM.rotateToAngle(ARM.getRotationDegrees() + targetDegrees); // Move the arm to the calculated target position
+        // Step 1: Move forward 10 inches
+        WHEELS.driveDistance(0, 10);
         autoSleep();
 
-        // Step 2: Extend Arm
+        // Step 2:Strafe left 48 inches
+        WHEELS.driveDistance(48, 0);
+
+        // Lift arm 45 degrees
+        double targetDegrees = 45; // Replace with actual degrees needed
+
+        ARM.rotateToAngle(ARM.getRotationDegrees() + targetDegrees); // Move the arm to the calculated target position
+        sleep(1500);
+
+        // Extend Arm
         ARM.foldToAngle(75); // Adjust this value as needed
         autoSleep();
 
-        // Step 3: Rotate Claw
-        CLAW.startIntake();
-        autoSleep();
-
-        // Step 4: Strafe left 72 inches
+        // Step 3: Strafe left 72 inches
         WHEELS.driveDistance(-72, 0); // Negative X for strafing left
         autoSleep();
 
-        // Step 5: Lift arm 45 degrees again
+        // Step 4: Lift arm 45 degrees again
         ARM.rotateToAngle(ARM.getRotationDegrees() - 45);
         autoSleep();
 
-        // Step 6: Reverse the claw intake to score
+        // Step 5: Reverse the claw intake to score
         CLAW.ejectIntake();
         autoSleep();
 
-        // Step 7: Rotate servo back
+        // Step 6: Rotate servo back
         CLAW.stopIntake(); // Not too sure if this is what I need to do but this resets servo
         autoSleep();
 
-        // Step 8: Bring arm down 90 degrees
+        // Step 7: Bring arm down 90 degrees
         ARM.rotateToAngle(ARM.getRotationDegrees() + 90);
         autoSleep();
 
-        // Step 9: Strafe right 65 inches
+        // Step 8: Strafe right 65 inches
         WHEELS.driveDistance(65, 0); // Postive X for strafing right
         autoSleep();
 
-        // Step 10: Drive forward 72 inches
+        // Step 9: Drive forward 72 inches
         WHEELS.driveDistance(72); // Positive Y for forward
         autoSleep();
 
-        // Step 11: Turn right 90 degrees
+        // Step 10: Turn right 90 degrees
         WHEELS.turn(90);
         autoSleep();
 
         WHEELS.driveDistance(10.0, 0.0);
 
-        // Step 12: Lift arm 35 degrees
+        // Step 11: Lift arm 35 degrees
         ARM.rotateToAngle( ARM.getRotationDegrees() - 35);
         autoSleep();
 
