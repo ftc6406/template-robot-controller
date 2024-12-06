@@ -78,7 +78,6 @@ public class DriverMode extends CustomLinearOp {
             telemetry.addLine("Stop intake");
             CLAW.stopIntake();
 
-
         } else if (gamepad2.y) {
             telemetry.addLine("Eject");
             CLAW.ejectIntake();
