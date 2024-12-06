@@ -124,7 +124,7 @@ public class CustomLinearOp extends LinearOpMode {
         );
 
         // 36.0 / 16.0
-        double rotationGearRatio = 120.0 / 40.0;
+        double rotationGearRatio = 32.0 / 16.0; // 120.0 / 40.0;
         FoldingArm.RotationRange rotationRange = new FoldingArm.RotationRange(
                 Integer.MIN_VALUE,
                 Integer.MAX_VALUE, // 1080
