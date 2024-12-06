@@ -65,6 +65,25 @@ public class DriverMode extends CustomLinearOp {
             CLAW.rotateRollServo(1.0);
         }
 
+        /*
+         * Pressing A picks up samples.
+         * Pressing B stops the intake.
+         * Pressing Y releases the sample.
+         */
+        if (gamepad2.a) {
+            telemetry.addLine("Start intake");
+            CLAW.startIntake();
+
+        } else if (gamepad2.b) {
+            telemetry.addLine("Stop intake");
+            CLAW.stopIntake();
+
+
+        } else if (gamepad2.y) {
+            telemetry.addLine("Eject");
+            CLAW.ejectIntake();
+        }
+
         // Bumper Controls
         if (gamepad2.right_bumper) {
             telemetry.addLine("Right Bumper Pressed: Raising Arm, Rotating Servo, and Rotating Claw");
@@ -94,25 +113,6 @@ public class DriverMode extends CustomLinearOp {
 
             telemetry.addData("Arm Target", setPosition);
             telemetry.addLine("Eject intake");
-        }
-
-        /*
-         * Pressing A picks up samples.
-         * Pressing B stops the intake.
-         * Pressing Y releases the sample.
-         */
-        if (gamepad2.a) {
-            telemetry.addLine("Start intake");
-            CLAW.startIntake();
-
-        } else if (gamepad2.b) {
-            telemetry.addLine("Stop intake");
-            CLAW.stopIntake();
-
-
-        } else if (gamepad2.y) {
-            telemetry.addLine("Eject");
-            CLAW.ejectIntake();
         }
 
         telemetry.update();
