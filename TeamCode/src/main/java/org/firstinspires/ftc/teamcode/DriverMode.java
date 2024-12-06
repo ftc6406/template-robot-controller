@@ -58,14 +58,12 @@ public class DriverMode extends CustomLinearOp {
         /*
          * D-pad controls the claw's X-axis rotation.
          */
-        /*
         if (gamepad2.dpad_left) {
             CLAW.rotateRollServo(-1.0);
 
         } else if (gamepad2.dpad_right) {
             CLAW.rotateRollServo(1.0);
         }
-        */
 
         // Bumper Controls
         if (gamepad2.right_bumper) {
@@ -76,7 +74,7 @@ public class DriverMode extends CustomLinearOp {
             ARM.rotateToAngle(targetDegrees);
 
             // Rotate the claw to 180 degrees
-            // CLAW.rotateRollServoToAngle(180);
+            CLAW.rotateRollServoToAngle(180);
 
             telemetry.addData("Arm Target", targetDegrees);
             telemetry.addData("Claw Target", 90.0);
@@ -89,7 +87,7 @@ public class DriverMode extends CustomLinearOp {
             ARM.rotateToAngle(setPosition);
 
             // Rotate the claw to 0 degrees
-            // CLAW.rotateRollServoToAngle(0);
+            CLAW.rotateRollServoToAngle(0);
 
             // Run the intake servo
             CLAW.ejectIntake();
