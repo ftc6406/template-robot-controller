@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.hardwareSystems.FoldingArm;
@@ -160,6 +161,9 @@ public class CustomLinearOp extends LinearOpMode {
          * e.g. hardwareMap.get(Servo.class, "exampleServo");
          */
         return new DoubleServoIntakeClaw(
+                hardwareMap.get(Servo.class, "rollServo");
+                null,
+                        null,
                 hardwareMap.get(CRServo.class, "leftIntakeServo"),
                 hardwareMap.get(CRServo.class, "rightIntakeServo")
         );
