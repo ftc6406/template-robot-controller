@@ -63,12 +63,15 @@ public class Auto extends CustomLinearOp {
         WHEELS.driveDistance(-48, 0); // Negative X for strafing left
         autoSleep();
 
+        // Strafe right 20 inches
+        WHEELS.driveDistance(20, 0);
+
         // Drive forward 55.0 inches
         WHEELS.driveDistance(55); // Positive Y for forward
         autoSleep();
 
-        // Strafe right 6.0 inches
-        WHEELS.driveDistance(6.0, 0.0);
+        // Strafe right 10.0 inches
+        WHEELS.driveDistance(10.0, 0.0);
         autoSleep();
 
         telemetry.addLine("Finished Near Basket Action");
@@ -99,6 +102,7 @@ public class Auto extends CustomLinearOp {
 
         if (TEAM_SIDE == TeamSide.NEAR) {
             performNearBasketActions();
+
         } else {
             performFarBasketActions();
         }
