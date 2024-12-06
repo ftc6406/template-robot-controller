@@ -63,8 +63,8 @@ public class Auto extends CustomLinearOp {
         WHEELS.driveDistance(6.0);
         autoSleep();
 
-        // Step 2: Strafe left 48 inches
-        WHEELS.driveDistance(48, 0);
+        // Step 2: Strafe left 60 inches
+        WHEELS.driveDistance(60, 0);
 
         // Lift arm 65 degrees
         double targetDegrees = 65;
@@ -77,7 +77,6 @@ public class Auto extends CustomLinearOp {
         // Rotate wheels 45 degrees right
         WHEELS.turn(45);
         autoSleep();
-
 
         // Lift arm another 65 degrees to 110 degrees
         ARM.rotateToAngle(ARM.getRotationDegrees() + 65); // Move the arm to the calculated target position
