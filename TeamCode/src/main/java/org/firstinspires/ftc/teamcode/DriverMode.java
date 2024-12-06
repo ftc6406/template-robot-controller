@@ -12,8 +12,6 @@ public class DriverMode extends CustomLinearOp {
      * Run the loop once.
      */
     private void runLoop() {
-        telemetry.addData("Arm rotation degrees", ARM.getRotationDegrees());
-
         /* Gamepad 1 (Wheel and Webcam Controls) */
 
         /* Wheel Controls */
@@ -28,9 +26,6 @@ public class DriverMode extends CustomLinearOp {
                 gamepad1.right_stick_y,
                 gamepad1.left_stick_x
         );
-        telemetry.addData("Gamepad 1, right stick y", gamepad1.right_stick_y);
-        telemetry.addData("Strafe", strafe);
-        telemetry.addData("Gamepad 1, left stick x", gamepad1.left_stick_x);
 
         telemetry.addData("frontLeftWheel", WHEELS.getFrontLeftMotor().getPower());
         telemetry.addData("frontRightWheel", WHEELS.getFrontRightMotor().getPower());
@@ -39,11 +34,13 @@ public class DriverMode extends CustomLinearOp {
 
         /* Webcam controls */
         // Save CPU resources; can resume streaming when needed.
+        /*
         if (gamepad1.dpad_down) {
             WEBCAM.getVisionPortal().stopStreaming();
         } else if (gamepad1.dpad_up) {
             WEBCAM.getVisionPortal().resumeStreaming();
         }
+         */
 
         /* Gamepad 2 (Arm and Claw Controls) */
 
@@ -51,22 +48,22 @@ public class DriverMode extends CustomLinearOp {
          * The right joystick on gamepad2 controls the arm rotation and folding.
          */
         ARM.rotate(gamepad2.right_stick_y);
+        telemetry.addData("Rotation position", ARM.getRotationTicks() + ", " + ARM.getRotationDegrees());
         telemetry.addData("Rotation power", ARM.getRotationMotor().getPower());
 
         ARM.fold(gamepad2.left_stick_x);
+        telemetry.addData("Folding position", ARM.getFoldingTicks() + ", " + ARM.getFoldingDegrees());
         telemetry.addData("Folding power", ARM.getFoldingMotor().getPower());
 
         /*
          * D-pad controls the claw's X-axis rotation.
          */
-        /*
         if (gamepad2.dpad_left) {
             CLAW.rotateRollServo(-1.0);
 
         } else if (gamepad2.dpad_right) {
             CLAW.rotateRollServo(1.0);
         }
-        */
 
         // Bumper Controls
         if (gamepad2.right_bumper) {
@@ -78,7 +75,7 @@ public class DriverMode extends CustomLinearOp {
                 ARM.rotateToAngle(targetDegrees);
 
                 // Rotate the claw to 180 degrees
-                // CLAW.rotateRollServoToAngle(180);
+                CLAW.rotateRollServoToAngle(180);
 
                 telemetry.addData("Arm Target", targetDegrees);
                 telemetry.addData("Claw Target", 90.0);
@@ -96,7 +93,7 @@ public class DriverMode extends CustomLinearOp {
                 ARM.rotateToAngle(setPosition);
 
                 // Rotate the claw to 0 degrees
-                // CLAW.rotateRollServoToAngle(0);
+                CLAW.rotateRollServoToAngle(0);
 
                 // Run the intake servo
                 CLAW.ejectIntake();
@@ -135,10 +132,12 @@ public class DriverMode extends CustomLinearOp {
     public void runOpMode() {
         super.runOpMode();
 
+        /*
         cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName()
         );
         WEBCAM.getVisionPortal().stopStreaming();
+         */
 
         while (opModeIsActive()) {
             try {

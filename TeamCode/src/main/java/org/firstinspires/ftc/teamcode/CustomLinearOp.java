@@ -3,13 +3,13 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.hardwareSystems.FoldingArm;
-import org.firstinspires.ftc.teamcode.hardwareSystems.TwoCrIntakeClaw;
+import org.firstinspires.ftc.teamcode.hardwareSystems.SingleServoIntakeClaw;
 import org.firstinspires.ftc.teamcode.hardwareSystems.MecanumWheels;
 import org.firstinspires.ftc.teamcode.hardwareSystems.MotorType;
 import org.firstinspires.ftc.teamcode.hardwareSystems.Webcam;
@@ -32,7 +32,7 @@ public class CustomLinearOp extends LinearOpMode {
 
     protected MecanumWheels WHEELS;
     protected FoldingArm ARM;
-    protected TwoCrIntakeClaw CLAW;
+    protected SingleServoIntakeClaw CLAW;
     protected Webcam WEBCAM;
 
     /**
@@ -123,6 +123,7 @@ public class CustomLinearOp extends LinearOpMode {
                 hardwareMap.get(DcMotor.class, "foldingMotor")
         );
 
+        // 36.0 / 16.0
         double rotationGearRatio = 120.0 / 40.0;
         FoldingArm.RotationRange rotationRange = new FoldingArm.RotationRange(
                 Integer.MIN_VALUE,
@@ -150,7 +151,7 @@ public class CustomLinearOp extends LinearOpMode {
      * Initiate all hardware needed for the claw.
      * <strong>When starting a new season, change the return type from `Claw` to the desired return type.</strong>
      */
-    public TwoCrIntakeClaw initClaw() {
+    public SingleServoIntakeClaw initClaw() {
         // Prevent multiple instantiation.
         if (CLAW != null) {
             return null;
@@ -160,10 +161,11 @@ public class CustomLinearOp extends LinearOpMode {
          * Define claw hardware here.
          * e.g. hardwareMap.get(Servo.class, "exampleServo");
          */
-        return new TwoCrIntakeClaw(
-                hardwareMap.get(CRServo.class, "leftIntakeServo"),
-                hardwareMap.get(CRServo.class, "rightIntakeServo"),
-                hardwareMap.get(DigitalChannel.class, "intakeSensor")
+        return new SingleServoIntakeClaw(
+                hardwareMap.get(Servo.class, "clawXServo"),
+                null,
+                null,
+                hardwareMap.get(CRServo.class, "intakeServo")
         );
     }
 
@@ -182,8 +184,7 @@ public class CustomLinearOp extends LinearOpMode {
                         12,
                         -2,
                         12
-                },
-                cameraMonitorViewId
+                }
         );
     }
 
@@ -250,12 +251,14 @@ public class CustomLinearOp extends LinearOpMode {
          * Get camera ID to stream.
          * Currently not working.
          */
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName()
-        );
-        telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
-        telemetry.update();
-        WEBCAM = initWebcam(cameraMonitorViewId);
+        /*
+            int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                    "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName()
+            );
+            telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
+            telemetry.update();
+            WEBCAM = initWebcam(cameraMonitorViewId);
+        */
 
         // Try to read the start position
         try (BufferedReader reader = new BufferedReader(new FileReader(PositionInput.getPositionFile()))) {
@@ -280,6 +283,7 @@ public class CustomLinearOp extends LinearOpMode {
         }
 
         // Set the camera color.
+        /*
         switch (ALLIANCE_COLOR) {
             case RED:
                 WEBCAM.setTargetColor(Webcam.Color.RED);
@@ -289,6 +293,7 @@ public class CustomLinearOp extends LinearOpMode {
                 WEBCAM.setTargetColor(Webcam.Color.BLUE);
                 break;
         }
+         */
         telemetry.addData("Starting position", ALLIANCE_COLOR.name() + ", " + TEAM_SIDE.name());
 
         waitForStart();
