@@ -70,7 +70,7 @@ public class Auto extends CustomLinearOp {
         double targetDegrees = 55; // Replace with actual degrees needed
 
         ARM.rotateToAngle(ARM.getRotationDegrees() + targetDegrees); // Move the arm to the calculated target position
-        sleep(1500);
+        autoSleep(ARM.getRotationMotor());
 
         // Extend Arm
         ARM.foldToAngle(75); // Adjust this value as needed
@@ -86,10 +86,16 @@ public class Auto extends CustomLinearOp {
         // Reverse the claw intake to score
         CLAW.ejectIntake();
         sleep(1000);
+        CLAW.stopIntake();
 
-        // Park
-
-        WHEELS.drive();
+        /* Park */
+        // Turn 45 degrees left
+        WHEELS.turn(-45);
+        // Drive 2.5 tiles forward
+        WHEELS.driveDistance(60);
+        autoSleep();
+        // Strafe 40 inches right
+        WHEELS.driveDistance(40, 0);
 
         // Step 3: Strafe left 72 inches
         //WHEELS.driveDistance(-72, 0); // Negative X for strafing left
@@ -139,8 +145,8 @@ public class Auto extends CustomLinearOp {
         // Step 1: Lift arm 45 degrees
         double targetDegrees = 45; // Replace with actual degrees needed
 
-        ARM.rotateToAngle(targetDegrees); // Move the arm to the calculated target position
-        autoSleep();
+        ARM.rotateToAngle(ARM.getRotationDegrees() + targetDegrees); // Move the arm to the calculated target position
+        autoSleep(ARM.getRotationMotor());
 
         // Step 2: Extend Arm
         ARM.foldToAngle(75); // Adjust this value as needed
@@ -148,7 +154,6 @@ public class Auto extends CustomLinearOp {
 
         // Step 3: Rotate Claw
         CLAW.startIntake();
-        autoSleep();
 
         // Step 4: Strafe right 72 inches
         WHEELS.driveDistance(72, 0); // Positive X for strafing right
@@ -170,6 +175,7 @@ public class Auto extends CustomLinearOp {
 
         if (TEAM_SIDE == TeamSide.NEAR) {
             performNearBasketActions();
+
         } else {
             performFarBasketActions();
         }
