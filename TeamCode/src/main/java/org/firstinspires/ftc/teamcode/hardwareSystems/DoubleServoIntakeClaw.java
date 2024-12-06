@@ -11,7 +11,7 @@ public class DoubleServoIntakeClaw extends Claw {
     /**
      * How much power the intake spins with when intaking.
      */
-    private static final double INTAKE_POWER = 0.5;
+    private static final double INTAKE_POWER = 1.0;
     /**
      * How much power the intake spines with when ejecting.
      */
@@ -35,13 +35,15 @@ public class DoubleServoIntakeClaw extends Claw {
         this(null, null, null, leftIntakeServo, rightIntakeServo, intakeSensor);
     }
 
-    public DoubleServoIntakeClaw(Servo xAxisServo, Servo yAxisServo, Servo zAxisServo, CRServo leftIntakeServo, CRServo rightIntakeServo) {
-        this(xAxisServo, yAxisServo, zAxisServo, leftIntakeServo, rightIntakeServo, null);
+    public DoubleServoIntakeClaw(Servo rollServo, Servo pitchServo, Servo yawServo, CRServo leftIntakeServo, CRServo rightIntakeServo) {
+        this(rollServo, pitchServo, yawServo, leftIntakeServo, rightIntakeServo, null);
     }
 
-    public DoubleServoIntakeClaw(Servo xAxisServo, Servo yAxisServo, Servo zAxisServo, CRServo leftIntakeServo, CRServo rightIntakeServo, DigitalChannel intakeSensor) {
-        super(xAxisServo, yAxisServo, zAxisServo);
+    public DoubleServoIntakeClaw(Servo rollServo, Servo pitchServo, Servo yawServo, CRServo leftIntakeServo, CRServo rightIntakeServo, DigitalChannel intakeSensor) {
+        super(rollServo, pitchServo, yawServo);
 
+        super.ROLL_SERVO.setDirection(Servo.Direction.REVERSE);
+        
         LEFT_INTAKE_SERVO = leftIntakeServo;
         RIGHT_INTAKE_SERVO = rightIntakeServo;
         RIGHT_INTAKE_SERVO.setDirection(DcMotorSimple.Direction.REVERSE);

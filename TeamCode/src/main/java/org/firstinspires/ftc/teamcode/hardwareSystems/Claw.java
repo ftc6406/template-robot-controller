@@ -13,15 +13,15 @@ public abstract class Claw {
     /**
      * The servo that rotates the claw about the X-axis(roll).
      */
-    private final Servo ROLL_SERVO;
+    protected final Servo ROLL_SERVO;
     /**
      * The servo that rotates the claw about the Y-axis(pitch).
      */
-    private final Servo PITCH_SERVO;
+    protected final Servo PITCH_SERVO;
     /**
      * The servo that rotates the claw about the Z-axis(yaw).
      */
-    private final Servo YAW_SERVO;
+    protected final Servo YAW_SERVO;
 
     public Claw(Servo rollServo, Servo pitchServo, Servo yawServo) {
         this(rollServo, pitchServo, yawServo, 0.1);
