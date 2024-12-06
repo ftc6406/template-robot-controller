@@ -3,15 +3,7 @@
 This repository is a template for our FtcRobotControllers.
 It is a fork of FTC's official [FtcRobotController](https://github.com/FIRST-Tech-Challenge/FtcRobotController.git).
 Please feel free to modify this template as necessary or even abandon it altogether.
-<<<<<<< HEAD
-<<<<<<< HEAD
 This template is meant as a gift from the previous programmers to the new programmers.
-=======
-This template is meant as a gift from the previous programers to the new progammers.
->>>>>>> fb68e9c2216efd1a88e4ca99b8d7acceebab4d15
-=======
-This template is meant as a gift from the previous programmers to the new programmers.
->>>>>>> main
 What you do with it is up to you.
 However, this template is meant for general code to be reused across seasons, so if you do use it,
 please refrain from putting anything year specific into this template
@@ -50,14 +42,5 @@ git pull upstream master
 
 Our team's code is in [./TeamCode/src/main/java/org/firstinspires/ftc/teamcode/](./TeamCode/src/main/java/org/firstinspires/ftc/teamcode/).
 It contains an Autonomous, TeleOp, and various helper classes to ease the process of programming the robot.
-<<<<<<< HEAD
-<<<<<<< HEAD
 For more details, look at the [README.md](./TeamCode/src/main/java/org/firstinspires/ftc/teamcode/README.md).
 The README also includes details about how OpModes work.
-=======
-For more details, look at the [README.md](./TeamCode/src/main/java/org/firstinspires/ftc/teamcode/README.md)
->>>>>>> fb68e9c2216efd1a88e4ca99b8d7acceebab4d15
-=======
-For more details, look at the [README.md](./TeamCode/src/main/java/org/firstinspires/ftc/teamcode/README.md).
-The README also includes details about how OpModes work.
->>>>>>> main
