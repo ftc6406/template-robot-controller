@@ -63,8 +63,8 @@ public class Auto extends CustomLinearOp {
         WHEELS.driveDistance(-48, 0); // Negative X for strafing left
         autoSleep();
 
-        // Drive forward 52.0 inches
-        WHEELS.driveDistance(52); // Positive Y for forward
+        // Drive forward 55.0 inches
+        WHEELS.driveDistance(55); // Positive Y for forward
         autoSleep();
 
         // Strafe right 6.0 inches
