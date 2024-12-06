@@ -170,7 +170,6 @@ public class FoldingArm extends Arm {
         super(motorSet.MOTORS);
 
         this.ROTATION_MOTOR = motorSet.ROTATION_MOTOR;
-        this.ROTATION_MOTOR.setDirection(DcMotorSimple.Direction.REVERSE);
         this.MIN_ROTATION = rotationRange.MIN_ROTATION;
         this.MAX_ROTATION = rotationRange.MAX_ROTATION;
         this.INITIAL_ROTATION_ANGLE = rotationRange.INITIAL_ANGLE;
