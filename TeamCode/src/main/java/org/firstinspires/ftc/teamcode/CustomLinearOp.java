@@ -123,7 +123,6 @@ public class CustomLinearOp extends LinearOpMode {
                 hardwareMap.get(DcMotor.class, "foldingMotor")
         );
 
-        // 36.0 / 16.0
         double rotationGearRatio = 32.0 / 16.0; // 120.0 / 40.0;
         FoldingArm.RotationRange rotationRange = new FoldingArm.RotationRange(
                 Integer.MIN_VALUE,
