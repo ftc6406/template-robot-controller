@@ -40,9 +40,9 @@ public class MecanumWheels extends Wheels {
          * Positive is forward for all motors.
          */
         FRONT_LEFT_MOTOR.setDirection(DcMotorSimple.Direction.REVERSE);
-        FRONT_RIGHT_MOTOR.setDirection(DcMotorSimple.Direction.REVERSE);
+        FRONT_RIGHT_MOTOR.setDirection(DcMotorSimple.Direction.FORWARD);
         BACK_LEFT_MOTOR.setDirection(DcMotorSimple.Direction.REVERSE);
-        BACK_RIGHT_MOTOR.setDirection(DcMotorSimple.Direction.REVERSE);
+        BACK_RIGHT_MOTOR.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
     public DcMotor getFrontLeftMotor() {
@@ -77,9 +77,9 @@ public class MecanumWheels extends Wheels {
         double backRightPower = y + x - theta;
          */
         double frontLeftPower = -theta + x + y;
-        double frontRightPower = -theta - x - y;
+        double frontRightPower = theta + x + y;
         double backLeftPower = -theta - x + y;
-        double backRightPower = -theta + x - y;
+        double backRightPower = theta - x + y;
 
         // Scale the motor powers to be within +/- 1.0
         List<Double> powers = Arrays.asList(frontLeftPower, frontRightPower, backLeftPower, backRightPower);
@@ -118,29 +118,12 @@ public class MecanumWheels extends Wheels {
         // Scale the motor motor power based on trigonometry
         double xPower = MOTOR_POWER * (sidewaysDistance / totalDistance);
         double yPower = MOTOR_POWER * (forwardDistance / totalDistance);
-        double frontLeftPower = xPower + yPower;
-        double frontRightPower = -xPower - yPower;
-        double backLeftPower = -xPower + yPower;
-        double backRightPower = xPower - yPower;
-
-        // Scale the motor powers to be within +/- 1.0
-        List<Double> powers = Arrays.asList(frontLeftPower, frontRightPower, backLeftPower, backRightPower);
-        double max = Collections.max(powers);
-        if (max > 1.0) {
-            frontLeftPower /= max;
-            frontRightPower /= max;
-            backLeftPower /= max;
-            backRightPower /= max;
-        }
-        FRONT_LEFT_MOTOR.setPower(frontLeftPower);
-        FRONT_RIGHT_MOTOR.setPower(frontRightPower);
-        BACK_LEFT_MOTOR.setPower(backLeftPower);
-        BACK_RIGHT_MOTOR.setPower(backRightPower);
+        drive(xPower, yPower, 0);
 
         int frontLeftTickPosition = FRONT_LEFT_MOTOR.getCurrentPosition() + (int) ((sidewaysDistance - forwardDistance) * TICKS_PER_INCH);
-        int frontRightTickPosition = FRONT_RIGHT_MOTOR.getCurrentPosition() + (int) ((-sidewaysDistance + forwardDistance) * TICKS_PER_INCH);
+        int frontRightTickPosition = FRONT_RIGHT_MOTOR.getCurrentPosition() - (int) ((-sidewaysDistance + forwardDistance) * TICKS_PER_INCH);
         int backLeftTickPosition = BACK_LEFT_MOTOR.getCurrentPosition() + (int) ((-sidewaysDistance - forwardDistance) * TICKS_PER_INCH);
-        int backRightTickPosition = BACK_RIGHT_MOTOR.getCurrentPosition() + (int) ((sidewaysDistance + forwardDistance) * TICKS_PER_INCH);
+        int backRightTickPosition = BACK_RIGHT_MOTOR.getCurrentPosition() - (int) ((sidewaysDistance + forwardDistance) * TICKS_PER_INCH);
 
         FRONT_LEFT_MOTOR.setTargetPosition(frontLeftTickPosition);
         FRONT_RIGHT_MOTOR.setTargetPosition(frontRightTickPosition);
@@ -172,10 +155,10 @@ public class MecanumWheels extends Wheels {
         BACK_LEFT_MOTOR.setPower(-MOTOR_POWER);
 
         // Right wheels
-        FRONT_RIGHT_MOTOR.setTargetPosition(FRONT_RIGHT_MOTOR.getCurrentPosition() - ticks);
-        FRONT_RIGHT_MOTOR.setPower(-MOTOR_POWER);
-        BACK_RIGHT_MOTOR.setTargetPosition(BACK_RIGHT_MOTOR.getCurrentPosition() - ticks);
-        BACK_RIGHT_MOTOR.setPower(-MOTOR_POWER);
+        FRONT_RIGHT_MOTOR.setTargetPosition(FRONT_RIGHT_MOTOR.getCurrentPosition() + ticks);
+        FRONT_RIGHT_MOTOR.setPower(MOTOR_POWER);
+        BACK_RIGHT_MOTOR.setTargetPosition(BACK_RIGHT_MOTOR.getCurrentPosition() + ticks);
+        BACK_RIGHT_MOTOR.setPower(MOTOR_POWER);
 
         for (DcMotor motor : MOTORS) {
             motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
