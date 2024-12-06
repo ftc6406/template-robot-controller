@@ -27,10 +27,10 @@ public class DriverMode extends CustomLinearOp {
                 gamepad1.left_stick_x
         );
 
-        telemetry.addData("frontLeftWheel", WHEELS.getFrontLeftMotor().getPower());
-        telemetry.addData("frontRightWheel", WHEELS.getFrontRightMotor().getPower());
-        telemetry.addData("backLeftWheel", WHEELS.getBackLeftMotor().getPower());
-        telemetry.addData("backRightWheel", WHEELS.getBackRightMotor().getPower());
+        telemetry.addData("Front left wheel power", WHEELS.getFrontLeftMotor().getPower());
+        telemetry.addData("Front right wheel power", WHEELS.getFrontRightMotor().getPower());
+        telemetry.addData("Back left wheel power", WHEELS.getBackLeftMotor().getPower());
+        telemetry.addData("Back right wheel power", WHEELS.getBackRightMotor().getPower());
 
         /* Webcam controls */
         // Save CPU resources; can resume streaming when needed.
@@ -48,11 +48,11 @@ public class DriverMode extends CustomLinearOp {
          * The right joystick on gamepad2 controls the arm rotation and folding.
          */
         ARM.rotate(gamepad2.right_stick_y);
-        telemetry.addData("Rotation position", ARM.getRotationTicks() + ", " + ARM.getRotationDegrees());
+        telemetry.addData("Rotation position", ARM.getRotationTicks() + ", " + ARM.getRotationDegrees() + '°');
         telemetry.addData("Rotation power", ARM.getRotationMotor().getPower());
 
         ARM.fold(gamepad2.left_stick_x);
-        telemetry.addData("Folding position", ARM.getFoldingTicks() + ", " + ARM.getFoldingDegrees());
+        telemetry.addData("Folding position", ARM.getFoldingTicks() + ", " + ARM.getFoldingDegrees() + '°');
         telemetry.addData("Folding power", ARM.getFoldingMotor().getPower());
 
         /*
@@ -67,43 +67,33 @@ public class DriverMode extends CustomLinearOp {
 
         // Bumper Controls
         if (gamepad2.right_bumper) {
-            telemetry.addLine("Right Bumper Pressed: Raising Arm and Rotating Claw");
+            telemetry.addLine("Right Bumper Pressed: Raising Arm, Rotating Servo, and Rotating Claw");
 
-            try {
-                // Raise the arm to -90 degrees (adjust as needed)
-                double targetDegrees = -90.0;
-                ARM.rotateToAngle(targetDegrees);
+            // Raise the arm to -90 degrees (adjust as needed)
+            double targetDegrees = -90.0;
+            ARM.rotateToAngle(targetDegrees);
 
-                // Rotate the claw to 180 degrees
-                CLAW.rotateRollServoToAngle(180);
+            // Rotate the claw to 180 degrees
+            CLAW.rotateRollServoToAngle(180);
 
-                telemetry.addData("Arm Target", targetDegrees);
-                telemetry.addData("Claw Target", 90.0);
-
-            } catch (Exception e) {
-                telemetry.addData("Error in right bumper logic", e.getMessage());
-            }
+            telemetry.addData("Arm Target", targetDegrees);
+            telemetry.addData("Claw Target", 90.0);
 
         } else if (gamepad2.left_bumper) {
-            telemetry.addLine("Left Bumper Pressed: Lowering Arm, Rotating Servo Back, Running Intake");
+            telemetry.addLine("Left Bumper Pressed: Lowering Arm, Rotating Servo Back, and Running Intake");
 
-            try {
-                // Lower the arm to 90 degrees (adjust as needed)
-                double setPosition = 90.0;
-                ARM.rotateToAngle(setPosition);
+            // Lower the arm to 90 degrees (adjust as needed)
+            double setPosition = 90.0;
+            ARM.rotateToAngle(setPosition);
 
-                // Rotate the claw to 0 degrees
-                CLAW.rotateRollServoToAngle(0);
+            // Rotate the claw to 0 degrees
+            CLAW.rotateRollServoToAngle(0);
 
-                // Run the intake servo
-                CLAW.ejectIntake();
+            // Run the intake servo
+            CLAW.ejectIntake();
 
-                telemetry.addData("Arm Target", setPosition);
-                telemetry.addLine("Eject intake");
-
-            } catch (Exception e) {
-                telemetry.addData("Error in left bumper logic", e.getMessage());
-            }
+            telemetry.addData("Arm Target", setPosition);
+            telemetry.addLine("Eject intake");
         }
 
         /*
