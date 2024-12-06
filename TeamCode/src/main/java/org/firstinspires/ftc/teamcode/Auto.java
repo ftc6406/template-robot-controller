@@ -59,28 +59,28 @@ public class Auto extends CustomLinearOp {
         telemetry.addLine("Starting Near Basket Action");
         telemetry.update();
 
-        // Step 1: Move forward 10 inches
-        WHEELS.driveDistance(0, 10);
+        // Step 1: Move forward 6.0 inches
+        WHEELS.driveDistance(6.0);
         autoSleep();
 
-        // Step 2:Strafe left 48 inches
+        // Step 2: Strafe left 48 inches
         WHEELS.driveDistance(48, 0);
 
-        // Lift arm 45 degrees
-        double targetDegrees = 55; // Replace with actual degrees needed
-
+        // Lift arm 65 degrees
+        double targetDegrees = 65;
         ARM.rotateToAngle(ARM.getRotationDegrees() + targetDegrees); // Move the arm to the calculated target position
-        autoSleep(ARM.getRotationMotor());
+        autoSleep();
 
-        // Extend Arm
-        ARM.foldToAngle(75); // Adjust this value as needed
+        // Extend arm straight
+        ARM.foldToAngle(160); // Adjust this value as needed
 
         // Rotate wheels 45 degrees right
         WHEELS.turn(45);
         autoSleep();
 
-        // lift arm yet again 45 degrees
-        ARM.rotateToAngle(ARM.getRotationDegrees() + 55); // Move the arm to the calculated target position
+
+        // Lift arm another 65 degrees to 110 degrees
+        ARM.rotateToAngle(ARM.getRotationDegrees() + 65); // Move the arm to the calculated target position
         autoSleep();
 
         // Reverse the claw intake to score
