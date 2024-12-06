@@ -67,26 +67,29 @@ public class Auto extends CustomLinearOp {
         WHEELS.driveDistance(48, 0);
 
         // Lift arm 45 degrees
-        double targetDegrees = 45; // Replace with actual degrees needed
+        double targetDegrees = 55; // Replace with actual degrees needed
 
         ARM.rotateToAngle(ARM.getRotationDegrees() + targetDegrees); // Move the arm to the calculated target position
         sleep(1500);
 
         // Extend Arm
         ARM.foldToAngle(75); // Adjust this value as needed
-        sleep(1500);
 
-        // Rotate wheels 20 degrees left
-        WHEELS.turn(-20);
+        // Rotate wheels 45 degrees right
+        WHEELS.turn(45);
         autoSleep();
 
         // lift arm yet again 45 degrees
-        ARM.rotateToAngle(ARM.getRotationDegrees() + 45); // Move the arm to the calculated target position
+        ARM.rotateToAngle(ARM.getRotationDegrees() + 55); // Move the arm to the calculated target position
         autoSleep();
 
         // Reverse the claw intake to score
         CLAW.ejectIntake();
-        autoSleep();
+        sleep(1000);
+
+        // Park
+
+        WHEELS.drive();
 
         // Step 3: Strafe left 72 inches
         //WHEELS.driveDistance(-72, 0); // Negative X for strafing left
