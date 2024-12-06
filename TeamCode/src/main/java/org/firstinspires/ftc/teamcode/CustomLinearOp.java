@@ -259,7 +259,7 @@ public class CustomLinearOp extends LinearOpMode {
         */
 
         // Try to read the start position
-        try (BufferedReader reader = new BufferedReader(new FileReader(PositionInput.getPositionFile()))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(AutoSettings.getPositionFile()))) {
             // Read first line.
             String data = reader.readLine();
             telemetry.addData("Starting position: ", data);

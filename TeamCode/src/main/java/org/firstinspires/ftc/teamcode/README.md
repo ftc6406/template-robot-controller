@@ -1,6 +1,7 @@
 # Table of Contents
 
 - [`CustomLinearOp`](#customlinearop)
+- [`AutoSettings`](#autosettings)
 - [`Auto`](#auto)
 - [`DriverMode`](#drivermode)
 - [`AlllianceColor`](#alliancecolor)
@@ -12,7 +13,8 @@
     - [`Arm`](#arm)
     - [`FoldingArm`](#foldingarm)
     - [`Claw`](#claw)
-    - [`TwoCrIntakeClaw`](#twocrintakeclaw)
+    - [`SingleServoIntakeClaw`](#singleservointakeclaw)
+    - [`DoubleServoIntakeClaw`](#doubleservointakeclaw)
     - [`Webcam`](#webcam)
 
 # [`CustomLinearOp`](CustomLinearOp.java)
@@ -22,6 +24,15 @@ Its `runOpMode()` initializes all the robot's hardware and contains methods for 
 sleeping while motors and continuous servos are running.
 For the hardware initializing methods(e.g. `initWheels()`),
 replace the abstract class return type with the the desired class(e.g. `MecanumWheels`).
+
+# [`AutoSettings`](AutoSettings.java)
+
+A TeleOpMode that writes to a file to store information before running Autonomous.
+Pressing the A, B, X, and Y buttons sets the robot to blue near, red far, blue far, and red near,
+respectively.
+Pressing D-pad up sets the robot to use its arm during autonomous.
+Pressing D-pad left sets the robot to only push the piece.
+Does **NOT** extend [`CustomLinearOp`](#customlinearop).
 
 # [`Auto`](Auto.java)
 
@@ -33,16 +44,17 @@ The `runOpMode()` method runs automatically without the need to do anything.
 The first line of `runOpMode()` should be `super.runOpMode()` to run the parent class's hardware
 initialization.
 
-# [`DriverMode`](DriverMode.java)
-
 The TeleOp class which runs using driver input.
 Child class of [`CustomLinearOp`](#CustomLinearOp).
+
+# [`DriverMode`](DriverMode.java)
+
 The annotation `@TeleOp(name = "DriverMode")` means that the class will be considered
 a TeleOp program with the name of "DriverMode."
 The `runOpMode()` method runs automatically without the need to do anything.
 The first line of `runOpMode()` should be `super.runOpMode()` to run the parent class's hardware
 initialization.
-The `runOpMode()` runs the code in a try-catch to detect errors. 
+The `runOpMode()` runs the code in a try-catch to detect errors.
 
 ## [`PositionInput`](PositionInput.java)
 
@@ -113,10 +125,13 @@ Has properties for servos to rotate in the X, Y, and Z-axes.
 If any of the servos are not needed, set them to null.
 The class methods check for null servo values.
 
-## [`TwoCrIntakeClaw`](hardwareSystems/TwoCrIntakeClaw.java)
+## [`SingleServoIntakeClaw`](hardwareSystems/SingleServoIntakeClaw.java)
 
-A subclass of [`Claw`](#Claw) that controls a claw with a intake servo.
-The intake has two continuous rotation servos.
+A subclass of [`Claw`](#Claw) that controls a claw with one intake servo.
+
+## [`DoubleServoIntakeClaw`](hardwareSystems/DoubleServoIntakeClaw.java)
+
+A subclass of [`Claw`](#Claw) that controls a claw with two intake servos.
 
 ## [`Webcam`](hardwareSystems/Webcam.java)
 

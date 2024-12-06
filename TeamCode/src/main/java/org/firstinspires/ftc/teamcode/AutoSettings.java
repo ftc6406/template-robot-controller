@@ -15,8 +15,8 @@ import java.io.IOException;
 /**
  * Run to set the robot's alliance color and side before running autonomous.
  */
-@TeleOp(name = "PositionInput")
-public class PositionInput extends OpMode {
+@TeleOp(name = "AutoSettings")
+public class AutoSettings extends OpMode {
     /**
      * The directory that all the files are saved to.
      */
