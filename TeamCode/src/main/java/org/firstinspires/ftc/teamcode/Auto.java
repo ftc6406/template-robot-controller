@@ -59,26 +59,8 @@ public class Auto extends CustomLinearOp {
         telemetry.addLine("Starting Near Basket Action");
         telemetry.update();
 
-        // Strafe left 48.0 inches
-        WHEELS.driveDistance(-48, 0); // Negative X for strafing left
-        autoSleep();
-
-        // Strafe right 20 inches
-        WHEELS.driveDistance(20, 0);
-
-        // Drive forward 55.0 inches
-        WHEELS.driveDistance(55); // Positive Y for forward
-        autoSleep();
-
-        // Strafe right 10.0 inches
-        WHEELS.driveDistance(10.0, 0.0);
-        autoSleep();
-
-        telemetry.addLine("Finished Near Basket Action");
-        telemetry.update();
-
         // Step 1: Move forward 6.0 inches
-        /*WHEELS.driveDistance(6.0);
+        WHEELS.driveDistance(6.0);
         autoSleep();
 
         // Step 2: Strafe left 60 inches
@@ -105,14 +87,14 @@ public class Auto extends CustomLinearOp {
         sleep(1000);
         CLAW.stopIntake();
 
-        *//* Park *//*
+        /* Park */
         // Turn 45 degrees left
         WHEELS.turn(-45);
         // Drive 2.5 tiles forward
         WHEELS.driveDistance(60);
         autoSleep();
         // Strafe 40 inches right
-        WHEELS.driveDistance(40, 0);*/
+        WHEELS.driveDistance(40, 0);
 
         // Step 3: Strafe left 72 inches
         //WHEELS.driveDistance(-72, 0); // Negative X for strafing left
@@ -172,8 +154,8 @@ public class Auto extends CustomLinearOp {
         // Step 3: Rotate Claw
         CLAW.startIntake();*/
 
-        // Step 4: Strafe right 64 inches
-        WHEELS.driveDistance(64, 0); // Positive X for strafing right
+        // Step 4: Strafe right 72 inches
+        WHEELS.driveDistance(72, 0); // Positive X for strafing right
         autoSleep();
 
         telemetry.addLine("Finished Far Basket Actions");
