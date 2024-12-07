@@ -59,78 +59,19 @@ public class Auto extends CustomLinearOp {
         telemetry.addLine("Starting Near Basket Action");
         telemetry.update();
 
-        // Step 1: Move forward 6.0 inches
-        WHEELS.driveDistance(6.0);
-        autoSleep();
+        // Drive back 15 inches
+        WHEELS.driveDistance(-15.0);
 
-        // Step 2: Strafe left 60 inches
-        WHEELS.driveDistance(60, 0);
+        // Strafe left 5 inches
+        WHEELS.driveDistance(-5, 0);
 
-        // Lift arm 65 degrees
-        double targetDegrees = 65;
-        ARM.rotateToAngle(ARM.getRotationDegrees() + targetDegrees); // Move the arm to the calculated target position
-        autoSleep();
+        // Drive forward 8 inches
+        WHEELS.driveDistance(8.0);
+        // Turn 90 degrees right
+        WHEELS.turn(90);
 
-        // Extend arm straight
-        ARM.foldToAngle(160); // Adjust this value as needed
-
-        // Rotate wheels 45 degrees right
-        WHEELS.turn(45);
-        autoSleep();
-
-        // Lift arm another 65 degrees to 110 degrees
-        ARM.rotateToAngle(ARM.getRotationDegrees() + 65); // Move the arm to the calculated target position
-        autoSleep();
-
-        // Reverse the claw intake to score
-        CLAW.ejectIntake();
-        sleep(1000);
-        CLAW.stopIntake();
-
-        /* Park */
-        // Turn 45 degrees left
-        WHEELS.turn(-45);
-        // Drive 2.5 tiles forward
-        WHEELS.driveDistance(60);
-        autoSleep();
-        // Strafe 40 inches right
-        WHEELS.driveDistance(40, 0);
-
-        // Step 3: Strafe left 72 inches
-        //WHEELS.driveDistance(-72, 0); // Negative X for strafing left
-        //autoSleep();
-
-        // Step 4: Lift arm 45 degrees again
-        //ARM.rotateToAngle(ARM.getRotationDegrees() + 45);
-        //autoSleep();
-
-        // Step 5: Reverse the claw intake to score
-        //CLAW.ejectIntake();
-        //autoSleep();
-
-        // Step 6: Rotate servo back
-        //CLAW.stopIntake(); // Not too sure if this is what I need to do but this resets servo
-        //autoSleep();
-
-        // Step 7: Bring arm down 90 degrees
-        //ARM.rotateToAngle(ARM.getRotationDegrees() - 90);
-        //autoSleep();
-
-        // Step 8: Strafe right 65 inches
-        //WHEELS.driveDistance(65, 0); // Postive X for strafing right
-        //autoSleep();
-
-        // Step 9: Drive forward 72 inches
-        //WHEELS.driveDistance(72); // Positive Y for forward
-        //autoSleep();
-
-        // Step 10: Turn right 90 degrees
-        //WHEELS.turn(90);
-        //autoSleep();
-
-        // Step 11: Lift arm 35 degrees
-        //ARM.rotateToAngle( ARM.getRotationDegrees() + 35);
-        //autoSleep();
+        // Rotate arm 25 degrees up.
+        ARM.rotateToAngle(ARM.getRotationDegrees() + 25);
 
         telemetry.addLine("Finished Near Basket Action");
         telemetry.update();
@@ -140,26 +81,33 @@ public class Auto extends CustomLinearOp {
         telemetry.addLine("Starting Far Basket Action");
         telemetry.update();
 
-        // Similar to near basket actions but fewer steps
-        // Step 1: Lift arm 45 degrees
-        /*double targetDegrees = 45; // Replace with actual degrees needed
-
-        ARM.rotateToAngle(ARM.getRotationDegrees() + targetDegrees); // Move the arm to the calculated target position
-        autoSleep(ARM.getRotationMotor());
-
-        // Step 2: Extend Arm
-        ARM.foldToAngle(75); // Adjust this value as needed
-        autoSleep();
-
-        // Step 3: Rotate Claw
-        CLAW.startIntake();*/
-
-        // Step 4: Strafe right 72 inches
-        WHEELS.driveDistance(72, 0); // Positive X for strafing right
-        autoSleep();
+        // Drive back 10 inches
+        WHEELS.driveDistance(-10.0);
+        // Strafe right 60 inches
+        WHEELS.driveDistance(60.0, 0.0);
 
         telemetry.addLine("Finished Far Basket Actions");
         telemetry.update();
+    }
+
+    private void hangSpecimen() {
+        telemetry.addLine("Hanging specimen");
+
+        // Raise arm to 60 degrees
+        ARM.rotateToAngle(60.0);
+        // Extend arm
+        ARM.foldToAngle(160);
+
+        // Drive forward 5 inches
+        WHEELS.driveDistance(5.0);
+        autoSleep();
+
+        // Drop arm by 10 degrees
+        ARM.rotateToAngle(50.0);
+        // Outtake
+        CLAW.ejectIntake();
+
+        telemetry.addLine("Finish hanging specimen");
     }
 
     /**
@@ -171,6 +119,8 @@ public class Auto extends CustomLinearOp {
 
         // telemetry.addData("Number of AprilTags", WEBCAM.getAprilTagDetections().size());
         telemetry.update();
+
+        hangSpecimen();
 
         if (TEAM_SIDE == TeamSide.NEAR) {
             performNearBasketActions();
