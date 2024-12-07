@@ -106,6 +106,7 @@ public class Auto extends CustomLinearOp {
         ARM.rotateToAngle(50.0);
         // Outtake
         CLAW.ejectIntake();
+        sleep(1000);
 
         telemetry.addLine("Finish hanging specimen");
     }
