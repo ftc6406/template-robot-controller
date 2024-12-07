@@ -61,17 +61,22 @@ public class Auto extends CustomLinearOp {
 
         // Drive back 15 inches
         WHEELS.driveDistance(-15.0);
+        autoSleep();
 
         // Strafe left 5 inches
         WHEELS.driveDistance(-5, 0);
+        autoSleep();
 
         // Drive forward 8 inches
         WHEELS.driveDistance(8.0);
+        autoSleep();
+
         // Turn 90 degrees right
         WHEELS.turn(90);
+        autoSleep();
 
         // Rotate arm 25 degrees up.
-        ARM.rotateToAngle(ARM.getRotationDegrees() + 25);
+        ARM.rotateToAngle(Math.abs(ARM.getRotationDegrees()) + 25);
 
         telemetry.addLine("Finished Near Basket Action");
         telemetry.update();
@@ -81,10 +86,12 @@ public class Auto extends CustomLinearOp {
         telemetry.addLine("Starting Far Basket Action");
         telemetry.update();
 
-        // Drive back 10 inches
-        WHEELS.driveDistance(-10.0);
+        /*// Drive back 10 inches
+        WHEELS.driveDistance(-12.0);
+        autoSleep();
         // Strafe right 60 inches
-        WHEELS.driveDistance(60.0, 0.0);
+        WHEELS.driveDistance(72.0, 0.0);
+        autoSleep();*/
 
         telemetry.addLine("Finished Far Basket Actions");
         telemetry.update();
@@ -94,19 +101,25 @@ public class Auto extends CustomLinearOp {
         telemetry.addLine("Hanging specimen");
 
         // Raise arm to 60 degrees
-        ARM.rotateToAngle(60.0);
-        // Extend arm
-        ARM.foldToAngle(160);
+        ARM.rotateToAngle(80.0);
+        autoSleep();
 
+        // Extend arm
+        ARM.foldToAngle(180);
         // Drive forward 5 inches
-        WHEELS.driveDistance(5.0);
+        WHEELS.driveDistance(20.5);
         autoSleep();
 
         // Drop arm by 10 degrees
         ARM.rotateToAngle(50.0);
         // Outtake
         CLAW.ejectIntake();
-        sleep(1000);
+        sleep(1500);
+
+        // Apply a slight power to prevent it from hitting the ground too hard.
+        //ARM.rotate(0.1);
+        //sleep(1000);
+        // ARM.rotate(0.0);
 
         telemetry.addLine("Finish hanging specimen");
     }
