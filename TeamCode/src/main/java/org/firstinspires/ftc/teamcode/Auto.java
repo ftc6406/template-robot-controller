@@ -142,7 +142,7 @@ public class Auto extends CustomLinearOp {
 
         // Similar to near basket actions but fewer steps
         // Step 1: Lift arm 45 degrees
-        double targetDegrees = 45; // Replace with actual degrees needed
+        /*double targetDegrees = 45; // Replace with actual degrees needed
 
         ARM.rotateToAngle(ARM.getRotationDegrees() + targetDegrees); // Move the arm to the calculated target position
         autoSleep(ARM.getRotationMotor());
@@ -152,7 +152,7 @@ public class Auto extends CustomLinearOp {
         autoSleep();
 
         // Step 3: Rotate Claw
-        CLAW.startIntake();
+        CLAW.startIntake();*/
 
         // Step 4: Strafe right 72 inches
         WHEELS.driveDistance(72, 0); // Positive X for strafing right
@@ -169,7 +169,7 @@ public class Auto extends CustomLinearOp {
     public void runOpMode() {
         super.runOpMode();
 
-        telemetry.addData("Number of AprilTags", WEBCAM.getAprilTagDetections().size());
+        // telemetry.addData("Number of AprilTags", WEBCAM.getAprilTagDetections().size());
         telemetry.update();
 
         if (TEAM_SIDE == TeamSide.NEAR) {
