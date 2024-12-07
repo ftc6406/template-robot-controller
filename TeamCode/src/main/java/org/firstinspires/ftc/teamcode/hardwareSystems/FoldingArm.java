@@ -181,6 +181,12 @@ public class FoldingArm extends Arm {
         this.MAX_FOLDING = foldingRange.MAX_FOLDING;
         this.INITIAL_FOLDING_ANGLE = foldingRange.INITIAL_ANGLE;
         this.TICKS_PER_FOLDING_DEGREE = foldingRange.TICKS_PER_DEGREE;
+
+        // Reset position to 0
+        for (DcMotor motor: MOTORS) {
+            motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
     }
 
     public double getRotationPower() {

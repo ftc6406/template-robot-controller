@@ -34,6 +34,12 @@ public class MecanumWheels extends Wheels {
         this.BACK_LEFT_MOTOR = motorSet.BACK_LEFT_MOTOR;
         this.BACK_RIGHT_MOTOR = motorSet.BACK_RIGHT_MOTOR;
 
+        // Reset position to 0
+        for (DcMotor motor: MOTORS) {
+            motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+
         /*
          * Set the directions of the motors.
          * The right and left motors run in opposite directions of each other.
