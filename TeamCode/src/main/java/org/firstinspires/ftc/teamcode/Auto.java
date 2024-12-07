@@ -77,43 +77,6 @@ public class Auto extends CustomLinearOp {
         telemetry.addLine("Finished Near Basket Action");
         telemetry.update();
 
-        // Step 1: Move forward 6.0 inches
-        /*WHEELS.driveDistance(6.0);
-        autoSleep();
-
-        // Step 2: Strafe left 60 inches
-        WHEELS.driveDistance(60, 0);
-
-        // Lift arm 65 degrees
-        double targetDegrees = 65;
-        ARM.rotateToAngle(ARM.getRotationDegrees() + targetDegrees); // Move the arm to the calculated target position
-        autoSleep();
-
-        // Extend arm straight
-        ARM.foldToAngle(160); // Adjust this value as needed
-
-        // Rotate wheels 45 degrees right
-        WHEELS.turn(45);
-        autoSleep();
-
-        // Lift arm another 65 degrees to 110 degrees
-        ARM.rotateToAngle(ARM.getRotationDegrees() + 65); // Move the arm to the calculated target position
-        autoSleep();
-
-        // Reverse the claw intake to score
-        CLAW.ejectIntake();
-        sleep(1000);
-        CLAW.stopIntake();
-
-        *//* Park *//*
-        // Turn 45 degrees left
-        WHEELS.turn(-45);
-        // Drive 2.5 tiles forward
-        WHEELS.driveDistance(60);
-        autoSleep();
-        // Strafe 40 inches right
-        WHEELS.driveDistance(40, 0);*/
-
         // Step 3: Strafe left 72 inches
         //WHEELS.driveDistance(-72, 0); // Negative X for strafing left
         //autoSleep();
@@ -157,20 +120,6 @@ public class Auto extends CustomLinearOp {
     private void performFarBasketActions() {
         telemetry.addLine("Starting Far Basket Action");
         telemetry.update();
-
-        // Similar to near basket actions but fewer steps
-        // Step 1: Lift arm 45 degrees
-        /*double targetDegrees = 45; // Replace with actual degrees needed
-
-        ARM.rotateToAngle(ARM.getRotationDegrees() + targetDegrees); // Move the arm to the calculated target position
-        autoSleep(ARM.getRotationMotor());
-
-        // Step 2: Extend Arm
-        ARM.foldToAngle(75); // Adjust this value as needed
-        autoSleep();
-
-        // Step 3: Rotate Claw
-        CLAW.startIntake();*/
 
         // Step 4: Strafe right 64 inches
         WHEELS.driveDistance(64, 0); // Positive X for strafing right
