@@ -242,7 +242,7 @@ public class FoldingArm extends Arm {
      */
     public void rotateToAngle(double degrees) {
         double targetDegrees = degrees - INITIAL_ROTATION_ANGLE;
-        int targetPosition = (int) Math.round(targetDegrees * TICKS_PER_ROTATION_DEGREE);
+        int targetPosition = (int) -Math.round(targetDegrees * TICKS_PER_ROTATION_DEGREE);
         // Keep the target position within acceptable bounds
         targetPosition = Math.min(Math.max(targetPosition, MIN_ROTATION), MAX_ROTATION);
         ROTATION_MOTOR.setTargetPosition(targetPosition);
@@ -294,7 +294,7 @@ public class FoldingArm extends Arm {
         double targetDegrees = degrees - INITIAL_FOLDING_ANGLE;
         int targetPosition = (int) Math.round(targetDegrees * TICKS_PER_FOLDING_DEGREE);
         // Keep the target position within acceptable bounds
-        targetPosition = Math.min(Math.max(targetPosition, MIN_FOLDING), MAX_FOLDING);
+        targetPosition = -Math.min(Math.max(targetPosition, MIN_FOLDING), MAX_FOLDING);
         FOLDING_MOTOR.setTargetPosition(targetPosition);
 
         int direction = (int) Math.signum(targetPosition - FOLDING_MOTOR.getCurrentPosition());
