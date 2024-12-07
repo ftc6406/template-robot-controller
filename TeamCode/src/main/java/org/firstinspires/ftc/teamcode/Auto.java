@@ -72,11 +72,11 @@ public class Auto extends CustomLinearOp {
         autoSleep();
 
         // Turn 90 degrees right
-        WHEELS.turn(90);
-        autoSleep();
+//        WHEELS.turn(90);
+//        autoSleep();
 
         // Rotate arm 25 degrees up.
-        ARM.rotateToAngle(Math.abs(ARM.getRotationDegrees()) + 25);
+//        ARM.rotateToAngle(Math.abs(ARM.getRotationDegrees()) + 25);
 
         telemetry.addLine("Finished Near Basket Action");
         telemetry.update();
@@ -86,12 +86,12 @@ public class Auto extends CustomLinearOp {
         telemetry.addLine("Starting Far Basket Action");
         telemetry.update();
 
-        /*// Drive back 10 inches
+        // Drive back 10 inches
         WHEELS.driveDistance(-12.0);
         autoSleep();
         // Strafe right 60 inches
         WHEELS.driveDistance(72.0, 0.0);
-        autoSleep();*/
+        autoSleep();
 
         telemetry.addLine("Finished Far Basket Actions");
         telemetry.update();
