@@ -77,42 +77,6 @@ public class Auto extends CustomLinearOp {
         telemetry.addLine("Finished Near Basket Action");
         telemetry.update();
 
-        // Step 3: Strafe left 72 inches
-        //WHEELS.driveDistance(-72, 0); // Negative X for strafing left
-        //autoSleep();
-
-        // Step 4: Lift arm 45 degrees again
-        //ARM.rotateToAngle(ARM.getRotationDegrees() + 45);
-        //autoSleep();
-
-        // Step 5: Reverse the claw intake to score
-        //CLAW.ejectIntake();
-        //autoSleep();
-
-        // Step 6: Rotate servo back
-        //CLAW.stopIntake(); // Not too sure if this is what I need to do but this resets servo
-        //autoSleep();
-
-        // Step 7: Bring arm down 90 degrees
-        //ARM.rotateToAngle(ARM.getRotationDegrees() - 90);
-        //autoSleep();
-
-        // Step 8: Strafe right 65 inches
-        //WHEELS.driveDistance(65, 0); // Postive X for strafing right
-        //autoSleep();
-
-        // Step 9: Drive forward 72 inches
-        //WHEELS.driveDistance(72); // Positive Y for forward
-        //autoSleep();
-
-        // Step 10: Turn right 90 degrees
-        //WHEELS.turn(90);
-        //autoSleep();
-
-        // Step 11: Lift arm 35 degrees
-        //ARM.rotateToAngle( ARM.getRotationDegrees() + 35);
-        //autoSleep();
-
         telemetry.addLine("Finished Near Basket Action");
         telemetry.update();
     }
