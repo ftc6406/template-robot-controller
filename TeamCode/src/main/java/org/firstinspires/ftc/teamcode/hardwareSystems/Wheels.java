@@ -1,80 +1,148 @@
 package org.firstinspires.ftc.teamcode.hardwareSystems;
 
-import java.util.HashSet;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import java.util.HashSet;
+
 public abstract class Wheels {
-    // A modifier for much power the wheels run with (0.0 - 1.0)
-    protected double motorPower = 1.0;
-    // The gear ratio between the motor and wheel
-    private static final double WHEEL_GEAR_RATIO = -1.0;
-    // The circumference of the wheel in inches
-    private static final double WHEEL_CIRCUMFERENCE = -1.0;
+    /**
+     * Contains the distances between wheels.
+     * Necessary for calculating rotation.
+     */
+    public static class WheelDistances {
+        /*
+         * The distance between the left and right wheels,
+         * measured in inches from their centers.
+         */
+        protected final double LATERAL_DISTANCE;
+        /*
+         * The distance between the front and back wheels,
+         * measured in inches from their centers.
+         */
+        protected final double LONGITUDINAL_DISTANCE;
 
-    protected final HashSet<DcMotor> MOTORS;
-
-    public Wheels() {
-        MOTORS = new HashSet<>();
-    }
-
-    public double getMotorPower() {
-        return motorPower;
-    }
-
-    public void setMotorPower(double motorPower) {
-        this.motorPower = motorPower;
+        /**
+         * Define the wheel's distances.
+         *
+         * @param lateralDistance      The distance between the left and right wheels,
+         *                             measured in inches from their centers.
+         * @param longitudinalDistance The distance between the front and back wheels,
+         *                             measured in inches from their centers.
+         */
+        public WheelDistances(double lateralDistance, double longitudinalDistance) {
+            LONGITUDINAL_DISTANCE = longitudinalDistance;
+            LATERAL_DISTANCE = lateralDistance;
+        }
     }
 
     /**
-     * Get all the DcMotors that are used by this wheels system.
+     * A modifier for much power the wheels run with (0.0 - 1.0)
+     */
+    protected final static double MOTOR_POWER = 1.0;
+    /**
+     * A HashSet of all the motors included by the wheel system.
+     */
+    protected final HashSet<DcMotor> MOTORS;
+    /**
+     * The distance between the left and right wheels,
+     * measured in inches from their centers.
+     */
+    protected final double LATERAL_DISTANCE;
+    /**
+     * The distance between the front and back wheels,
+     * measured in inches from their centers.
+     */
+    protected final double LONGITUDINAL_DISTANCE;
+    /**
+     * The number of ticks needed to move the robot by 1 inch.
+     */
+    protected final double TICKS_PER_INCH;
+
+    /**
+     * Instantiate a {@code Wheels} object.
      *
-     * @return A set that contains every DcMotor included by this wheels system.
+     * @param motors       All the motors used by the robot.
+     * @param ticksPerInch The number of ticks needed to move the robot by one inch.
+     */
+    public Wheels(HashSet<DcMotor> motors, WheelDistances wheelDistances, double ticksPerInch) {
+        MOTORS = motors;
+        // Allow wheels to roll freely.
+        for (DcMotor motor : MOTORS) {
+            motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        }
+
+        this.LATERAL_DISTANCE = wheelDistances.LATERAL_DISTANCE;
+        this.LONGITUDINAL_DISTANCE = wheelDistances.LONGITUDINAL_DISTANCE;
+
+        TICKS_PER_INCH = ticksPerInch;
+    }
+
+    public double getMotorPower() {
+        return MOTOR_POWER;
+    }
+
+    /**
+     * Get all the {@code DcMotor}s that are used by this wheels system.
+     *
+     * @return A {@code HashSet} that contains every {@code DcMotor} included by this wheels system.
      */
     public HashSet<DcMotor> getMotors() {
         return MOTORS;
     }
-    
+
     /**
-     * Drive the wheels.
-     * 
-     * @param drivePower Forward power.
-     *                   Positive is forward, negative is backward.
-     * @param turn       Rotation power.
-     *                   Positive is clockwise, negative is counterclockwise.
+     * Drive forwards and backwards.
+     *
+     * @param forwardPower What power to set the motors to.
      */
-    public abstract void drive(double drivePower, double turn);
+    public void drive(double forwardPower) {
+        drive(forwardPower, 0, 0);
+    }
 
     /**
      * Drive the wheels.
-     * 
-     * @param x    Sideways power.
-     *             Positive is rightward, negative is leftward.
-     * @param y    Forward power.
-     *             Positive is forward, negative is backward.
-     * @param turn Rotation power.
-     *             Positive is clockwise, negative is counterclockwise.
+     *
+     * @param forwardPower Forward power.
+     *               Positive is forward, negative is backward.
+     * @param turn   Rotation power.
+     *               Positive is clockwise, negative is counterclockwise.
      */
-    public abstract void drive(double x, double y, double turn);
+    public void drive(double forwardPower, double turn) {
+        drive(0, forwardPower, turn);
+    }
+
+    /**
+     * Drive the wheels.
+     *
+     * @param xPower Sideways power.
+     *               Positive is rightward, negative is leftward.
+     * @param yPower Forward power.
+     *               Positive is forward, negative is backward.
+     * @param turn   Rotation power.
+     *               Positive is clockwise, negative is counterclockwise.
+     */
+    public abstract void drive(double xPower, double yPower, double turn);
 
     /**
      * Drive the robot a certain distance forward.
-     * 
-     * @param distance The distance that the robot travels in inches.
-     *                 Positive is forward, negative is backward.
+     *
+     * @param forwardDistance The distance that the robot travels in inches.
+     *                        Positive is forward, negative is backward.
      */
-    public abstract void driveDistance(double distance);
+    public void driveDistance(double forwardDistance) {
+        driveDistance(0, forwardDistance);
+    }
 
     /**
      * Drive the robot a certain distance in two dimensions.
-     * 
+     *
+     * @param sidewaysDistance The distance that the robot travels sideways in inches.
+     *                         Positive is rightward, negative is leftward.
      * @param forwardDistance  The distance that the robot travels forward in
      *                         inches.
      *                         Positive is forward, negative is backward.
-     * @param sidewaysDistance The distance that the robot travels sideways in inches.
-     *                         Positive is rightward, negative is leftward.
      */
-    public abstract void driveDistance(double forwardDistance, double sidewaysDistance);
+    public abstract void driveDistance(double sidewaysDistance, double forwardDistance);
 
     /**
      * Rotate the robot a certain number of degrees.

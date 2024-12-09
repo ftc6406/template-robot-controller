@@ -1,28 +1,24 @@
 package org.firstinspires.ftc.teamcode.hardwareSystems;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 import java.util.HashSet;
 
-import com.qualcomm.robotcore.hardware.*;
-
-/** @noinspection ALL */
 public abstract class Arm {
     protected final HashSet<DcMotor> MOTORS;
-    protected final HashSet<Servo> SERVOS;
 
-    public Arm() {
-        this.MOTORS = new HashSet<>();
-        this.SERVOS = new HashSet<>();
-    }
-
-    public Arm(HashSet<DcMotor> motors, HashSet<Servo> servos) {
-        this.MOTORS = motors;
-        this.SERVOS = servos;
+    public Arm(HashSet<DcMotor> motors) {
+        MOTORS = motors;
+        // The arm motors will attempt to resist external forces(e.g. gravity).
+        for (DcMotor motor : MOTORS) {
+            motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        }
     }
 
     /**
-     * Get all the DcMotors that are used by this arm system.
-     * 
-     * @return A set that contains every DcMotor included by this arm system.
+     * Get all the {@code DcMotor}s that are included in this arm system.
+     *
+     * @return A {@code HashSet} that contains every DcMotor included in this arm system.
      */
     public HashSet<DcMotor> getMotors() {
         return MOTORS;
