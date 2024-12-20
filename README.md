@@ -41,12 +41,19 @@ for [this repository](https://github.com/chsRobotix/TemplateRobotController.git)
 fork."
 Alternatively, you can type
 
+# RoadRunner
+
+Our programs use [RoadRunner](https://github.com/acmerobotics/road-runner.git), a motion-planning library for FTC.
+For more details look [here](https://learnroadrunner.com/introduction.html).
+The library is installed in [./libs/road-runner](./libs/road-runner) as a submodule.
+To update a submodule, 
+
 ```
 git remote add upstream https://github.com/FIRST-Tech-Challenge/FtcRobotController.git
 git pull upstream master
 ```
 
-# Contents
+# TeamCode
 
 Our team's code is
 in [./TeamCode/src/main/java/org/firstinspires/ftc/teamcode/](./TeamCode/src/main/java/org/firstinspires/ftc/teamcode/).
