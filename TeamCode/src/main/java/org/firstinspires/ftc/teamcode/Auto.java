@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.
 
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
