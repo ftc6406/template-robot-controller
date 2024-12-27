@@ -50,7 +50,7 @@ git pull upstream master
 
 Our programs use [RoadRunner](https://github.com/acmerobotics/road-runner.git), a motion-planning
 library for FTC.
-For more details look [here](https://learnroadrunner.com/introduction.html).
+For more details look at [Learn Road Runner](https://learnroadrunner.com/introduction.html) and the [Road Runner Docs](https://rr.brott.dev/docs/v1-0/installation/).
 To update RoadRunner in this repository, type
 
 ```
