@@ -50,7 +50,8 @@ git pull upstream master
 
 Our programs use [RoadRunner](https://github.com/acmerobotics/road-runner.git), a motion-planning
 library for FTC.
-For more details look at [Learn Road Runner](https://learnroadrunner.com/introduction.html) and the [Road Runner Docs](https://rr.brott.dev/docs/v1-0/installation/).
+For more details look at [Learn Road Runner](https://learnroadrunner.com/introduction.html) and
+the [Road Runner Docs](https://rr.brott.dev/docs/v1-0/installation/).
 To update RoadRunner in this repository, type
 
 ```
@@ -58,6 +59,15 @@ git clone https://github.com/acmerobotics/road-runner-quickstart.git
 mv road-runner-quickstart/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/* TeamCode/src/main/java/org/firstinspires/ftc/teamcode/
 rm -r -f road-runner-quickstart
 ```
+
+## List of RoadRunner files and directories
+- [messages/](TeamCode/src/main/java/org/firstinspires/ftc/teamcode/messages)
+- [tuning/](TeamCode/src/main/java/org/firstinspires/ftc/teamcode/tuning)
+- [Drawing](TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Drawing.java)
+- [MecanumDrive](TeamCode/src/main/java/org/firstinspires/ftc/teamcode/MecanumDrive.java)
+- [TankDrive](TeamCode/src/main/java/org/firstinspires/ftc/teamcode/TankDrive.java)
+- [ThreeDeadWheelLocalizer](TeamCode/src/main/java/org/firstinspires/ftc/teamcode/ThreeDeadWheelLocalizer.java)
+- [TwoDeadWheelLocalizer](TeamCode/src/main/java/org/firstinspires/ftc/teamcode/TwoDeadWheelLocalizer.java)
 
 # TeamCode
 
