@@ -63,7 +63,7 @@ the [Road Runner Docs](https://rr.brott.dev/docs/v1-0/installation/).
 - [ThreeDeadWheelLocalizer](TeamCode/src/main/java/org/firstinspires/ftc/teamcode/ThreeDeadWheelLocalizer.java)
 - [TwoDeadWheelLocalizer](TeamCode/src/main/java/org/firstinspires/ftc/teamcode/TwoDeadWheelLocalizer.java)
 
-## Updaing RoadRunner
+## Updating RoadRunner
 
 To update RoadRunner in this repository, type
 
