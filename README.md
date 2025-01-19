@@ -69,7 +69,8 @@ To update RoadRunner in this repository, type
 
 ```
 git clone https://github.com/acmerobotics/road-runner-quickstart.git
-mv road-runner-quickstart/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/* TeamCode/src/main/java/org/firstinspires/ftc/teamcode/
+rm road-runner-quickstart/README.md
+mv road-runner-quickstart/* TeamCode/src/main/java/org/firstinspires/ftc/teamcode/
 rm -r -f road-runner-quickstart
 ```
 
