@@ -10,9 +10,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.hardwareSystems.Arm;
 import org.firstinspires.ftc.teamcode.hardwareSystems.Claw;
-import org.firstinspires.ftc.teamcode.hardwareSystems.DoubleServoIntakeClaw;
-import org.firstinspires.ftc.teamcode.hardwareSystems.FoldingArm;
-import org.firstinspires.ftc.teamcode.hardwareSystems.MecanumWheels;
 import org.firstinspires.ftc.teamcode.hardwareSystems.MotorType;
 import org.firstinspires.ftc.teamcode.hardwareSystems.Webcam;
 import org.firstinspires.ftc.teamcode.hardwareSystems.Wheels;
@@ -76,47 +73,31 @@ public class CustomLinearOp extends LinearOpMode {
      * <br>
      * <strong>When starting a new season, change the return type from `Wheels` to the desired return type.</strong>
      */
+    // TODO: Replace `Wheels()` with a constructor of the desired `Wheels` subclass(e.g. `MecanumWheels`)
     private Wheels initWheels() {
         // Prevent multiple instantiation.
         if (WHEELS != null) {
             return WHEELS;
         }
 
-        /*
-         * Define wheels system hardware here.
-         * e.g. hardwareMap.get(DcMotor.class, "exampleMotor");
-         */
-        MecanumWheels.MotorSet motorSet = new MecanumWheels.MotorSet(
-                hardwareMap.get(DcMotor.class, "frontLeftWheel"),
-                hardwareMap.get(DcMotor.class, "frontRightWheel"),
-                hardwareMap.get(DcMotor.class, "backLeftWheel"),
-                hardwareMap.get(DcMotor.class, "backRightWheel")
-        );
-
-        // Approximately measured from the CAD model in inches
-        double wheelCircumference = 4.0 * Math.PI;
-        double gearRatio = 1.0;
-        double ticksPerInch = MotorType.TETRIX_TORQUENADO.getTicksPerRotation() * gearRatio / wheelCircumference;
-        // Approximately measured from CAD
-        Wheels.WheelDistances wheelDistances = new Wheels.WheelDistances(
-                8.5,
-                14.5
-        );
-
-        return new MecanumWheels(motorSet, wheelDistances, ticksPerInch);
+        // TODO: Replace `Wheels()` with a constructor of the desired `Wheels` subclass(e.g. `MecanumWheels`)
+        //  You might want to look at the class and code from previous years for reference.
+        return new Wheels();
     }
 
     /**
      * Initiate all hardware needed for the arm.
      * <strong>When starting a new season, change the return type from `Arm` to the desired return type.</strong>
      */
+    // TODO: Replace `Arm()` with a constructor of the desired `Arm` subclass(e.g. `FoldingArm`)
     private Arm initArm() {
         // Prevent multiple instantiation.
         if (ARM != null) {
             return ARM;
         }
 
-
+        // TODO: Replace `Arm()` with a constructor of the desired `Arm` subclass(e.g. `FoldingArm`)
+        //  You might want to look at the class and code from previous years for reference.
         return new Arm();
     }
 
@@ -124,15 +105,15 @@ public class CustomLinearOp extends LinearOpMode {
      * Initiate all hardware needed for the claw.
      * <strong>When starting a new season, change the return type from `Claw` to the desired return type.</strong>
      */
-
+    // TODO: Replace `Claw()` with a constructor of the desired `Claw` subclass(e.g. `SingleServoIntakeClaw`)
     public Claw initClaw() {
         // Prevent multiple instantiation.
         if (CLAW != null) {
             return CLAW;
         }
 
-        // TODO: Define claw hardware here.
-        //  Replace `Claw`with the desired class, e.g. `SingleServoIntakeClaw`
+        // TODO: Replace `Claw()` with a constructor of the desired `Claw` subclass(e.g. `SingleServoIntakeClaw`)
+        //  You might want to look at the class and code from previous years for reference.
         return new Claw(
                 null, // TODO: Replace with the appropriate servo object, e.g. `hardwareMap.get(Servo.class, "exampleServo");`
                 null, // TODO: Replace with the appropriate servo object, e.g. `hardwareMap.get(Servo.class, "exampleServo");`
