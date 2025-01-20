@@ -69,7 +69,7 @@ To update RoadRunner in this repository, type
 
 ```
 git clone https://github.com/acmerobotics/road-runner-quickstart.git ../road-runner-quickstart
-rm ../road-runner-quickstart/README.md
+find ../road-runner-quickstart/ -name "*.md" -type f -delete
 cp -rf ../road-runner-quickstart/* ./
 rm -rf ../road-runner-quickstart
 ```

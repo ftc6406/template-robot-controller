@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.hardwareSystems.Arm;
+import org.firstinspires.ftc.teamcode.hardwareSystems.Claw;
 import org.firstinspires.ftc.teamcode.hardwareSystems.DoubleServoIntakeClaw;
 import org.firstinspires.ftc.teamcode.hardwareSystems.FoldingArm;
 import org.firstinspires.ftc.teamcode.hardwareSystems.MecanumWheels;
@@ -30,9 +32,9 @@ public class CustomLinearOp extends LinearOpMode {
 
     /* Robot systems */
 
-    protected MecanumWheels WHEELS;
-    protected FoldingArm ARM;
-    protected DoubleServoIntakeClaw CLAW;
+    protected Wheels WHEELS;
+    protected Arm ARM;
+    protected Claw CLAW;
     protected Webcam WEBCAM;
 
     /**
@@ -74,7 +76,7 @@ public class CustomLinearOp extends LinearOpMode {
      * <br>
      * <strong>When starting a new season, change the return type from `Wheels` to the desired return type.</strong>
      */
-    private MecanumWheels initWheels() {
+    private Wheels initWheels() {
         // Prevent multiple instantiation.
         if (WHEELS != null) {
             return WHEELS;
@@ -108,62 +110,33 @@ public class CustomLinearOp extends LinearOpMode {
      * Initiate all hardware needed for the arm.
      * <strong>When starting a new season, change the return type from `Arm` to the desired return type.</strong>
      */
-    private FoldingArm initArm() {
+    private Arm initArm() {
         // Prevent multiple instantiation.
         if (ARM != null) {
             return ARM;
         }
 
-        /*
-         * Define arm hardware here.
-         * e.g. hardwareMap.get(DcMotor.class, "exampleMotor");
-         */
-        FoldingArm.MotorSet motorSet = new FoldingArm.MotorSet(
-                hardwareMap.get(DcMotor.class, "rotationMotor"),
-                hardwareMap.get(DcMotor.class, "foldingMotor")
-        );
 
-        double rotationGearRatio = 32.0 / 16.0; // 120.0 / 40.0;
-        FoldingArm.RotationRange rotationRange = new FoldingArm.RotationRange(
-                Integer.MIN_VALUE,
-                Integer.MAX_VALUE, // 1080
-                MotorType.TETRIX_TORQUENADO.getTicksPerRotation()
-                        / 360.0
-                        * rotationGearRatio
-        );
-
-        double foldingGearRatio = 120.0 / 40.0;
-        FoldingArm.FoldingRange foldingRange = new FoldingArm.FoldingRange(
-                Integer.MIN_VALUE,
-                Integer.MAX_VALUE,
-                MotorType.TETRIX_TORQUENADO.getTicksPerRotation()
-                        / 360.0
-                        * foldingGearRatio
-        );
-
-        return new FoldingArm(motorSet, rotationRange, foldingRange);
+        return new Arm();
     }
 
     /**
      * Initiate all hardware needed for the claw.
      * <strong>When starting a new season, change the return type from `Claw` to the desired return type.</strong>
      */
-    public DoubleServoIntakeClaw initClaw() {
+
+    public Claw initClaw() {
         // Prevent multiple instantiation.
         if (CLAW != null) {
-            return null;
+            return CLAW;
         }
 
-        /*
-         * Define claw hardware here.
-         * e.g. hardwareMap.get(Servo.class, "exampleServo");
-         */
-        return new DoubleServoIntakeClaw(
-                hardwareMap.get(Servo.class, "rollServo"),
-                null,
-                null,
-                hardwareMap.get(CRServo.class, "leftIntakeServo"),
-                hardwareMap.get(CRServo.class, "rightIntakeServo")
+        // TODO: Define claw hardware here.
+        //  Replace `Claw`with the desired class, e.g. `SingleServoIntakeClaw`
+        return new Claw(
+                null, // TODO: Replace with the appropriate servo object, e.g. `hardwareMap.get(Servo.class, "exampleServo");`
+                null, // TODO: Replace with the appropriate servo object, e.g. `hardwareMap.get(Servo.class, "exampleServo");`
+                null // TODO: Replace with the appropriate servo object, e.g. `hardwareMap.get(Servo.class, "exampleServo");`
         );
     }
 
@@ -173,16 +146,23 @@ public class CustomLinearOp extends LinearOpMode {
      * @return The `Webcam` object instantiated by this method.
      */
     public Webcam initWebcam(int cameraMonitorViewId) {
+        // TODO: This is the lowest resolution(width, height) supported by a Logitech camera
+        //  Adjust as necessary
         int[] resolution = {160, 120};
 
+        // TODO: This adjusts the pose to account for where the camera is positioned.
+        //  Probably best to measure from the intake to the camera.
+        //  Measured in inches.
+        double[] poseAdjust = new double[]{
+                0,
+                0,
+                0
+        };
+
         return new Webcam(
-                hardwareMap.get(WebcamName.class, "Webcam 1"),
+                hardwareMap.get(WebcamName.class, "Webcam 1"), // By default
                 resolution,
-                new double[]{
-                        12,
-                        -2,
-                        12
-                }
+                poseAdjust
         );
     }
 
