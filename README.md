@@ -12,7 +12,7 @@ please refrain from putting anything year specific into this template
 
 # Getting started
 
-To create new repositories using this one, go to GitHub and and create a new repository with
+To create new repositories using this one, go to GitHub and create a new repository with
 chsRobotix as the owner. Then,
 under "Repository template" select "chsRobotix/TemplateRobotController." By default, GitHub does not
 allow users to pull from a template,
@@ -28,7 +28,7 @@ git pull template main
 > Before you pull changes from this template into a fork, ensure that the new changes would not
 > break the current code.
 
-It is suggested to name the new repo in the format of "{starting year}-{ending year}{season name}."
+It is suggested to name the new repo in the format of "{starting year}-{season name in `kebab-case`}."
 After creating the new repository,
 update the README.md accordingly.
 
