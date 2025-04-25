@@ -27,11 +27,6 @@ public class DriverMode extends CustomLinearOp {
                 gamepad1.left_stick_x
         );
 
-        telemetry.addData("Front left wheel power", WHEELS.getFrontLeftMotor().getPower());
-        telemetry.addData("Front right wheel power", WHEELS.getFrontRightMotor().getPower());
-        telemetry.addData("Back left wheel power", WHEELS.getBackLeftMotor().getPower());
-        telemetry.addData("Back right wheel power", WHEELS.getBackRightMotor().getPower());
-
         /* Webcam controls */
         // Save CPU resources; can resume streaming when needed.
         /*
@@ -45,17 +40,6 @@ public class DriverMode extends CustomLinearOp {
         /* Gamepad 2 (Arm and Claw Controls) */
 
         /*
-         * The right joystick on gamepad2 controls the arm rotation and folding.
-         */
-        ARM.rotate(gamepad2.right_stick_y);
-        telemetry.addData("Rotation position", ARM.getRotationTicks() + ", " + ARM.getRotationDegrees() + '°');
-        telemetry.addData("Rotation power", ARM.getRotationMotor().getPower());
-
-        ARM.fold(gamepad2.left_stick_x);
-        telemetry.addData("Folding position", ARM.getFoldingTicks() + ", " + ARM.getFoldingDegrees() + '°');
-        telemetry.addData("Folding power", ARM.getFoldingMotor().getPower());
-
-        /*
          * D-pad controls the claw's X-axis rotation.
          */
         if (gamepad2.dpad_left) {
@@ -63,55 +47,6 @@ public class DriverMode extends CustomLinearOp {
 
         } else if (gamepad2.dpad_right) {
             CLAW.rotateRollServo(1.0);
-        }
-
-        /*
-         * Pressing A picks up samples.
-         * Pressing B stops the intake.
-         * Pressing Y releases the sample.
-         */
-        if (gamepad2.a) {
-            telemetry.addLine("Start intake");
-            CLAW.startIntake();
-
-        } else if (gamepad2.b) {
-            telemetry.addLine("Stop intake");
-            CLAW.stopIntake();
-
-        } else if (gamepad2.y) {
-            telemetry.addLine("Eject");
-            CLAW.ejectIntake();
-        }
-
-        // Bumper Controls
-        if (gamepad2.right_bumper) {
-            telemetry.addLine("Right Bumper Pressed: Raising Arm, Rotating Servo, and Rotating Claw");
-
-            // Raise the arm to -90 degrees (adjust as needed)
-            double targetDegrees = 90.0;
-            ARM.rotateToAngle(targetDegrees);
-
-            // Rotate the claw to 180 degrees
-            CLAW.rotateRollServoToAngle(180);
-
-            telemetry.addData("Arm Target", targetDegrees);
-            telemetry.addData("Claw Target", 90.0);
-
-        } else if (gamepad2.left_bumper) {
-            telemetry.addLine("Left Bumper Pressed: Lowering Arm, Rotating Servo Back, and Running Intake");
-
-            // Lower the arm to 90 degrees (adjust as needed)
-            double setPosition = 90.0;
-            ARM.rotateToAngle(setPosition);
-
-            // Rotate the claw to 0 degrees
-            CLAW.rotateRollServoToAngle(0);
-
-            // Run the intake servo
-            CLAW.ejectIntake();
-
-            telemetry.addData("Arm Target", setPosition);
-            telemetry.addLine("Eject intake");
         }
 
         telemetry.update();

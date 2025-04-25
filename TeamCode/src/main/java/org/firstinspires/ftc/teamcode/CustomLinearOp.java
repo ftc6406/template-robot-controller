@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.roadrunner.MecanumKinematics;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -28,6 +29,12 @@ public class CustomLinearOp extends LinearOpMode {
     /* Robot systems */
 
     protected Wheels WHEELS;
+    /*
+     *  TODO: For default purposes, the class is set to MecanumDrive
+     *  Replace as necessaryy
+     */
+    protected MecanumDrive MECANUM_DRIVE;
+
     protected Arm ARM;
     protected Claw CLAW;
     protected Webcam WEBCAM;
