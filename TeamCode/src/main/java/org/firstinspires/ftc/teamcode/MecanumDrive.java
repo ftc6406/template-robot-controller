@@ -61,6 +61,7 @@ public final class MecanumDrive {
         public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
                 RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
 
+        // TODO: Change the following values during tuning.
         // drive model parameters
         public double inPerTick = 1;
         public double lateralInPerTick = inPerTick;

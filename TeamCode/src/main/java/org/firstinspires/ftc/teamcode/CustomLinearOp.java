@@ -30,8 +30,8 @@ public class CustomLinearOp extends LinearOpMode {
 
     protected Wheels WHEELS;
     /*
-     *  TODO: For default purposes, the class is set to MecanumDrive
-     *  Replace as necessaryy
+     *  TODO: For default purposes, the class is set to MecanumDrive.
+     *      Replace as necessary
      */
     protected MecanumDrive MECANUM_DRIVE;
 
