@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.MecanumKinematics;
+import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -76,7 +78,7 @@ public class CustomLinearOp extends LinearOpMode {
     /**
      * Get all the names in the `HardwareMap` that that are not connected to a device.
      * <br>
-     * <em><strong>THIS METHOD IS NOT WORKING CURRENTLY!!!</strong></em>
+     * TODO: <em><strong>THIS METHOD IS NOT WORKING CURRENTLY!!!</strong></em>
      *
      * @return A `HashSet` of all the hardware devices that can not be found.
      */
@@ -134,9 +136,17 @@ public class CustomLinearOp extends LinearOpMode {
             return;
         }
 
-        // TODO: Replace `Wheels()` with a constructor of the desired `Wheels` subclass(e.g. `MecanumWheels`)
-        //  You might want to look at the class and code from previous years for reference.
+        /*
+         * TODO: Replace `Wheels()` with a constructor of the desired `Wheels` subclass(e.g. `MecanumWheels`).
+         *  You might want to look at the class and code from previous years for reference.
+         */
         WHEELS = new Wheels();
+
+        /*
+         * TODO: Assumes the robot starts at (0,0) facing the direction 0.0 degrees.
+         *  Adjust as necessary.
+         */
+        MECANUM_DRIVE = new MecanumDrive(hardwareMap, new Pose2d(0.0, 0.0, 0.0));
     }
 
     /**
@@ -175,8 +185,6 @@ public class CustomLinearOp extends LinearOpMode {
 
     /**
      * Initiate the webcam.
-     *
-     * @return The `Webcam` object instantiated by this method.
      */
     public void initWebcam(int cameraMonitorViewId) {
         // TODO: This is the lowest resolution(width, height) supported by a Logitech webcam.

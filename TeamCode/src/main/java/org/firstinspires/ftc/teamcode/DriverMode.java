@@ -1,27 +1,30 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.roadrunner.PoseVelocity2d;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name = "DriverMode")
 public class DriverMode extends CustomLinearOp {
     // TODO: Replace the driving sensitivity with an appropriate level of sensitivity.
     /**
-     * Adjusts the sensitivity of the robot's driving joystick.
+     * The sensitivity of the robot's driving joystick.
      */
     private static final double DRIVING_SENSITIVITY = 1.0;
 
     private static int cameraMonitorViewId;
 
-    /**
-     * Run the loop once.
+    /** the loop once.
      */
     private void runLoop() {
-        /* Gamepad 1 (Wheel and Webcam Controls) */
+        /* Gamepad 1
+         * Run(Wheel and Webcam Controls) */
 
         /* Wheel Controls */
         /*
          * Drive robot based on joystick input from gamepad1.
          */
+        MECANUM_DRIVE.setDrivePowers(new PoseVelocity2d(new Vector2d(gamepad1.x, gamepad1.y)));
 
         /* Webcam controls */
         // Save CPU resources; can resume streaming when needed.
