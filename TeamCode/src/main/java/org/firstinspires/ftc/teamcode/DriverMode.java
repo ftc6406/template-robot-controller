@@ -24,7 +24,9 @@ public class DriverMode extends CustomLinearOp {
         /*
          * Drive robot based on joystick input from gamepad1.
          */
-        MECANUM_DRIVE.setDrivePowers(new PoseVelocity2d(new Vector2d(gamepad1.x, gamepad1.y)));
+        MECANUM_DRIVE.setDrivePowers(new PoseVelocity2d(
+                new Vector2d(gamepad1.left_stick_x, gamepad1.left_stick_y)
+        ));
 
         /* Webcam controls */
         // Save CPU resources; can resume streaming when needed.
