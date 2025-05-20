@@ -4,7 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name = "DriverMode")
 public class DriverMode extends CustomLinearOp {
-    private static final double JOYSTICK_SENSITIVITY = 0.90;
+    // TODO: Replace the driving sensitivity with an appropriate level of sensitivity.
+    /**
+     * Adjusts the sensitivity of the robot's driving joystick.
+     */
+    private static final double DRIVING_SENSITIVITY = 1.0;
 
     private static int cameraMonitorViewId;
 
@@ -16,16 +20,8 @@ public class DriverMode extends CustomLinearOp {
 
         /* Wheel Controls */
         /*
-         * Drive robot based on joystick input from gamepad1
-         * Right stick moves the robot forwards and backwards and turns it.
-         * The triggers controls strafing.
+         * Drive robot based on joystick input from gamepad1.
          */
-        double strafe = (gamepad1.left_trigger > 0) ? -gamepad1.left_trigger : gamepad1.right_trigger;
-        WHEELS.drive(
-                strafe,
-                gamepad1.right_stick_y,
-                gamepad1.left_stick_x
-        );
 
         /* Webcam controls */
         // Save CPU resources; can resume streaming when needed.
@@ -38,16 +34,6 @@ public class DriverMode extends CustomLinearOp {
          */
 
         /* Gamepad 2 (Arm and Claw Controls) */
-
-        /*
-         * D-pad controls the claw's X-axis rotation.
-         */
-        if (gamepad2.dpad_left) {
-            CLAW.rotateRollServo(-1.0);
-
-        } else if (gamepad2.dpad_right) {
-            CLAW.rotateRollServo(1.0);
-        }
 
         telemetry.update();
     }

@@ -29,10 +29,10 @@ public class CustomLinearOp extends LinearOpMode {
     /* Robot systems */
 
     protected Wheels WHEELS;
-        /*
-         *  TODO: For default purposes, the class is set to MecanumDrive.
-         *      Replace as necessary.
-         */
+    /*
+     *  TODO: For default purposes, the class is set to MecanumDrive.
+     *      Replace as necessary
+     */
     protected MecanumDrive MECANUM_DRIVE;
 
     protected Arm ARM;
@@ -47,6 +47,7 @@ public class CustomLinearOp extends LinearOpMode {
      * Store which side the robot is on(i.e. far or near).
      */
     protected TeamSide TEAM_SIDE;
+
     public HashSet<DcMotor> getAllDcMotors() {
         HashSet<DcMotor> motors = new HashSet<>();
         // hardware.dcMotor stores all the DcMotors as name-device pairs.
