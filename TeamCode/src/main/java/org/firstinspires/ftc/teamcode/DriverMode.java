@@ -14,7 +14,8 @@ public class DriverMode extends CustomLinearOp {
 
     private static int cameraMonitorViewId;
 
-    /** the loop once.
+    /**
+     * the loop once.
      */
     private void runLoop() {
         /* Gamepad 1
@@ -24,9 +25,11 @@ public class DriverMode extends CustomLinearOp {
         /*
          * Drive robot based on joystick input from gamepad1.
          */
-        MECANUM_DRIVE.setDrivePowers(new PoseVelocity2d(
-                new Vector2d(gamepad1.left_stick_x, gamepad1.left_stick_y)
-        ));
+        PoseVelocity2d velocity = new PoseVelocity2d(
+                new Vector2d(gamepad1.left_stick_x, gamepad1.right_stick_y),
+                0.0
+        );
+        MECANUM_DRIVE.setDrivePowers(velocity);
 
         /* Webcam controls */
         // Save CPU resources; can resume streaming when needed.
