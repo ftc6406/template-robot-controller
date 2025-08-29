@@ -3,10 +3,9 @@
 ## Table of Contents
 
 - [`CustomLinearOp`](#customlinearop)
-- [`AutoSettings`](#autosettings)
+- [`AutoConfig`](#autoconfig)
 - [`Auto`](#auto)
 - [`DriverMode`](#drivermode)
-- [`PositionInput`](#positioninput)
 - [`AllianceColor`](#alliancecolor)
 - [`TeamSide`](#teamside)
 - [`hardwareSystems/`](#hardwaresystems)
@@ -28,9 +27,12 @@ sleeping while motors and continuous servos are running.
 For the hardware initializing methods(e.g. `initWheels()`),
 replace the abstract class return type with the the desired class(e.g. `MecanumWheels`).
 
-## [`AutoSettings`](AutoSettings.java)
+## [`AutoConfig`](AutoConfig.java)
 
-A TeleOpMode that writes to a file to store information before running Autonomous.
+A TeleOp that writes information such as the robot's [`AllianceColor`](#alliancecolor) and [`TeamSide`](#teamside)
+into a config file on the Control Hub before running autonomous.
+It also stores the filepath of the config file.
+
 Pressing the A, B, X, and Y buttons sets the robot to
 blue near, red far, blue far, and red near, respectively.
 Pressing D-pad up sets the robot to use its arm during autonomous.
@@ -58,12 +60,6 @@ The `runOpMode()` method runs automatically without the need to do anything.
 The first line of `runOpMode()` should be `super.runOpMode()`
 to run the parent class's hardware initialization.
 The `runOpMode()` runs the code in a try-catch to detect errors.
-
-## [`PositionInput`](PositionInput.java)
-
-A TeleOp that writes the [`AllianceColor`](#alliancecolor) and [`TeamSide`](#teamside)
-of the robot into the Control Hub's file system.
-It also stores the position of the position file.
 
 ## [`AllianceColor`](AllianceColor.java)
 
