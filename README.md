@@ -23,16 +23,16 @@ e.g., motor names or autonomous commands.
 
 ## Creating a New Repo
 
-[!Important]
-Only organization owners have the privileges to delete repos owned by chsRobotix.
-Before creating a repo under chsRobotix, consider if it is necessary.
-If not, create it under your own account.
+> [!Important]
+> Only organization owners have the privileges to delete repos owned by chsRobotix.
+> Before creating a repo under chsRobotix, consider if it is necessary.
+> If not, create it under your own account.
 
 1. On the GitHut website, create a new repo.
 2. Under "Repository template", select "chsRobotix/TemplateRobotController".
 3. Under "Owner", select "chsRobotix".
-4. Name the repository. Preferably, the format for naming the repository should be "{starting
-   year}-{season name in `kebab-case`}".
+4. Name the repository.
+   Preferably, the format for naming the repository should be "{starting year}-{season name in `kebab-case`}".
 5. If you desire, add a short description, but it is probably unnecessary.
 6. Click "Public" to set the repo's visibility.
 7. Click "Create Repository".
@@ -48,11 +48,11 @@ git remote add template https://github.com/chsRobotix/TemplateRobotController.gi
 git pull template main
 ```
 
-[!Caution]
-Before you pull changes from this template,
-ensure that the new changes will not break the current code.
-It is best to pull the changes from `template` into a branch
-and then merge it into the `main` branch.
+> [!Caution]
+> Before you pull changes from this template,
+> ensure that the new changes will not break the current code.
+> It is best to pull the changes from `template` into a branch
+> and then merge it into the `main` branch.
 
 ## Updating with FTC's FtcRobotController
 
@@ -91,7 +91,7 @@ which may be blocked by school Wi-Fi.
 1. Open either `MecanumDrive` or `TankDrive` depending on your bot.
 2. Set the logo and USB direction of your IMU
    using the instructions on [this page](https://ftc-docs.firstinspires.org/en/latest/programming_resources/imu/imu.html?highlight=imu#physical-hub-mounting).
-3. In `TuningOpModes`, set the `DRIVE_CLASS` variable to the drive class you’re using.
+3. In `TuningOpModes`, set the `DRIVE_CLASS` variable to the drive class you're using.
 4. Then specify how the robot should track its position. There are a few built-in localizers:
    - Drive encoders: This is the default. The IMU will also be used on mecanum to get better heading.
    - Two (dead) wheel: Change the right-hand-side of `localizer =` (mecanum, tank) to
@@ -108,11 +108,11 @@ which may be blocked by school Wi-Fi.
      Tuning for a `Pinpoint` device is the same as tuning for two dead wheels.
 
 5. Now check that the motors spin in the right direction. Positive power on all wheels should move
-   the robot forward. And if you’re using drive encoders, the ticks recorded should increase in a
+   the robot forward. And if you're using drive encoders, the ticks recorded should increase in a
    positive direction.
 
-   Those with mecanum drives should use `MecanumDirectionDebugger` to make sure all the directions are
-   correct.
+   Those with mecanum drives should use `MecanumDirectionDebugger` 
+   to make sure all the directions are correct.
    The `OpMode` uses the following button mappings:
 
    > Xbox/PS4 Button - Motor
@@ -135,10 +135,10 @@ which may be blocked by school Wi-Fi.
    >            \.          .'              (A/X)        \   (B/O)
    >              \________/
 
-   Reverse any motors running in the wrong direction with `setDirection(...)`, and do the same for
-   corresponding drive encoders as well.
+   Reverse any motors running in the wrong direction with `setDirection(...)`
+   and do the same for corresponding drive encoders as well.
 
-   If you’re using dead wheels, run `DeadWheelDirectionDebugger` and reverse those encoders accordingly.
+   If you're using dead wheels, run `DeadWheelDirectionDebugger` and reverse those encoders accordingly.
 
 6. Connect to the robot Wi-Fi.
 7. Open [FTC Dashboard](http://192.168.43.1:8080/dash).
@@ -150,7 +150,7 @@ which may be blocked by school Wi-Fi.
    > go to [MecanumDrive](./TeamCode/src/main/java/org/firstinspires/ftc/teamcode/MecanumDrive.java)
    > and edit the appropriate variables.
 
-9.  Use `ForwardPushTest` to determine `inPerTick`.
+9. Use `ForwardPushTest` to determine `inPerTick`.
    The program should print the current number of ticks.
    Push the robot forward by a certain number of inches. 
    Set `inPerTick = <number of inches> / <number of ticks>`
