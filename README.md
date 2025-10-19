@@ -45,7 +45,7 @@ To pull from the template, enter into a terminal:
 
 ```shell
 git remote add template https://github.com/ftc6406/TemplateRobotController.git
-git pull template main
+git pull template main --allow-unrelated-histories
 ```
 
 > [!Caution]
