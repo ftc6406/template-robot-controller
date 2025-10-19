@@ -47,28 +47,60 @@ public class AprilTagTest extends LinearOpMode {
 
     public void initWheels() {
         /*
-         * Define wheels system hardware here.
-         * e.g. hardwareMap.get(DcMotor.class, "exampleMotor");
+         * Define wheels system hardware here.  To make the robot
+         * configuration less brittle, try several common hardware names for
+         * each motor.  Update the candidate lists to match your team’s
+         * naming conventions.  If none of the candidate names are found,
+         * an IllegalArgumentException will be thrown and caught below.
          */
-        MecanumWheels.MotorSet motorSet = new MecanumWheels.MotorSet(
-                hardwareMap.get(DcMotor.class, "frontLeftWheel"),
-                hardwareMap.get(DcMotor.class, "frontRightWheel"),
-                hardwareMap.get(DcMotor.class, "backLeftWheel"),
-                hardwareMap.get(DcMotor.class, "backRightWheel")
-        );
+        DcMotor frontLeft;
+        DcMotor frontRight;
+        DcMotor backLeft;
+        DcMotor backRight;
+        try {
+            frontLeft = pickMotor("frontLeftWheel", "frontLeft", "lf", "leftFront");
+            frontRight = pickMotor("frontRightWheel", "frontRight", "rf", "rightFront");
+            backLeft = pickMotor("backLeftWheel", "backLeft", "lb", "leftBack");
+            backRight = pickMotor("backRightWheel", "backRight", "rb", "rightBack");
+        } catch (IllegalArgumentException e) {
+            telemetry.addLine("ERROR: Unable to find one or more drive motors.  " + "Check that the motor names in initWheels() match your robot configuration.");
+            telemetry.addLine(e.getMessage());
+            telemetry.update();
+            return;
+        }
+
+        MecanumWheels.MotorSet motorSet = new MecanumWheels.MotorSet(frontLeft, frontRight, backLeft, backRight);
 
         // Approximately measured from the CAD model in inches
         double wheelCircumference = 4.0 * Math.PI;
         double gearRatio = 1.0;
         double ticksPerInch = MotorType.TETRIX_TORQUENADO.getTicksPerRotation() * gearRatio / wheelCircumference;
         // Approximately measured from CAD
-        Wheels.WheelDistances wheelDistances = new Wheels.WheelDistances(
-                8.5,
-                14.5
-        );
+        Wheels.WheelDistances wheelDistances = new Wheels.WheelDistances(8.5, 14.5);
 
         WHEELS = new MecanumWheels(motorSet, wheelDistances, ticksPerInch);
     }
+
+    /**
+     * Helper method to fetch a DC motor using any of the provided names.
+     * Iterates through the names and returns the first motor found.
+     * If none of the names exist in the hardware map, throws an
+     * IllegalArgumentException.
+     *
+     * @param candidates possible hardware names for the motor
+     * @return the corresponding DcMotor
+     */
+    private DcMotor pickMotor(String... candidates) {
+        for (String name : candidates) {
+            try {
+                return hardwareMap.get(DcMotor.class, name);
+            } catch (IllegalArgumentException e) {
+                // Try next candidate
+            }
+        }
+        throw new IllegalArgumentException("Unable to find a hardware device with names " + java.util.Arrays.toString(candidates));
+    }
+
 
     @Override
     public void runOpMode() {
