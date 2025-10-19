@@ -6,7 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name = "DriverMode")
 public class DriverMode extends CustomLinearOp {
-    // TODO: Replace the driving sensitivity with an appropriate level of sensitivity.
+    // TODO: Replace the driving sensitivity with an appropriate level of
+    //  sensitivity.
     /**
      * The sensitivity of the robot's driving joystick.
      */
@@ -51,8 +52,10 @@ public class DriverMode extends CustomLinearOp {
         super.runOpMode();
 
         /*
-        cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName()
+        cameraMonitorViewId = hardwareMap.appContext.getResources()
+        .getIdentifier(
+                "cameraMonitorViewId", "id", hardwareMap.appContext
+                .getPackageName()
         );
         WEBCAM.getVisionPortal().stopStreaming();
          */
