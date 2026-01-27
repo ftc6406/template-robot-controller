@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.acmerobotics.roadrunner.MecanumKinematics;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -68,7 +66,8 @@ public class CustomLinearOp extends LinearOpMode {
     public HashSet<CRServo> getAllCrServos() {
         HashSet<CRServo> crServos = new HashSet<>();
         // `hardwareMap.crservo` stores all the CRServos as name-device pairs.
-        for (Map.Entry<String, CRServo> hardwareDevice : hardwareMap.crservo.entrySet()) {
+        for (Map.Entry<String, CRServo> hardwareDevice :
+                hardwareMap.crservo.entrySet()) {
             crServos.add(hardwareDevice.getValue());
         }
 
@@ -76,7 +75,8 @@ public class CustomLinearOp extends LinearOpMode {
     }
 
     /**
-     * Get all the names in the `HardwareMap` that that are not connected to a device.
+     * Get all the names in the `HardwareMap` that that are not connected to a
+     * device.
      * <br>
      * TODO: <em><strong>THIS METHOD IS NOT WORKING CURRENTLY!!!</strong></em>
      *
@@ -88,7 +88,8 @@ public class CustomLinearOp extends LinearOpMode {
         // Loop through each `DeviceMapping`(e.g. `Servo`s and `DcMotor`s).
         for (HardwareMap.DeviceMapping<? extends HardwareDevice> deviceMapping : hardwareMap.allDeviceMappings) {
             // Check if each device in the mapping is null.
-            for (Map.Entry<String, ? extends HardwareDevice> hardwareDevice : deviceMapping.entrySet()) {
+            for (Map.Entry<String, ? extends HardwareDevice> hardwareDevice :
+                    deviceMapping.entrySet()) {
                 if (hardwareDevice.getValue() == null) {
                     missingHardwareDevices.add(hardwareDevice.getKey());
                 }
@@ -107,6 +108,7 @@ public class CustomLinearOp extends LinearOpMode {
 
     /**
      * Sleeps the robot while the given motors are running.
+     *
      * @param motors The motors to wait for.
      */
     public void autoSleep(DcMotor... motors) {
@@ -128,7 +130,8 @@ public class CustomLinearOp extends LinearOpMode {
     /**
      * Initiates all hardware needed for the wheels.
      * <br>
-     * <strong>When starting a new season, change the return type from `Wheels` to the desired return type.</strong>
+     * <strong>When starting a new season, change the return type from `Wheels`
+     * to the desired return type.</strong>
      */
     private void initWheels() {
         // Prevent multiple instantiation.
@@ -137,21 +140,26 @@ public class CustomLinearOp extends LinearOpMode {
         }
 
         /*
-         * TODO: Replace `Wheels()` with a constructor of the desired `Wheels` subclass(e.g. `MecanumWheels`).
-         *  You might want to look at the class and code from previous years for reference.
+         * TODO: Replace `Wheels()` with a constructor of the desired
+         *  `Wheels` subclass(e.g. `MecanumWheels`).
+         *  You might want to look at the class and code from previous years
+         * for reference.
          */
         WHEELS = new Wheels();
 
         /*
-         * TODO: Assumes the robot starts at (0,0) facing the direction 0.0 degrees.
+         * TODO: Assumes the robot starts at (0,0) facing the direction 0.0
+         *  degrees.
          *  Adjust as necessary.
          */
-        MECANUM_DRIVE = new MecanumDrive(hardwareMap, new Pose2d(0.0, 0.0, 0.0));
+        MECANUM_DRIVE = new MecanumDrive(hardwareMap, new Pose2d(0.0, 0.0,
+                0.0));
     }
 
     /**
      * Initiate all hardware needed for the arm.
-     * <strong>When starting a new season, change the return type from `Arm` to the desired return type.</strong>
+     * <strong>When starting a new season, change the return type from `Arm` to
+     * the desired return type.</strong>
      */
     private void initArm() {
         // Prevent multiple instantiation.
@@ -159,14 +167,17 @@ public class CustomLinearOp extends LinearOpMode {
             return;
         }
 
-        // TODO: Replace `Arm()` with a constructor of the desired `Arm` subclass(e.g. `FoldingArm`)
-        //  You might want to look at the class and code from previous years for reference.
+        // TODO: Replace `Arm()` with a constructor of the desired `Arm`
+        //  subclass(e.g. `FoldingArm`)
+        //  You might want to look at the class and code from previous years
+        //  for reference.
         ARM = new Arm();
     }
 
     /**
      * Initiate all hardware needed for the claw.
-     * <strong>When starting a new season, change the return type from `Claw` to the desired return type.</strong>
+     * <strong>When starting a new season, change the return type from `Claw` to
+     * the desired return type.</strong>
      */
     public void initClaw() {
         // Prevent multiple instantiation.
@@ -174,12 +185,17 @@ public class CustomLinearOp extends LinearOpMode {
             return;
         }
 
-        // TODO: Replace `Claw()` with a constructor of the desired `Claw` subclass(e.g. `SingleServoIntakeClaw`)
-        //  You might want to look at the class and code from previous years for reference.
+        // TODO: Replace `Claw()` with a constructor of the desired `Claw`
+        //  subclass(e.g. `SingleServoIntakeClaw`)
+        //  You might want to look at the class and code from previous years
+        //  for reference.
         CLAW = new Claw(
-                null, // TODO: Replace with the appropriate servo object, e.g. `hardwareMap.get(Servo.class, "exampleServo");`
-                null, // TODO: Replace with the appropriate servo object, e.g. `hardwareMap.get(Servo.class, "exampleServo");`
-                null // TODO: Replace with the appropriate servo object, e.g. `hardwareMap.get(Servo.class, "exampleServo");`
+                null, // TODO: Replace with the appropriate servo object, e.g
+                // . `hardwareMap.get(Servo.class, "exampleServo");`
+                null, // TODO: Replace with the appropriate servo object, e.g
+                // . `hardwareMap.get(Servo.class, "exampleServo");`
+                null // TODO: Replace with the appropriate servo object, e.g.
+                // `hardwareMap.get(Servo.class, "exampleServo");`
         );
     }
 
@@ -187,11 +203,13 @@ public class CustomLinearOp extends LinearOpMode {
      * Initiate the webcam.
      */
     public void initWebcam(int cameraMonitorViewId) {
-        // TODO: This is the lowest resolution(width, height) supported by a Logitech webcam.
+        // TODO: This is the lowest resolution(width, height) supported by a
+        //  Logitech webcam.
         //  Adjust as necessary.
         int[] resolution = {160, 120};
 
-        // TODO: This adjusts the pose to account for where the camera is positioned.
+        // TODO: This adjusts the pose to account for where the camera is
+        //  positioned.
         //  Probably best to measure from the intake to the camera.
         //  Measured in inches.
         double[] poseAdjust = new double[]{
@@ -201,22 +219,24 @@ public class CustomLinearOp extends LinearOpMode {
         };
 
         WEBCAM = new Webcam(
-                hardwareMap.get(WebcamName.class, "Webcam 1"), // Default camera name
+                hardwareMap.get(WebcamName.class, "Webcam 1"), // Default
+                // camera name
                 resolution,
                 poseAdjust
         );
     }
 
     /**
-     * Retrieve the contents of the Auto Settings file as a `String`,
-     * or `null` if there is nothing to read.
+     * Retrieve the contents of the Auto Settings file as a `String`, or `null`
+     * if there is nothing to read.
      *
      * @param autoSettingsFile A String representing the file path to be read.
      * @return A String representation of the setting file's contents.
      */
     public String readAutoSettingsFile(String autoSettingsFile) {
         // Try to read the auto settings
-        try (BufferedReader reader = new BufferedReader(new FileReader(autoSettingsFile))) {
+        try (BufferedReader reader =
+                     new BufferedReader(new FileReader(autoSettingsFile))) {
             // Read first line.
             String data = reader.readLine();
             telemetry.addData("Starting position: ", data);
@@ -237,7 +257,8 @@ public class CustomLinearOp extends LinearOpMode {
 
     /**
      * Overloads {@link CustomLinearOp#readAutoSettingsFile(String)}.
-     * {@code autoSettingsFile} defaults to {@link AutoSettings#getPositionFile()}.
+     * {@code autoSettingsFile} defaults to
+     * {@link AutoSettings#getPositionFile()}.
      *
      * @see CustomLinearOp#readAutoSettingsFile(String)
      */
@@ -246,9 +267,8 @@ public class CustomLinearOp extends LinearOpMode {
     }
 
     /**
-     * Run automatically after pressing "Init."
-     * Initiate all the robot's hardware.
-     * Wait until the driver presses "Start."
+     * Run automatically after pressing "Init." Initiate all the robot's
+     * hardware. Wait until the driver presses "Start."
      */
     @Override
     public void runOpMode() {
@@ -262,17 +282,23 @@ public class CustomLinearOp extends LinearOpMode {
          * Get camera ID to stream.
          * TODO: Currently not working.
          */
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName()
+        int cameraMonitorViewId =
+                hardwareMap.appContext.getResources().getIdentifier(
+                "cameraMonitorViewId", "id",
+                        hardwareMap.appContext.getPackageName()
         );
         telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
         telemetry.update();
         initWebcam(cameraMonitorViewId);
 
         // Try to read the auto settings
-        String autoSettings = readAutoSettingsFile(AutoSettings.getPositionFile());
-        ALLIANCE_COLOR = autoSettings != null ? AllianceColor.valueOf(autoSettings.split(",")[0]) : AllianceColor.RED;
-        TEAM_SIDE = autoSettings != null ? TeamSide.valueOf(autoSettings.split(",")[1]) : TeamSide.NEAR;
+        String autoSettings =
+                readAutoSettingsFile(AutoSettings.getPositionFile());
+        ALLIANCE_COLOR = autoSettings != null ?
+                AllianceColor.valueOf(autoSettings.split(",")[0]) :
+                AllianceColor.RED;
+        TEAM_SIDE = autoSettings != null ?
+                TeamSide.valueOf(autoSettings.split(",")[1]) : TeamSide.NEAR;
 
         // Set the camera color.
         /*
@@ -286,7 +312,8 @@ public class CustomLinearOp extends LinearOpMode {
                 break;
         }
          */
-        telemetry.addData("Starting position", ALLIANCE_COLOR.name() + ", " + TEAM_SIDE.name());
+        telemetry.addData("Starting position",
+                ALLIANCE_COLOR.name() + ", " + TEAM_SIDE.name());
 
         waitForStart();
     }
