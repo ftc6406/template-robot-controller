@@ -102,8 +102,8 @@ which may be blocked by school Wi-Fi.
    - Drive encoders: This is the default. The IMU will also be used on mecanum
      to get better heading.
    - Two (dead) wheel: Change the right-hand-side of `localizer =` (mecanum, tank)
-     to `new TwoDeadWheelLocalizer(hardwareMap, lazyImu.get(), PARAMS.inPerTick,
-     pose)`. The code expects the parallel, forward-pointing encoder to be named `"par"`
+     to `new TwoDeadWheelLocalizer(hardwareMap, lazyImu.get(), PARAMS.inPerTick, pose)`.
+     The code expects the parallel, forward-pointing encoder to be named `"par"`
      and the perpendicular one to be named `"perp"`.
    - Three (dead) wheel: Change the right-hand-side of `localizer = <mecanum, tank>`
      to `new ThreeDeadWheelLocalizer(hardwareMap, PARAMS.inPerTick, pose)`.
