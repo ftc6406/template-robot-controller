@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.hardwareSystems;
+package org.firstinspires.ftc.teamcode.hardwaresystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -9,7 +9,7 @@ public abstract class Arm {
 
     public Arm(HashSet<DcMotor> motors) {
         MOTORS = motors;
-        // The arm motors will attempt to resist external forces(e.g. gravity).
+        // The arm motors will attempt to resist external forces　(e.g., gravity).
         for (DcMotor motor : MOTORS) {
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }

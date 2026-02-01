@@ -15,14 +15,18 @@ import static org.firstinspires.ftc.teamcode.AutoSettings.TeamSide;
 
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.hardwaresystems.Arm;
+import org.firstinspires.ftc.teamcode.hardwaresystems.Claw;
+import org.firstinspires.ftc.teamcode.hardwaresystems.Webcam;
+import org.firstinspires.ftc.teamcode.hardwaresystems.Wheels;
 /*
  * Import statements for Arm and Claw have been removed because the
  * DECODE challenge does not use an articulated arm or intake claw.  If
  * you later reintroduce these subsystems, import the appropriate
  * classes here and add back their fields and initialisation methods.
  */
-import org.firstinspires.ftc.teamcode.hardwareSystems.Webcam;
-import org.firstinspires.ftc.teamcode.hardwareSystems.Wheels;
+import org.firstinspires.ftc.teamcode.hardwaresystems.Webcam;
+import org.firstinspires.ftc.teamcode.hardwaresystems.Wheels;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -323,15 +327,16 @@ public class CustomLinearOp extends LinearOpMode {
     }
 
     /**
-     * Retrieve the contents of the Auto Settings file as a `String`,
-     * or `null` if there is nothing to read.
+     * Retrieve the contents of the auto config file as a `String`, or `null`
+     * if there is nothing to read.
      *
-     * @param autoSettingsFile A String representing the file path to be read.
-     * @return A String representation of the setting file's contents.
+     * @param autoConfigFile A `String` representing the file path to be read.
+     * @return A `String` representation of the setting file's contents.
      */
-    public String readAutoSettingsFile(String autoSettingsFile) {
-        // Try to read the auto settings
-        try (BufferedReader reader = new BufferedReader(new FileReader(autoSettingsFile))) {
+    public String readAutoConfigFile(String autoConfigFile) {
+        // Try to read the auto config.
+        try (BufferedReader reader =
+                     new BufferedReader(new FileReader(autoConfigFile))) {
             // Read first line.
             String data = reader.readLine();
             telemetry.addData("Starting position: ", data);
@@ -341,7 +346,7 @@ public class CustomLinearOp extends LinearOpMode {
         } catch (IOException | NullPointerException e) {
             telemetry.addLine(
                     (e instanceof IOException)
-                            ? "ERROR: FAILED TO READ AUTO_SETTINGS FILE!"
+                            ? "ERROR: FAILED TO READ AUTO CONFIG FILE!"
                             : "The position file is blank."
             );
             telemetry.addLine("Defaulting to RED NEAR");
@@ -351,20 +356,15 @@ public class CustomLinearOp extends LinearOpMode {
     }
 
     /**
-     * Overloads {@link CustomLinearOp#readAutoSettingsFile(String)}.
-     * {@code autoSettingsFile} defaults to {@link AutoSettings#getPositionFile()}.
+     * Overloads {@link CustomLinearOp#readAutoConfigFile(String)}.
+     * {@code autoConfigFile} defaults to
+     * {@link AutoConfig#getPositionFile()}.
      *
-     * @see CustomLinearOp#readAutoSettingsFile(String)
+     * @see CustomLinearOp#readAutoConfigFile(String)
      */
-    /**
-     * Convenience wrapper: read the auto-settings file using
-     * the standard path from AutoSettings.
-     */
-    public String readAutoSettingsFile() {
-        // Use the path string of the File object
-        return readAutoSettingsFile(AutoSettings.getPositionFile());
+    public String readAutoConfigFile() {
+        return readAutoConfigFile(AutoConfig.getPositionFile());
     }
-
 
     /**
      * Run automatically after pressing "Init."
@@ -397,8 +397,8 @@ public class CustomLinearOp extends LinearOpMode {
         telemetry.update();
         initWebcam(cameraMonitorViewId);
 
-        // Try to read the auto settings
-        String autoSettings = readAutoSettingsFile(AutoSettings.getPositionFile());
+        // Try to read the auto config
+        String autoSettings = readAutoConfigFile(AutoSettings.getPositionFile());
         ALLIANCE_COLOR = autoSettings != null ? AllianceColor.valueOf(autoSettings.split(",")[0]) : AllianceColor.RED;
         TEAM_SIDE = autoSettings != null ? TeamSide.valueOf(autoSettings.split(",")[1]) : TeamSide.NEAR;
 

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.hardwareSystems;
+package org.firstinspires.ftc.teamcode.hardwaresystems;
 
 public enum MotorType {
     TETRIX_TORQUENADO(1440),
