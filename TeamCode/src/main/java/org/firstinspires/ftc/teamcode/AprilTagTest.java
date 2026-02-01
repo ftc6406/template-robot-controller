@@ -58,10 +58,10 @@ public class AprilTagTest extends LinearOpMode {
 
     public void initWheels() {
         /*
-         * Define wheels system hardware here.  To make the robot
+         * Define wheels system hardware here. To make the robot
          * configuration less brittle, try several common hardware names for
-         * each motor.  Update the candidate lists to match your team’s
-         * naming conventions.  If none of the candidate names are found,
+         * each motor. Update the candidate lists to match your team's
+         * naming conventions. If none of the candidate names are found,
          * an IllegalArgumentException will be thrown and caught below.
          */
         DcMotor frontLeft;
@@ -124,8 +124,8 @@ public class AprilTagTest extends LinearOpMode {
                 // Try next candidate
             }
         }
-        throw new IllegalArgumentException("Unable to find a hardware device "
-                + "with names " + java.util.Arrays.toString(candidates));
+        throw new IllegalArgumentException("Unable to find a hardware device with names " +
+                java.util.Arrays.toString(candidates));
     }
 
 

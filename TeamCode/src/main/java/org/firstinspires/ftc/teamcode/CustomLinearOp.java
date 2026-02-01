@@ -227,16 +227,16 @@ public class CustomLinearOp extends LinearOpMode {
     }
 
     /**
-     * Retrieve the contents of the Auto Settings file as a `String`, or `null`
+     * Retrieve the contents of the auto config file as a `String`, or `null`
      * if there is nothing to read.
      *
-     * @param autoSettingsFile A String representing the file path to be read.
-     * @return A String representation of the setting file's contents.
+     * @param autoConfigFile A `String` representing the file path to be read.
+     * @return A `String` representation of the setting file's contents.
      */
-    public String readAutoSettingsFile(String autoSettingsFile) {
-        // Try to read the auto settings
+    public String readAutoConfigFile(String autoConfigFile) {
+        // Try to read the auto config.
         try (BufferedReader reader =
-                     new BufferedReader(new FileReader(autoSettingsFile))) {
+                     new BufferedReader(new FileReader(autoConfigFile))) {
             // Read first line.
             String data = reader.readLine();
             telemetry.addData("Starting position: ", data);
@@ -246,7 +246,7 @@ public class CustomLinearOp extends LinearOpMode {
         } catch (IOException | NullPointerException e) {
             telemetry.addLine(
                     (e instanceof IOException)
-                            ? "ERROR: FAILED TO READ AUTO_SETTINGS FILE!"
+                            ? "ERROR: FAILED TO READ AUTO CONFIG FILE!"
                             : "The position file is blank."
             );
             telemetry.addLine("Defaulting to RED NEAR");
@@ -256,14 +256,14 @@ public class CustomLinearOp extends LinearOpMode {
     }
 
     /**
-     * Overloads {@link CustomLinearOp#readAutoSettingsFile(String)}.
-     * {@code autoSettingsFile} defaults to
-     * {@link AutoSettings#getPositionFile()}.
+     * Overloads {@link CustomLinearOp#readAutoConfigFile(String)}.
+     * {@code autoConfigFile} defaults to
+     * {@link AutoConfig#getPositionFile()}.
      *
-     * @see CustomLinearOp#readAutoSettingsFile(String)
+     * @see CustomLinearOp#readAutoConfigFile(String)
      */
-    public String readAutoSettingsFile() {
-        return readAutoSettingsFile(AutoSettings.getPositionFile());
+    public String readAutoConfigFile() {
+        return readAutoConfigFile(AutoConfig.getPositionFile());
     }
 
     /**
@@ -291,14 +291,14 @@ public class CustomLinearOp extends LinearOpMode {
         telemetry.update();
         initWebcam(cameraMonitorViewId);
 
-        // Try to read the auto settings
-        String autoSettings =
-                readAutoSettingsFile(AutoSettings.getPositionFile());
-        ALLIANCE_COLOR = autoSettings != null ?
-                AllianceColor.valueOf(autoSettings.split(",")[0]) :
+        // Try to read the auto config
+        String autoConfig =
+                readAutoConfigFile(AutoConfig.getPositionFile());
+        ALLIANCE_COLOR = autoConfig != null ?
+                AllianceColor.valueOf(autoConfig.split(",")[0]) :
                 AllianceColor.RED;
-        TEAM_SIDE = autoSettings != null ?
-                TeamSide.valueOf(autoSettings.split(",")[1]) : TeamSide.NEAR;
+        TEAM_SIDE = autoConfig != null ?
+                TeamSide.valueOf(autoConfig.split(",")[1]) : TeamSide.NEAR;
 
         // Set the camera color.
         /*
