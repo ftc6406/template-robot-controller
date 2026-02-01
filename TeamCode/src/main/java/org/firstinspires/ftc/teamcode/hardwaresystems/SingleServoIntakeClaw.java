@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.hardwareSystems;
+package org.firstinspires.ftc.teamcode.hardwaresystems;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
