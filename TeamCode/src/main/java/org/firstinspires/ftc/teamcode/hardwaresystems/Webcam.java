@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package org.firstinspires.ftc.teamcode.hardwareSystems;
+package org.firstinspires.ftc.teamcode.hardwaresystems;
 
 import android.util.Size;
 

@@ -5,10 +5,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.hardwareSystems.MecanumWheels;
-import org.firstinspires.ftc.teamcode.hardwareSystems.MotorType;
-import org.firstinspires.ftc.teamcode.hardwareSystems.Webcam;
-import org.firstinspires.ftc.teamcode.hardwareSystems.Wheels;
+import org.firstinspires.ftc.teamcode.hardwaresystems.MecanumWheels;
+import org.firstinspires.ftc.teamcode.hardwaresystems.MotorType;
+import org.firstinspires.ftc.teamcode.hardwaresystems.Webcam;
+import org.firstinspires.ftc.teamcode.hardwaresystems.Wheels;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import java.util.List;

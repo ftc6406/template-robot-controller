@@ -8,10 +8,10 @@ import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.hardwareSystems.Arm;
-import org.firstinspires.ftc.teamcode.hardwareSystems.Claw;
-import org.firstinspires.ftc.teamcode.hardwareSystems.Webcam;
-import org.firstinspires.ftc.teamcode.hardwareSystems.Wheels;
+import org.firstinspires.ftc.teamcode.hardwaresystems.Arm;
+import org.firstinspires.ftc.teamcode.hardwaresystems.Claw;
+import org.firstinspires.ftc.teamcode.hardwaresystems.Webcam;
+import org.firstinspires.ftc.teamcode.hardwaresystems.Wheels;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
