@@ -2,17 +2,23 @@ package org.firstinspires.ftc.teamcode.hardwaresystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import java.util.HashSet;
+import java.util.Set;
 
 /**
  * An abstract class to defined the methods that robot arms are capable of.
  */
 public abstract class Arm {
-    protected final HashSet<DcMotor> MOTORS;
+    protected final Set<DcMotor> MOTORS;
 
-    public Arm(HashSet<DcMotor> motors) {
+    /**
+     * Instantiate a new {@link Arm} with a {@link Set} of {@link DcMotor}s.
+     *
+     * @param motors The {@link DcMotor}s contained within this {@link Arm}.
+     */
+    public Arm(Set<DcMotor> motors) {
         MOTORS = motors;
-        // The arm motors will attempt to resist external forces　(e.g., gravity).
+        // The arm motors will attempt to resist external forces　(e.g.,
+        // gravity).
         for (DcMotor motor : MOTORS) {
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
