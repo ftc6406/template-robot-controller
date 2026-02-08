@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.hardwareSystems;
+package org.firstinspires.ftc.teamcode.hardwaresystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -85,10 +85,10 @@ public class MecanumWheels extends Wheels {
         double backLeftPower = -theta - x + y;
         double backRightPower = theta - x + y;
 
-        // Scale the motor powers to be within +/- 1.0.  Use the absolute
+        // Scale the motor powers to be within +/- 1.0. Use the absolute
         // maximum magnitude rather than the algebraic maximum to ensure all
         // motors
-        // are scaled properly.  For example, a power set of [-0.8, 0.2, 0.5,
+        // are scaled properly. For example, a power set of [-0.8, 0.2, 0.5,
         // 0.4]
         // should be scaled by 0.8, not 0.5.
         double maxMagnitude = Math.max(
@@ -123,12 +123,12 @@ public class MecanumWheels extends Wheels {
      */
     @Override
     public void driveDistance(double sidewaysDistance, double forwardDistance) {
-        // Apply Pythagorean's Theorem to find the Euclidean distance.  Use
+        // Apply Pythagorean's Theorem to find the Euclidean distance. Use
         // hypot
         // to avoid overflow and improve readability.
         double totalDistance = Math.hypot(forwardDistance, sidewaysDistance);
 
-        // If both distances are zero there is nothing to do.  Guard against
+        // If both distances are zero there is nothing to do. Guard against
         // division by zero in the scaling logic below and halt the drive.
         if (totalDistance == 0) {
             // Set all motor powers to zero to stop the robot cleanly.
@@ -136,7 +136,7 @@ public class MecanumWheels extends Wheels {
             return;
         }
 
-        // Scale the motor power based on trigonometry.  Multiply by MOTOR_POWER
+        // Scale the motor power based on trigonometry. Multiply by MOTOR_POWER
         // after normalizing by the total distance so that larger requested
         // distances don't inadvertently increase motor power.
         double xPower = (sidewaysDistance / totalDistance) * MOTOR_POWER;
