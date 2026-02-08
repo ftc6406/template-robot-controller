@@ -1,7 +1,8 @@
 # Template Robot Controller
 
 This repository is a template for our `FtcRobotController`s.
-It is a fork of FTC's official [FtcRobotController](https://github.com/FIRST-Tech-Challenge/FtcRobotController.git).
+It is a fork of FTC's
+official [FtcRobotController](https://github.com/FIRST-Tech-Challenge/FtcRobotController.git).
 Please feel free to modify this template as necessary or even abandon it altogether.
 This template is meant to be a gift from the previous programmers to the new programmers.
 What you do with it is up to you.
@@ -16,9 +17,9 @@ e.g., motor names or autonomous commands.
 - [Pulling from Template](#pulling-from-template)
 - [Updating with FTC's FtcRobotController](#updating-with-ftcs-ftcrobotcontroller)
 - [RoadRunner](#roadrunner)
-  - [List of RoadRunner Files and Directories](#list-of-roadrunner-files-and-directories)
-  - [Tuning RoadRunner](#tuning-roadrunner)
-  - [Updating RoadRunner](#updating-roadrunner)
+    - [List of RoadRunner Files and Directories](#list-of-roadrunner-files-and-directories)
+    - [Tuning RoadRunner](#tuning-roadrunner)
+    - [Updating RoadRunner](#updating-roadrunner)
 - [TeamCode](#teamcode)
 
 ## Creating a New Repo
@@ -32,7 +33,8 @@ e.g., motor names or autonomous commands.
 2. Under "Repository template", select "ftc6406/TemplateRobotController".
 3. Under "Owner", select "ftc6406".
 4. Name the repository.
-   Preferably, the format for naming the repository should be "{starting year}-{season name in `kebab-case`}".
+   Preferably, the format for naming the repository should be "{starting year}-{season name in
+   `kebab-case`}".
 5. If you desire, add a short description, but it is probably unnecessary.
 6. Click "Public" to set the repo's visibility.
 7. Click "Create Repository".
@@ -44,7 +46,7 @@ which complicates updating the new repository if the template changes.
 To pull from the template, enter into a terminal:
 
 ```shell
-git remote add template https://github.com/ftc6406/TemplateRobotController.git
+git remote add template https://github.com/ftc6406/template-robot-controller.git
 git pull template main --allow-unrelated-histories
 ```
 
@@ -58,7 +60,8 @@ git pull template main --allow-unrelated-histories
 
 Keep this fork up to date with FTC's
 official [FtcRobotController](https://github.com/FIRST-Tech-Challenge/FtcRobotController.git).
-To do that, go to the GitHub page for [this repository](https://github.com/ftc6406/TemplateRobotController.git)
+To do that, go to the GitHub page
+for [this repository](https://github.com/ftc6406/TemplateRobotController.git)
 and click on "Sync fork."
 Alternatively, you can enter into a terminal:
 
@@ -69,9 +72,11 @@ git pull upstream master
 
 ## RoadRunner
 
-Our programs use [RoadRunner](https://github.com/acmerobotics/road-runner.git), a motion-planning library for FTC.
+Our programs use [RoadRunner](https://github.com/acmerobotics/road-runner.git), a motion-planning
+library for FTC.
 For more details look at [Learn Road Runner](https://learnroadrunner.com/introduction.html)
-and the [Road Runner Docs](https://rr.brott.dev/docs/v1-0/installation/)(may be blocked by school Wi-Fi).
+and the [Road Runner Docs](https://rr.brott.dev/docs/v1-0/installation/) (might be blocked by school
+Wi-Fi).
 
 ### List of RoadRunner Files and Directories
 
@@ -89,31 +94,31 @@ The following is modified from the [Road Runner Docs](https://rr.brott.dev/docs/
 which may be blocked by school Wi-Fi.
 
 1. Open either `MecanumDrive` or `TankDrive` depending on your bot.
-2. Set the logo and USB direction of your IMU
-   using the instructions on [this page](https://ftc-docs.firstinspires.org/en/latest/programming_resources/imu/imu.html?highlight=imu#physical-hub-mounting).
+2. Set the logo and USB direction of your IMU using the instructions on
+   [this page](https://ftc-docs.firstinspires.org/en/latest/programming_resources/imu/imu.html?highlight=imu#physical-hub-mounting).
 3. In `TuningOpModes`, set the `DRIVE_CLASS` variable to the drive class you're using.
 4. Then specify how the robot should track its position. There are a few built-in localizers:
-   - Drive encoders: This is the default. The IMU will also be used on mecanum to get better heading.
-   - Two (dead) wheel: Change the right-hand-side of `localizer =` (mecanum, tank) to
-     `new TwoDeadWheelLocalizer(hardwareMap, lazyImu.get(), PARAMS.inPerTick, pose)`.
-     The code expects the parallel, forward-pointing encoder to be named `"par"`
-     and the perpendicular one to be named `"perp"`.
-   - Three (dead) wheel: Change the right-hand-side of `localizer =` (mecanum, tank) to
-     `new ThreeDeadWheelLocalizer(hardwareMap, PARAMS.inPerTick, pose)`.
-     The code expects the two parallel encoders to be named `"par0"` and `"par1"`
-     and the perpendicular one to be named `"perp"`.
-   - Pinpoint Odometry Computer: Change the right-hand-side of `localizer =` (mecanum, tank) to
-     `new PinpointLocalizer(hardwareMap, PARAMS.inPerTick, pose)`.
-     The code expects a `Pinpoint` device to be configured with name `"pinpoint"`.
-     Tuning for a `Pinpoint` device is the same as tuning for two dead wheels.
+    - Drive encoders: This is the default. The IMU will also be used on mecanum to get better
+      heading.
+    - Two (dead) wheel: Change the right-hand-side of `localizer =` (mecanum, tank) to
+      `new TwoDeadWheelLocalizer(hardwareMap, lazyImu.get(), PARAMS.inPerTick, pose)`. The code 
+      expects the parallel, forward-pointing encoder to be named `"par"` and the perpendicular one 
+      to be named `"perp"`.
+    - Three (dead) wheel: Change the right-hand-side of `localizer =` (mecanum, tank) to
+      `new ThreeDeadWheelLocalizer(hardwareMap, PARAMS.inPerTick, pose)`. The code expects the two 
+      parallel encoders to be named `"par0"` and `"par1"` and the perpendicular one to be named 
+      `"perp"`.
+    - Pinpoint Odometry Computer: Change the right-hand-side of `localizer =` (mecanum, tank) to
+      `new PinpointLocalizer(hardwareMap, PARAMS.inPerTick, pose)`. The code expects a `Pinpoint` 
+      device to be configured with name `"pinpoint"`. Tuning for a `Pinpoint` device is the same as 
+      tuning for two dead wheels.
 
 5. Now check that the motors spin in the right direction. Positive power on all wheels should move
    the robot forward. And if you're using drive encoders, the ticks recorded should increase in a
    positive direction.
 
-   Those with mecanum drives should use `MecanumDirectionDebugger` 
-   to make sure all the directions are correct.
-   The `OpMode` uses the following button mappings:
+   Those with mecanum drives should use `MecanumDirectionDebugger` to make sure all the directions 
+   are correct. The `OpMode` uses the following button mappings:
 
    >     Xbox/PS4 Button - Motor  
    >         X / ▢ - Front Left  
@@ -138,7 +143,8 @@ which may be blocked by school Wi-Fi.
    Reverse any motors running in the wrong direction with `setDirection(...)`
    and do the same for corresponding drive encoders as well.
 
-   If you're using dead wheels, run `DeadWheelDirectionDebugger` and reverse those encoders accordingly.
+   If you're using dead wheels, run `DeadWheelDirectionDebugger` and reverse those encoders
+   accordingly.
 
 6. Connect to the robot Wi-Fi.
 7. Open [FTC Dashboard](http://192.168.43.1:8080/dash).
@@ -150,10 +156,9 @@ which may be blocked by school Wi-Fi.
    > go to [MecanumDrive](./TeamCode/src/main/java/org/firstinspires/ftc/teamcode/MecanumDrive.java)
    > and edit the appropriate variables.
 
-9. Use `ForwardPushTest` to determine `inPerTick`.
-   The program should print the current number of ticks.
-   Push the robot forward by a certain number of inches. 
-   Set `inPerTick = <number of inches> / <number of ticks>`
+9. Use `ForwardPushTest` to determine `inPerTick`. The program should print the current number of 
+   ticks. Push the robot forward by a certain number of inches. Set 
+  `inPerTick = <number of inches> / <number of ticks>`
 
 10. Use `LateralPushTest` to determine `lateralInPerTick`.
 
@@ -170,8 +175,8 @@ rm -rf ../road-runner-quickstart
 
 ## TeamCode
 
-Our team's code is in 
+Our team's code is in
 [./TeamCode/src/main/java/org/firstinspires/ftc/teamcode/](./TeamCode/src/main/java/org/firstinspires/ftc/teamcode/).
-It contains an Autonomous, TeleOp, and various helper classes to ease the process of programming the robot.
-For more details, including how `OpMode`s work, 
-look at the [README](./TeamCode/src/main/java/org/firstinspires/ftc/teamcode/README.md).
+It contains an Autonomous, TeleOp, and various helper classes to ease the process of programming the
+robot. For more details, including how `OpMode`s work, look at the 
+[README](./TeamCode/src/main/java/org/firstinspires/ftc/teamcode/README.md).
