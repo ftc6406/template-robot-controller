@@ -7,6 +7,9 @@ import org.firstinspires.ftc.teamcode.messages.MecanumCommandMessage;
 
 import java.util.HashSet;
 
+/**
+ * A set of four mecanum wheels, each controlled separately.
+ */
 public class MecanumWheels extends Wheels {
     /**
      * The motor powering the front left wheel.

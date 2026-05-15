@@ -47,6 +47,9 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Process input from the camera to detect objects.
+ */
 public class Webcam {
     /**
      * The VisionPortal that the webcam uses.

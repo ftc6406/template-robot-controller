@@ -5,7 +5,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import java.util.Set;
 
 /**
- * An abstract class to defined the methods that robot arms are capable of.
+ *
+ * Abstract class to define the methods that robot arms are capable of.
  */
 public abstract class Arm {
     protected final Set<DcMotor> MOTORS;

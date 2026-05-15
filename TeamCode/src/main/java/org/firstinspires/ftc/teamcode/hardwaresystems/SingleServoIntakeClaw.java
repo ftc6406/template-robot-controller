@@ -7,6 +7,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 import java.util.Collections;
 import java.util.HashSet;
 
+/**
+ * Claw with one continuous rotation servo to intake game elements.
+ */
 public class SingleServoIntakeClaw extends Claw {
     /**
      * How much power the intake spins with when intaking.

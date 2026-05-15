@@ -7,6 +7,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import java.util.HashSet;
 
+/**
+ * Servo with two continuous rotation servos to pick up objects.
+ */
 public class DoubleServoIntakeClaw extends Claw {
     /**
      * How much power the intake spins with when intaking.

@@ -4,6 +4,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import java.util.HashSet;
 
+/**
+ * Represent any possible system of wheels on the robot.
+ */
 public abstract class Wheels {
     /**
      * A modifier for much power the wheels run with (0.0 - 1.0)
@@ -54,10 +57,10 @@ public abstract class Wheels {
     }
 
     /**
-     * Get all the {@code DcMotor}s that are used by this wheels system.
+     * Get all the {@code DcMotor}s that are used by this wheel system.
      *
      * @return A {@code HashSet} that contains every {@code DcMotor} included by
-     * this wheels system.
+     * this wheel system.
      */
     public HashSet<DcMotor> getMotors() {
         return MOTORS;

@@ -5,6 +5,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import java.util.HashSet;
 
+/**
+ * An arm that is capable of folding in the middle.
+ */
 public class FoldingArm extends Arm {
     /**
      * The motor power that the arm uses when rotating.
@@ -14,6 +17,7 @@ public class FoldingArm extends Arm {
      * The motor power that the arm uses when rotating.
      */
     private static final double FOLDING_POWER = 0.75;
+
     /**
      * The motor that rotates the arm up and down.
      */
@@ -35,6 +39,7 @@ public class FoldingArm extends Arm {
      * How many ticks it takes to rotate the arm by one degree.
      */
     private final double TICKS_PER_ROTATION_DEGREE;
+
     /**
      * The motor that folds and retracts the arm.
      */
@@ -58,7 +63,7 @@ public class FoldingArm extends Arm {
     private final double TICKS_PER_FOLDING_DEGREE;
 
     /**
-     * Instantiates an foldable arm
+     * Instantiates a foldable arm
      *
      * @param motorSet      The motors and motor types.
      * @param rotationRange The min rotation, max rotation, and ticks per
