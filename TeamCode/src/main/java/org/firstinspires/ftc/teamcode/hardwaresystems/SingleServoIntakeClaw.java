@@ -9,6 +9,8 @@ import java.util.HashSet;
 
 /**
  * Claw with one continuous rotation servo to intake game elements.
+ *
+ * See {@link DoubleServoIntakeClaw} for the double servo version.
  */
 public class SingleServoIntakeClaw extends Claw {
     /**

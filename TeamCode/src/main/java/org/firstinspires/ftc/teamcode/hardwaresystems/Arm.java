@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import java.util.Set;
 
 /**
- *
  * Abstract class to define the methods that robot arms are capable of.
  */
 public abstract class Arm {
@@ -26,10 +25,9 @@ public abstract class Arm {
     }
 
     /**
-     * Get all the {@code DcMotor}s that are included in this arm system.
+     * Get all the {@link DcMotor}s that are included in this arm system.
      *
-     * @return A {@code HashSet} that contains every DcMotor included in this
-     * arm system.
+     * @return A {@link HashSet} that contains every DcMotor included in this arm system.
      */
     public HashSet<DcMotor> getMotors() {
         return MOTORS;
