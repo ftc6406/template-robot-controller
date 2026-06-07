@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.TrajectoryBuilder;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 @Autonomous(name = "Auto")
@@ -16,8 +15,8 @@ public class Auto extends CustomLinearOp {
         // Drives forward 100.
         Pose2d startPose = new Pose2d(0.0, 0.0, 0.0);
         MECANUM_DRIVE.actionBuilder(startPose)
-                .lineToY(100)
-                .build();
+                     .lineToY(100)
+                     .build();
 
         telemetry.update();
     }
