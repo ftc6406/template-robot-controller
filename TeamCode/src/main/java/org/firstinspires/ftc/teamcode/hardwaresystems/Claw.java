@@ -47,6 +47,8 @@ public abstract class Claw {
             rollServo = null;
             pitchServo = null;
             yawServo = null;
+
+            servoIncrement = 0.1;
         }
 
         /**
@@ -128,19 +130,20 @@ public abstract class Claw {
     /**
      * A {@link Set} of all the {@link Servo}s that are in this claw.
      */
-    private final Set<Servo> servos;
+    private final Set<Servo> SERVOS;
+
     /**
      * The servo that rotates the claw about the x-axis (roll).
      */
-    protected final Servo ROLL_SERVO;
+    private final Servo ROLL_SERVO;
     /**
      * The servo that rotates the claw about the y-axis (pitch).
      */
-    protected final Servo PITCH_SERVO;
+    private final Servo PITCH_SERVO;
     /**
      * The servo that rotates the claw about the z-axis (yaw).
      */
-    protected final Servo YAW_SERVO;
+    private final Servo YAW_SERVO;
 
     /**
      * The number of ticks that the {@link Servo}s move with every loop.
@@ -149,47 +152,37 @@ public abstract class Claw {
     private double servoIncrement;
 
     /**
-     * Instantiate a new {@link Claw} with three servos.
+     * Instantiate a new {@link Claw} with up to three servos and a given servo
+     * increment value.
      *
-     * @param rollServo      The servo that controls the claw's roll.
-     * @param pitchServo     The servo that controls the claw's pitch.
-     * @param yawServo       The servo that controls the claw's yaw.
-     * @param servoIncrement The increment that the servos use per robot loop.
+     * @param builder The {@link Builder} object that contains the values to use
+     *                in instantiation. May be invalid.
+     * @throws IllegalArgumentException If the {@link Builder} object is invalid
+     *                                  as defined by
+     *                                  {@link Builder#isValid()}.
      */
-    public Claw(
-        Servo rollServo,
-        Servo pitchServo,
-        Servo yawServo,
-        double servoIncrement
-    ) {
-        servos = new HashSet<>();
-        if (rollServo != null) {
-            servos.add(rollServo);
-        }
-        if (pitchServo != null) {
-            servos.add(pitchServo);
-        }
-        if (yawServo != null) {
-            servos.add(yawServo);
+    protected Claw(Builder builder) {
+        if (!builder.isValid()) {
+            throw new IllegalArgumentException("Claw builder is invalid.");
         }
 
-        ROLL_SERVO = rollServo;
-        PITCH_SERVO = pitchServo;
-        YAW_SERVO = yawServo;
+        SERVOS = new HashSet<>();
 
-        this.servoIncrement = servoIncrement;
-    }
+        if (builder.rollServo != null) {
+            SERVOS.add(builder.rollServo);
+        }
+        if (builder.pitchServo != null) {
+            SERVOS.add(builder.pitchServo);
+        }
+        if (builder.yawServo != null) {
+            SERVOS.add(builder.yawServo);
+        }
 
-    /**
-     * Overload {@link Claw#Claw(Servo, Servo, Servo, double)} with
-     * {@link #servoIncrement} defaulting to 0.1.
-     *
-     * @param rollServo  The servo that controls the claw's roll.
-     * @param pitchServo The servo that controls the claw's pitch.
-     * @param yawServo   The servo that controls the claw's yaw.
-     */
-    public Claw(Servo rollServo, Servo pitchServo, Servo yawServo) {
-        this(rollServo, pitchServo, yawServo, 0.1);
+        ROLL_SERVO = builder.rollServo;
+        PITCH_SERVO = builder.pitchServo;
+        YAW_SERVO = builder.yawServo;
+
+        servoIncrement = builder.servoIncrement;
     }
 
     /**
@@ -199,7 +192,7 @@ public abstract class Claw {
      * claw system.
      */
     public Set<Servo> getServos() {
-        return servos;
+        return SERVOS;
     }
 
     /**
